@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ท้องฟ้าในใจวันนี้ · mindfull</title>
+<meta name="description" content="เช็กใจ 2 นาที ตอบ 6 สถานการณ์การทำงาน แล้วพบเพื่อนเมฆที่มาเยือนใจคุณวันนี้ พร้อมวิธีดูแลตัวเองที่ทำได้ทันที">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#FBFBFB">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ท้องฟ้าในใจวันนี้ · mindfull">
+<meta property="og:description" content="เช็กใจ 2 นาที แล้วพบเพื่อนเมฆที่มาเยือนใจคุณวันนี้">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/mindfull-tokens.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app" id="app">
+  <div class="stage">
+    <svg id="cloud" viewBox="0 0 300 240" role="img" aria-label="ก้อนเมฆ">
+      <defs>
+        <filter id="blurSoft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="9"/></filter>
+        <filter id="blurFog" x="-20%" y="-100%" width="140%" height="300%"><feGaussianBlur stdDeviation="4"/></filter>
+      </defs>
+      <g id="sunFx" class="fx" style="opacity:0">
+        <circle cx="234" cy="56" r="46" fill="#F8E4B3" filter="url(#blurSoft)"/>
+        <circle cx="234" cy="56" r="30" fill="#F4D280"/>
+      </g>
+      <g id="floater">
+        <g id="breather">
+          <g id="body">
+            <g fill="rgba(38,49,60,.16)">
+              <circle cx="95" cy="136" r="52"/><circle cx="150" cy="110" r="66"/><circle cx="208" cy="134" r="52"/>
+              <circle cx="70" cy="164" r="36"/><circle cx="236" cy="164" r="36"/><rect x="70" y="136" width="166" height="64" rx="32"/>
+            </g>
+            <g id="puffs" style="fill:#FFFFFF">
+              <circle cx="95" cy="128" r="52"/><circle cx="150" cy="102" r="66"/><circle cx="208" cy="126" r="52"/>
+              <circle cx="70" cy="156" r="36"/><circle cx="236" cy="156" r="36"/><rect x="70" y="128" width="166" height="64" rx="32"/>
+            </g>
+            <g id="face">
+              <ellipse id="cheekL" cx="112" cy="160" rx="12" ry="7" fill="var(--cheek)" opacity=".6"/>
+              <ellipse id="cheekR" cx="194" cy="160" rx="12" ry="7" fill="var(--cheek)" opacity=".6"/>
+              <ellipse class="eye" cx="130" cy="140" rx="6.5" ry="9.5" fill="var(--face)"/>
+              <ellipse class="eye" cx="176" cy="140" rx="6.5" ry="9.5" fill="var(--face)"/>
+              <path class="brow" id="browL" d="M121 123 L140 123" stroke="var(--face)" stroke-width="5" stroke-linecap="round"/>
+              <path class="brow" id="browR" d="M166 123 L185 123" stroke="var(--face)" stroke-width="5" stroke-linecap="round"/>
+              <g fill="none" stroke="var(--face)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                <path class="mouth" data-m="smile" d="M144 162 Q153 170 162 162"/>
+                <path class="mouth" data-m="frown" d="M144 168 Q153 160 162 168" style="opacity:0"/>
+                <path class="mouth" data-m="flat" d="M145 165 L161 165" style="opacity:0"/>
+                <path class="mouth" data-m="tense" d="M142 166 L147 162 L153 167 L159 162 L164 166" style="opacity:0"/>
+              </g>
+            </g>
+          </g>
+        </g>
+      </g>
+      <g id="rainFx" class="fx" style="opacity:0">
+        <g id="rainDrops" stroke="#62A0E9" stroke-width="3" stroke-linecap="round">
+          <line x1="104" y1="206" x2="100" y2="216"/><line x1="134" y1="210" x2="130" y2="220"/>
+          <line x1="164" y1="206" x2="160" y2="216"/><line x1="194" y1="210" x2="190" y2="220"/>
+          <line x1="222" y1="206" x2="218" y2="216"/>
+        </g>
+      </g>
+      <g id="boltFx" class="fx" style="opacity:0">
+        <polygon id="bolt" points="160,202 146,222 156,222 149,238 172,214 161,214 168,202" fill="#ECB226"/>
+      </g>
+      <g id="fogFx" class="fx" style="opacity:0">
+        <g id="fogBands" filter="url(#blurFog)" fill="#FFFFFF">
+          <rect x="24" y="150" width="252" height="16" rx="8" opacity=".75"/>
+          <rect x="54" y="184" width="210" height="14" rx="7" opacity=".65"/>
+          <rect x="36" y="116" width="170" height="12" rx="6" opacity=".55"/>
+        </g>
+      </g>
+    </svg>
+<div class="parade" id="parade" aria-hidden="true"></div><div class="scene" id="scene"></div><div class="chars" id="chars"><div id="charWrap"></div><svg id="charFog" viewBox="0 0 340 330" aria-hidden="true"><g fill="#FFFFFF"><rect x="0" y="196" width="340" height="16" rx="8" opacity=".85"></rect><rect x="30" y="236" width="300" height="14" rx="7" opacity=".75"></rect><rect x="10" y="150" width="250" height="12" rx="6" opacity=".7"></rect><rect x="60" y="112" width="220" height="10" rx="5" opacity=".6"></rect></g></svg></div>
+  </div>
+
+  <main class="sheet" id="sheet">
+    <div class="content" id="content" aria-live="polite"></div>
+    <p class="safety">ถ้าตอนนี้รู้สึกหนักเกินรับไหว คุยกับสายด่วนสุขภาพจิตได้ที่ <a href="tel:1323">1323</a></p>
+  </main>
+</div>
+
+<div class="overlay" id="overlay" hidden>
+  <div class="share-card" role="dialog" aria-modal="true" aria-labelledby="shareTitle" id="shareCard"></div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="content.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
