@@ -1,6 +1,6 @@
-# mindfull · ท้องฟ้าในใจวันนี้ (The 2-Minute Sky)
+# mindfull
 
-Mobile-first 2-minute mental-health check-in for Thai office workers. Answer 6 illustrated work scenarios, meet the cloud friend visiting today (Cumulo, Nimbo, Strato or Humi), pick one way to care for yourself (now / tonight / this week), and get a right-sized next step into the consultation app. Prototype v3.1.
+Mobile-first 2-minute mental-health check-in for Thai office workers. Answer 6 illustrated work scenarios, meet the cloud friend visiting today (Cumulo, Nimbo, Strato or Humi), pick one way to care for yourself (now / tonight / this week), and get a right-sized next step into the consultation app.
 
 **Live:** https://mindfull-prototype.vercel.app
 
@@ -31,7 +31,7 @@ node scripts/build-og-image.mjs
 | Build Command | (none) |
 | Output Directory | (leave empty) |
 
-`index.html` sets `noindex` so the prototype stays out of search results.
+`index.html` sets `noindex` so the site stays out of search results.
 
 ## Files
 
