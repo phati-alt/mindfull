@@ -9,7 +9,6 @@ desktop.ini
 # Editors and local tools
 .vscode/
 .idea/
-.claude/
 node_modules/
 
 # Never commit brand source files or commercial fonts

@@ -1,5 +1,7 @@
 # mindfull
 
+[![mindfull](prototype/og-image.png)](https://mindfull-prototype.vercel.app)
+
 Mobile-first 2-minute mental-health check-in for Thai office workers. Answer 6 illustrated work scenarios, meet the cloud friend visiting today (Cumulo, Nimbo, Strato or Humi), pick one way to care for yourself (now / tonight / this week), and get a right-sized next step into the consultation app.
 
 **Live:** https://mindfull-prototype.vercel.app
@@ -47,7 +49,6 @@ node scripts/build-og-image.mjs
 | `docs/overview.md` | Product logic: principles, questions and their sources, results, next steps, safety, decision log |
 | `docs/user-flow.md` | Screen-by-screen flow with timings |
 | `docs/characters.md` | Full copy for the 4 characters |
-| `CLAUDE.md` | Context for Claude Code (read first) |
 
 ## Not in this repo
 
