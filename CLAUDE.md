@@ -34,12 +34,15 @@ docs/
   overview.md             ← problem, principles, scoring, questions + sources, results, next-step matrix, safety, decision log
   user-flow.md            ← flowchart + per-screen table with timings
   characters.md           ← full copy for the 4 characters
+scripts/
+  build-og-image.mjs      ← renders prototype/og-image.png from CHAR_SVG + logo (Edge/Chrome headless)
 prototype/
   index.html              ← markup + stage containers
   styles.css              ← tokens (light only), layout, responsive rules
   content.js              ← ALL copy, scoring axes, palettes, character + scene SVGs (plain globals)
   app.js                  ← state, scoring, screens, micro-actions, share
   favicon.svg
+  og-image.png            ← link preview 1200×630 (generated)
   assets/
     mindfull-tokens.css   ← copy of the design-system :root tokens
     mindfull-logo.svg     ← mindfull wordmark (use as supplied)
@@ -104,9 +107,9 @@ Test at 390×844 (iPhone 14) first, then desktop. Light mode only (no dark theme
 
 ## Likely next tasks
 
-1. **Swap in final character illustrations** (keep `CHAR_SVG` keys Cumulo/Nimbo/Strato/Humi; landing row, reveal and share card reuse them).
+1. **Swap in final character illustrations** (keep `CHAR_SVG` keys Cumulo/Nimbo/Strato/Humi; landing row, reveal and share card reuse them), then re-run `node scripts/build-og-image.mjs`.
 2. **Apply usability-test fixes** (timing, unclear questions, copy). Re-check the 2-minute budget after any change.
-3. **Deploy** on Vercel: Framework Preset "Other", Root Directory `prototype`, no build command. Keep it a static, dependency-free site unless asked otherwise. `noindex` is set in `index.html` while it is a prototype.
+3. **Deploy** on Vercel (live: https://mindfull-prototype.vercel.app, auto-deploys on push to `main`): Framework Preset "Other", Root Directory `prototype`, no build command. Keep it a static, dependency-free site unless asked otherwise. `noindex` is set in `index.html` while it is a prototype.
 4. **Share image** (optional): render the share card to PNG via canvas so it can be posted to IG Story.
 5. **Keep docs in sync:** if copy or logic changes in `content.js`, update `docs/overview.md`, (and `user-flow.md` / `characters.md` if screens or character copy changed).
 
