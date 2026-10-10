@@ -89,7 +89,7 @@
     document.querySelectorAll('.mouth').forEach(function(m){m.style.opacity=m.getAttribute('data-m')===mouth?1:0;});
   }
   function pulse(){
-    var el=app.classList.contains('show-char')?charWrap:breather;
+    var el=app.classList.contains('show-char')?(charWrap.querySelector('img')||charWrap):breather;
     if(reduceMotion.matches||!el.animate)return;
     el.animate([{transform:'scale(1)'},{transform:'scale(1.07)'},{transform:'scale(1)'}],{duration:700,easing:'ease-out'});
   }
@@ -99,16 +99,13 @@
     if(!k)buildParade();
     if(!k){charWrap.innerHTML='';charFog.style.opacity=0;return;}
     var c=CHAR[k];
-    if(charWrap.getAttribute('data-k')!==k){charWrap.innerHTML=CHAR_SVG[c.name];charWrap.setAttribute('data-k',k);}
+    if(charWrap.getAttribute('data-k')!==k){var nm=c.name.toLowerCase();charWrap.innerHTML='<img src="assets/characters/'+nm+'.jpg" width="900" height="900" alt="'+CHAR_IMG_ALT[nm]+'" decoding="async">';charWrap.setAttribute('data-k',k);}
     updateFog();
   }
   function buildParade(){
     var el=document.getElementById('parade');
     if(el.getAttribute('data-built'))return;
-    var names=['Cumulo','Nimbo','Strato','Humi'];
-    el.innerHTML='<span class="parade-hint">ใครจะมาเยือนคุณ เฉลยตอนจบ</span>'+names.map(function(n){
-      return '<div class="walker">'+CHAR_SVG[n]+'</div>';
-    }).join('');
+    el.innerHTML='<span class="parade-hint">ใครจะมาเยือนคุณ เฉลยตอนจบ</span><img src="assets/characters/all.jpg" width="900" height="672" alt="" decoding="async">';
     el.setAttribute('data-built','1');
   }
   function updateFog(){
@@ -197,7 +194,7 @@
         '<button class="btn" data-act="to-care">เลือกวิธีดูแล '+c.name+'</button>'+
       '</section>'+
       '<p class="mym-quote">"'+r.reframe+'"</p>'+
-      '<div class="buddy mym-buddy"><div class="buddy-av" style="background:'+PALETTE.sky[c.buddy]+'" aria-hidden="true">'+CHAR_SVG[CHAR[c.buddy].name]+'</div><div><p class="mym-label">เพื่อนซี้</p><p class="bname">'+CHAR[c.buddy].name+'</p><p class="muted">'+c.bnote+'</p></div></div>'+
+      '<div class="buddy mym-buddy"><div class="buddy-av" style="background:'+PALETTE.sky[c.buddy]+'" aria-hidden="true"><img src="assets/characters/'+CHAR[c.buddy].name.toLowerCase()+'.jpg" width="72" height="72" alt="" decoding="async"></div><div><p class="mym-label">เพื่อนซี้</p><p class="bname">'+CHAR[c.buddy].name+'</p><p class="muted">'+c.bnote+'</p></div></div>'+
       '<div class="actions">'+
         '<button class="btn ghost" data-act="share">ส่งการ์ด '+c.name+' ให้เพื่อน</button>'+
         '<button class="link" data-act="to-next">ไปที่ก้าวต่อไป</button>'+
@@ -330,7 +327,7 @@
   function openShare(){
     var k=S.result, r=RESULTS[k], pal=PALETTE;
     shareCard.innerHTML=''+
-      '<div class="share-sky" style="background:'+pal.sky[k]+'">'+CHAR_SVG[CHAR[k].name]+'</div>'+
+      '<div class="share-sky"><img src="assets/characters/'+CHAR[k].name.toLowerCase()+'.jpg" width="900" height="900" alt="'+CHAR_IMG_ALT[CHAR[k].name.toLowerCase()]+'" decoding="async"></div>'+
       '<div class="share-body">'+
         '<img class="logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82">'+
         '<p class="share-title" id="shareTitle">วันนี้ '+CHAR[k].name+' มาเยือนฉัน</p><p class="muted">'+CHAR[k].title+' · พลังพิเศษ "'+CHAR[k].power+'"</p>'+'<div class="fact"><p class="factl">รู้ไหม</p><p class="facttext">'+CHAR[k].fact+'</p></div>'+

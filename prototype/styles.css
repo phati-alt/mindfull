@@ -126,8 +126,8 @@ p{margin:0;font-size:16px;line-height:20px;font-weight:300;max-width:60ch} /* th
 .overlay{position:fixed;inset:0;background:var(--scrim);display:grid;place-items:center;padding:var(--space-24);z-index:10}
 .overlay[hidden]{display:none}
 .share-card{width:min(88vw,340px);border-radius:var(--radius-24,24px);overflow:hidden;background:var(--surface);box-shadow:var(--elevation-08)}
-.share-sky{display:grid;place-items:center;padding:var(--space-24) var(--space-20) var(--space-8)}
-.share-sky svg{width:200px;height:auto}
+.share-sky{display:block;padding:0}
+.share-sky img{width:100%;height:clamp(180px,32dvh,260px);object-fit:cover;object-position:center 40%;display:block}
 .share-body{padding:var(--space-16) var(--space-20) var(--space-20);display:flex;flex-direction:column;gap:var(--space-8)}
 .logo{display:block;height:24px;width:auto;margin:0 0 var(--space-4)}
 .share-body .logo{height:20px}
@@ -137,8 +137,8 @@ p{margin:0;font-size:16px;line-height:20px;font-weight:300;max-width:60ch} /* th
   .app{padding:var(--space-24) 0}
   .sheet{border-radius:var(--radius-24,24px);flex:0 1 auto}
   .stage svg{width:320px}
-  .app.compact .stage{border-radius:var(--radius-24,24px) var(--radius-24,24px) 0 0;overflow:hidden}
-  .app.compact .sheet{border-radius:var(--radius-24,24px)}
+  .app .stage{border-radius:var(--radius-24,24px) var(--radius-24,24px) 0 0;overflow:hidden}
+  .app .sheet{border-radius:var(--radius-24,24px)}
   .app.compact .stage svg{width:240px}
 }
 
@@ -186,7 +186,7 @@ p{margin:0;font-size:16px;line-height:20px;font-weight:300;max-width:60ch} /* th
 .facttext{font-size:14px;line-height:24px;font-weight:300} /* th-body-3 */
 .buddy{display:flex;gap:var(--space-12);align-items:center}
 .buddy-av{width:72px;height:72px;border-radius:var(--radius-avatar,34%);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
-.buddy-av svg{width:64px;height:auto}
+.buddy-av img{width:100%;height:100%;object-fit:cover;transform:scale(1.6);transform-origin:50% 36%}
 .bname{font-family:var(--en);font-size:16px;line-height:20px;font-weight:500} /* th-title-3 */
 @media (prefers-reduced-motion: reduce){#charWrap.inhale,#charWrap.exhale{transform:none}}
 
@@ -204,11 +204,11 @@ p{margin:0;font-size:16px;line-height:20px;font-weight:300;max-width:60ch} /* th
 /* v2.2: scenario illustration on question screens */
 .scene{display:none;width:100%;padding:0 var(--space-4)}
 /* the picture fills the whole stage edge to edge */
-.app.compact .stage{padding:0;display:block}
+.app .stage{padding:0;display:block}
 .scene{padding:0}
 .app .stage .scene img{width:100%;max-width:none;height:calc(clamp(150px,28dvh,260px) + var(--space-24));object-fit:cover;object-position:center 38%;display:block;margin:0;border-radius:0}
 /* question screens: the card slides over the picture, only its top corners show */
-.app.compact .sheet{margin:calc(var(--space-24) * -1) 0 0;border-radius:var(--radius-24,24px) var(--radius-24,24px) 0 0;position:relative;padding-left:calc(var(--space-16) + var(--space-20));padding-right:calc(var(--space-16) + var(--space-20));padding-bottom:calc(var(--space-16) + env(safe-area-inset-bottom,0px))}
+.app .sheet{margin:calc(var(--space-24) * -1) 0 0;border-radius:var(--radius-24,24px) var(--radius-24,24px) 0 0;position:relative;padding-left:calc(var(--space-16) + var(--space-20));padding-right:calc(var(--space-16) + var(--space-20));padding-bottom:calc(var(--space-16) + env(safe-area-inset-bottom,0px))}
 .app.compact .parade{display:none}
 .app.compact .scene{display:block}
 .scene.swap{animation:sceneIn .4s ease-out}
@@ -233,7 +233,6 @@ button,a,input{touch-action:manipulation}
 .sheet{margin-bottom:calc(var(--space-16) + env(safe-area-inset-bottom,0px))}
 /* share card always fits */
 .share-card{max-height:calc(100dvh - 32px);overflow:auto}
-.share-sky svg{width:auto;max-width:200px;max-height:28dvh}
 /* small phones (iPhone SE and similar) */
 @media (max-height:640px){
   .opts{gap:var(--space-8)}
@@ -247,9 +246,8 @@ button,a,input{touch-action:manipulation}
   .stage{position:sticky;top:0;width:42%;min-height:100dvh;padding:var(--space-40) var(--space-12) var(--space-12);align-content:center}
   .sheet{width:58%;border-radius:var(--radius-none,0);margin:0;box-shadow:none;min-height:100dvh}
   .parade{height:60dvh}
-  .app.compact .stage{padding:0}
   .app .stage .scene img{height:100dvh;border-radius:0}
-  .app.compact .sheet{margin:0;border-radius:var(--radius-none,0);padding:var(--space-16) var(--space-20)}
+  .app .sheet{margin:0;border-radius:var(--radius-none,0);padding:var(--space-16) var(--space-20)}
   #charWrap svg{max-height:70dvh}
 }
 .walker{width:24.5%;max-width:clamp(72px,17dvh,136px)}
@@ -294,3 +292,19 @@ button,a,input{touch-action:manipulation}
 .commit{border-left:4px solid var(--brand);padding:var(--space-4) 0 var(--space-4) var(--space-12);display:flex;flex-direction:column;gap:var(--space-4)}
 
 @media (max-height:740px){.durhint{display:none}}
+
+/* landing and character pictures fill the stage like the question scenes; the card overlaps them */
+.parade{display:block;height:auto;padding:0;gap:0}
+.parade img{width:100%;height:calc(clamp(200px,34dvh,300px) + var(--space-24));object-fit:cover;object-position:center 55%;display:block}
+.parade-hint{top:var(--space-12);right:var(--space-12);bottom:auto;left:auto;transform:none;z-index:1}
+.app.show-char .chars{display:block;width:100%}
+#charWrap{width:100%;overflow:hidden}
+#charWrap img{width:100%;height:calc(clamp(190px,34dvh,360px) + var(--space-24));object-fit:cover;object-position:center 40%;display:block;transform-origin:50% 75%;transition:transform .6s ease}
+#charWrap.inhale,#charWrap.exhale{transform:none}
+#charWrap.inhale img{transition:transform 4s ease-in-out;transform:scale(1.08)}
+#charWrap.exhale img{transition:transform 6s ease-in-out;transform:scale(1)}
+@media (prefers-reduced-motion: reduce){#charWrap.inhale img,#charWrap.exhale img{transform:none}}
+@media (orientation:landscape) and (max-height:500px){
+  .parade img,#charWrap img{height:100dvh}
+  .parade-hint{top:auto;bottom:var(--space-12);right:50%;transform:translateX(50%)}
+}
