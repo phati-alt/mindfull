@@ -201,7 +201,7 @@ p{margin:0;font-size:16px;line-height:20px;font-weight:300;max-width:60ch} /* th
 
 /* v2.2: scenario illustration on question screens */
 .scene{display:none;width:100%;padding:0 var(--space-4)}
-.app .stage .scene svg{width:100%;max-width:400px;height:auto;display:block;margin:0 auto}
+.app .stage .scene img{width:100%;max-width:400px;height:auto;display:block;margin:0 auto;border-radius:var(--radius-24,24px)}
 .app.compact .stage{padding-top:var(--space-40)}
 .app.compact .parade{display:none}
 .app.compact .scene{display:block}
@@ -217,7 +217,7 @@ button,a,input{touch-action:manipulation}
 /* visuals scale with screen height so the question and answers stay in view */
 .parade{height:clamp(110px,26dvh,210px)}
 .app.compact .stage{padding-top:clamp(var(--space-32),5vh,var(--space-40))}
-.app .stage .scene svg{width:auto;max-width:100%;max-height:clamp(120px,26dvh,240px)}
+.app .stage .scene img{width:auto;max-width:100%;max-height:clamp(120px,26dvh,240px)}
 .chars{width:auto;display:none}
 .app.show-char .chars{display:flex;justify-content:center}
 #charWrap svg{width:auto;max-width:min(76vw,300px);max-height:clamp(150px,34dvh,300px)}
@@ -243,7 +243,7 @@ button,a,input{touch-action:manipulation}
   .stage{position:sticky;top:0;width:42%;min-height:100dvh;padding:var(--space-40) var(--space-12) var(--space-12);align-content:center}
   .sheet{width:58%;border-radius:var(--radius-none,0);margin:0;box-shadow:none;min-height:100dvh}
   .parade{height:60dvh}
-  .app .stage .scene svg{max-height:70dvh}
+  .app .stage .scene img{max-height:70dvh}
   #charWrap svg{max-height:70dvh}
 }
 .walker{width:24.5%;max-width:clamp(72px,17dvh,136px)}
