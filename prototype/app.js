@@ -4,16 +4,11 @@
 
   /* ---------- State ---------- */
   var S = {screen:'landing', i:0, answers:[], order:[], duration:null, result:null, fogLeft:1};
-  var weights = {neutral:1};
   var timers = [];
 
   var app = document.getElementById('app');
   var content = document.getElementById('content');
-  var svg = document.getElementById('cloud');
-  var breather = document.getElementById('breather');
   var charWrap = document.getElementById('charWrap'), charFog = document.getElementById('charFog');
-  var body = document.getElementById('body');
-  var puffs = document.getElementById('puffs');
   var overlay = document.getElementById('overlay');
   var shareCard = document.getElementById('shareCard');
   var toastEl = document.getElementById('toast');
@@ -21,31 +16,15 @@
 
   /* ---------- Helpers ---------- */
   function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
-  function clamp(v){return Math.max(0,Math.min(1,v));}
   function later(fn,ms){var t=setTimeout(fn,ms);timers.push(t);return t;}
   function clearTimers(){timers.forEach(clearTimeout);timers=[];}
   function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
-  function hexToRgb(h){h=h.replace('#','');return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];}
-  function mix(map,w){
-    var r=0,g=0,b=0;
-    Object.keys(w).forEach(function(k){var c=hexToRgb(map[k]);r+=c[0]*w[k];g+=c[1]*w[k];b+=c[2]*w[k];});
-    return 'rgb('+Math.round(r)+','+Math.round(g)+','+Math.round(b)+')';
-  }
   function toast(msg){
     toastEl.textContent=msg;toastEl.classList.add('show');
     clearTimeout(toast._t);toast._t=setTimeout(function(){toastEl.classList.remove('show');},2600);
   }
 
   /* ---------- Scoring ---------- */
-  function weightsFrom(list, damp){
-    if(!list.length)return {neutral:1};
-    var E=0,P=0;list.forEach(function(k){E+=AXES[k].e;P+=AXES[k].p;});
-    var d=damp?list.length+1:list.length, e=E/d, p=P/d;
-    return {
-      storm:((1+e)/2)*((1+p)/2), rain:((1-e)/2)*((1+p)/2),
-      fog:((1-e)/2)*((1-p)/2), fluffy:((1+e)/2)*((1-p)/2)
-    };
-  }
   function resultFrom(list){
     var E=0,P=0;list.forEach(function(k){E+=AXES[k].e;P+=AXES[k].p;});
     if(E>0&&P>0)return 'storm';
@@ -53,44 +32,9 @@
     if(E<0&&P<0)return 'fog';
     return 'fluffy';
   }
-  function oneHot(k){var w={};w[k]=1;return w;}
-
-  /* ---------- Cloud ---------- */
-  function drawCloud(w){
-    weights=w;
-    var pal=PALETTE;
-    /* page background stays gray-50 (design system); the sky colour lives only in illustration panels */
-    puffs.style.fill=mix(pal.cloud,w);
-    var ws=w.storm||0, wr=w.rain||0, wf=w.fog||0, wl=w.fluffy||0, wn=w.neutral||0;
-    var sx=wn+ws*1.04+wr*1.0+wf*1.12+wl*1.05;
-    var sy=wn+ws*1.1+wr*0.9+wf*0.84+wl*1.05;
-    body.style.transform='scale('+sx.toFixed(3)+','+sy.toFixed(3)+')';
-    body.style.opacity=(1-0.18*wf).toFixed(2);
-    document.getElementById('rainFx').style.opacity=clamp(wr*1.6-0.3);
-    document.getElementById('boltFx').style.opacity=ws>0.45?clamp(ws*1.3):0;
-    document.getElementById('fogFx').style.opacity=clamp(wf*1.5-0.2)*S.fogLeft;
-    document.getElementById('sunFx').style.opacity=clamp(wl*1.5-0.3);
-    var a=16*ws-14*wr-5*(wl+wn);
-    document.getElementById('browL').style.transform='rotate('+a.toFixed(1)+'deg)';
-    document.getElementById('browR').style.transform='rotate('+(-a).toFixed(1)+'deg)';
-    var ey=1-0.6*wf-0.12*wr+0.08*ws;
-    document.querySelectorAll('.eye').forEach(function(e){e.style.transform='scaleY('+ey.toFixed(2)+')';});
-    var cheek=(0.15+0.5*(wl+wn)).toFixed(2);
-    document.getElementById('cheekL').setAttribute('opacity',cheek);
-    document.getElementById('cheekR').setAttribute('opacity',cheek);
-    var mouth='smile';
-    if(!wn){
-      var best=['storm','rain','fog','fluffy'].reduce(function(m,k){return (w[k]||0)>(w[m]||0)?k:m;},'fluffy');
-      mouth={storm:'tense',rain:'frown',fog:'flat',fluffy:'smile'}[best];
-      svg.setAttribute('aria-label','ก้อนเมฆตอนนี้ใกล้เคียง'+RESULTS[best].name);
-    } else {
-      svg.setAttribute('aria-label','ก้อนเมฆสีขาวยิ้มเล็กน้อย');
-    }
-    document.querySelectorAll('.mouth').forEach(function(m){m.style.opacity=m.getAttribute('data-m')===mouth?1:0;});
-  }
   function pulse(){
-    var el=app.classList.contains('show-char')?(charWrap.querySelector('img')||charWrap):breather;
-    if(reduceMotion.matches||!el.animate)return;
+    var el=app.classList.contains('show-char')?(charWrap.querySelector('img')||charWrap):null;
+    if(!el||reduceMotion.matches||!el.animate)return;
     el.animate([{transform:'scale(1)'},{transform:'scale(1.07)'},{transform:'scale(1)'}],{duration:700,easing:'ease-out'});
   }
 
@@ -115,7 +59,7 @@
   /* ---------- Screens ---------- */
   function setScreen(name){
     clearTimers();
-    breather.classList.remove('inhale','exhale');charWrap.classList.remove('inhale','exhale');
+    charWrap.classList.remove('inhale','exhale');
     S.screen=name;
     showChar(['reveal','care','micro','next'].indexOf(name)>-1?S.result:null);
     app.classList.toggle('compact', name==='question');
@@ -194,7 +138,7 @@
         '<button class="btn" data-act="to-care">เลือกวิธีดูแล '+c.name+'</button>'+
       '</section>'+
       '<p class="mym-quote">"'+r.reframe+'"</p>'+
-      '<div class="buddy mym-buddy"><div class="buddy-av" style="background:'+PALETTE.sky[c.buddy]+'" aria-hidden="true"><img src="assets/characters/'+CHAR[c.buddy].name.toLowerCase()+'.jpg" width="72" height="72" alt="" decoding="async"></div><div><p class="mym-label">เพื่อนซี้</p><p class="bname">'+CHAR[c.buddy].name+'</p><p class="muted">'+c.bnote+'</p></div></div>'+
+      '<div class="buddy mym-buddy"><div class="buddy-av" aria-hidden="true"><img src="assets/characters/'+CHAR[c.buddy].name.toLowerCase()+'.jpg" width="72" height="72" alt="" decoding="async"></div><div><p class="mym-label">เพื่อนซี้</p><p class="bname">'+CHAR[c.buddy].name+'</p><p class="muted">'+c.bnote+'</p></div></div>'+
       '<div class="actions">'+
         '<button class="btn ghost" data-act="share">ส่งการ์ด '+c.name+' ให้เพื่อน</button>'+
         '<button class="link" data-act="to-next">ไปที่ก้าวต่อไป</button>'+
@@ -304,28 +248,8 @@
   }
 
   /* ---------- Share ---------- */
-  function miniCloud(k){
-    var pal=PALETTE;
-    var fill=pal.cloud[k];
-    var mouth={storm:'M142 166 L147 162 L153 167 L159 162 L164 166',rain:'M144 168 Q153 160 162 168',fog:'M145 165 L161 165',fluffy:'M144 162 Q153 170 162 162'}[k];
-    var fx='';
-    if(k==='rain')fx='<g stroke="#62A0E9" stroke-width="3" stroke-linecap="round"><line x1="110" y1="208" x2="106" y2="220"/><line x1="150" y1="212" x2="146" y2="224"/><line x1="190" y1="208" x2="186" y2="220"/></g>';
-    if(k==='storm')fx='<polygon points="160,202 146,222 156,222 149,238 172,214 161,214 168,202" fill="#ECB226"/>';
-    if(k==='fluffy')fx='<circle cx="234" cy="56" r="30" fill="#F4D280"/>';
-    if(k==='fog')fx='<g fill="#FFFFFF" opacity=".7"><rect x="24" y="150" width="252" height="14" rx="7"/><rect x="54" y="184" width="210" height="12" rx="6"/></g>';
-    var a={storm:16,rain:-14,fog:0,fluffy:-5}[k];
-    var ey={storm:1.08,rain:0.88,fog:0.4,fluffy:1}[k];
-    return '<svg viewBox="0 0 300 240" aria-hidden="true">'+
-      (k==='fluffy'?fx:'')+
-      '<g fill="'+fill+'"><circle cx="95" cy="128" r="52"/><circle cx="150" cy="102" r="66"/><circle cx="208" cy="126" r="52"/><circle cx="70" cy="156" r="36"/><circle cx="236" cy="156" r="36"/><rect x="70" y="128" width="166" height="64" rx="32"/></g>'+
-      '<g fill="#26313C"><ellipse cx="130" cy="140" rx="6.5" ry="'+(9.5*ey)+'"/><ellipse cx="176" cy="140" rx="6.5" ry="'+(9.5*ey)+'"/></g>'+
-      '<g stroke="#26313C" stroke-width="5" stroke-linecap="round"><path d="M121 123 L140 123" transform="rotate('+a+' 130.5 123)"/><path d="M166 123 L185 123" transform="rotate('+(-a)+' 175.5 123)"/></g>'+
-      '<path d="'+mouth+'" fill="none" stroke="#26313C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>'+
-      (k!=='fluffy'?fx:'')+
-    '</svg>';
-  }
   function openShare(){
-    var k=S.result, r=RESULTS[k], pal=PALETTE;
+    var k=S.result;
     shareCard.innerHTML=''+
       '<div class="share-sky"><img src="assets/characters/'+CHAR[k].name.toLowerCase()+'.jpg" width="900" height="900" alt="'+CHAR_IMG_ALT[CHAR[k].name.toLowerCase()]+'" decoding="async"></div>'+
       '<div class="share-body">'+
@@ -355,7 +279,7 @@
   function start(){
     S.i=0;S.carePick=null;S.answers=[];S.duration=null;S.durIdx=null;S.result=null;S.fogLeft=1;
     S.order=QUESTIONS.map(function(q){return shuffle(q.opts);});
-    drawCloud({neutral:1});
+    SCENES.forEach(function(html){var m=/src="([^"]+)"/.exec(html);if(m)new Image().src=m[1];}); /* warm the cache so the next picture is ready */
     setScreen('question');
   }
   function pick(btn){
@@ -376,7 +300,6 @@
       S.locked=false;
       if(isDur){
         S.result=resultFrom(S.answers);
-        drawCloud(oneHot(S.result));
         setScreen('reveal');pulse();
       } else {
         S.i++;render();
@@ -403,7 +326,7 @@
     if(nowIdx<0)return;
     items[nowIdx].classList.remove('now');items[nowIdx].classList.add('done');
     S.fogLeft=Math.max(0,1-(nowIdx+1)/3);
-    drawCloud(weights);updateFog();
+    updateFog();
     if(nowIdx+1<items.length){items[nowIdx+1].classList.add('now');}
     else{doneMicro('หมอกจางลงนิดหนึ่งแล้ว');}
   }
@@ -433,14 +356,14 @@
     else if(act==='care')pickCare(t);
     else if(act==='care-remind')toast('Prototype: ในแอปจริง จะตั้งเตือนให้ลองทำตามที่เลือกไว้');
     else if(act==='micro'){S.fogLeft=1;setScreen('micro');}
-    else if(act==='to-next'){S.fogLeft=1;drawCloud(oneHot(S.result));setScreen('next');}
+    else if(act==='to-next'){S.fogLeft=1;setScreen('next');}
     else if(act==='breath-start')breathe();
     else if(act==='let-go')letGo();
     else if(act==='ground')ground();
     else if(act==='keep')keep();
     else if(act==='primary')primary();
     else if(act==='share')openShare();
-    else if(act==='again'){drawCloud({neutral:1});setScreen('landing');}
+    else if(act==='again')setScreen('landing');
   });
   content.addEventListener('keydown',function(e){
     if(e.key==='Enter'&&e.target.classList.contains('field')){
@@ -458,7 +381,6 @@
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!overlay.hidden)closeShare();});
 
 
-  drawCloud({neutral:1});
   buildParade();
   render();
 })();

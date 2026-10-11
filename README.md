@@ -6,7 +6,7 @@ Mobile-first 2-minute mental-health check-in for Thai office workers. Answer 6 i
 
 **Live:** https://mindfull-prototype.vercel.app
 
-Built on the mindfull design system: colours come from its tokens, type is Prompt on its Thai scale, and the illustrations use only its palette.
+Built on the mindfull design system: colours come from its tokens, type is Prompt on its Thai scale, and the illustrations are full-width pictures under an overlapping card.
 
 ## Run locally
 
@@ -41,8 +41,9 @@ node scripts/build-og-image.mjs
 | --- | --- |
 | `prototype/index.html` | Markup and stage containers |
 | `prototype/styles.css` | Semantic tokens, layout, responsive rules |
-| `prototype/content.js` | All copy, scoring axes, palettes, character and scene SVGs |
+| `prototype/content.js` | All copy, scoring axes, picture alt texts, character SVGs (used only by the og-image script) |
 | `prototype/app.js` | State, scoring, screens, micro-actions, share |
+| `prototype/assets/scenes/`, `prototype/assets/characters/` | Question pictures (`q1`–`q6.jpg`), landing picture (`all.jpg`) and one picture per character (named after it, lowercase) |
 | `prototype/assets/mindfull-tokens.css` | Copy of the design-system `:root` tokens |
 | `prototype/assets/mindfull-logo.svg` | mindfull wordmark (use as supplied, never recolor) |
 | `prototype/og-image.png` | Link-preview image (1200×630); rebuild with `node scripts/build-og-image.mjs` |
