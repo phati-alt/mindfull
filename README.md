@@ -41,7 +41,7 @@ node scripts/build-og-image.mjs
 | --- | --- |
 | `prototype/index.html` | Markup and stage containers |
 | `prototype/styles.css` | Semantic tokens, layout, responsive rules |
-| `prototype/content.js` | All copy, scoring axes, picture alt texts, character SVGs (used only by the og-image script) |
+| `prototype/content.js` | All copy, scoring axes, picture alt texts |
 | `prototype/app.js` | State, scoring, screens, micro-actions, share |
 | `prototype/assets/scenes/`, `prototype/assets/characters/` | Question pictures (`q1`–`q6.jpg`), landing picture (`all.jpg`) and one picture per character (named after it, lowercase) |
 | `prototype/assets/mindfull-tokens.css` | Copy of the design-system `:root` tokens |
