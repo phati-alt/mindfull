@@ -290,11 +290,16 @@
     shareCard.querySelector('.btn').focus();
   }
   function closeShare(){overlay.hidden=true;var b=content.querySelector('[data-act="share"],[data-act="primary"]');if(b)b.focus();}
+  function copyShare(text){
+    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(text).then(function(){toast('คัดลอกข้อความแล้ว วางในแชตหรือสตอรี่ได้เลย');},function(){toast('ในเวอร์ชันจริง ปุ่มนี้จะเปิดหน้าแชร์ของมือถือ');});
+    else toast('ในเวอร์ชันจริง ปุ่มนี้จะเปิดหน้าแชร์ของมือถือ');
+  }
   function shareNow(){
     var r=RESULTS[S.result];
     var c=CHAR[S.result];var text='วันนี้ '+c.name+' ('+c.title+') มาเยือนฉัน ลองดูว่าเพื่อนเมฆตัวไหนมาเยือนคุณ ใช้เวลาแค่ 2 นาที';
+    /* if the share sheet is refused (e.g. inside an embedded frame), fall back to copying the text */
     if(navigator.share){
-      navigator.share({title:'ท้องฟ้าในใจวันนี้',text:text}).catch(function(){});
+      navigator.share({title:'ท้องฟ้าในใจวันนี้',text:text}).catch(function(e){if(!e||e.name!=='AbortError')copyShare(text);});
     } else if(navigator.clipboard&&navigator.clipboard.writeText){
       navigator.clipboard.writeText(text).then(function(){toast('คัดลอกข้อความแล้ว วางในแชตหรือสตอรี่ได้เลย');},function(){toast('ในเวอร์ชันจริง ปุ่มนี้จะเปิดหน้าแชร์ของมือถือ');});
     } else {
