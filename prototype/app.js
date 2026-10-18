@@ -129,9 +129,8 @@
       '</div>'+
       '<section class="mym-about" aria-label="รู้จัก '+c.name+'"><p class="mym-label">รู้จัก '+c.name+'</p><p>'+a.a+'</p>'+'</section>'+
       '<section class="mym-care" aria-labelledby="careH"><p class="mym-label" id="careH">How to ดูแล '+c.name+'</p>'+
-        '<p class="mym-ptext">เลือกวิธีดูแลตัวเองเล็กๆ หนึ่งอย่าง จะลองตอนนี้ 20 วินาที คืนนี้ หรือสัปดาห์นี้ก็ได้</p>'+
-        '<button class="btn" data-act="to-care">เลือกวิธีดูแล '+c.name+'</button>'+
-        '<p class="muted" style="text-align:center">กิจกรรมสั้น 20 วินาที แล้วไปก้าวต่อไป</p>'+
+        '<p class="mym-ptext">เลือกวิธีดูแลตัวเองเล็กๆ โดยทำกิจกรรมสั้นๆ 20&nbsp;วินาที แล้วไปก้าวต่อไป</p>'+
+        '<button class="btn" data-act="to-care">ลองทำดู</button>'+
       '</section>'+
       '<p class="mym-quote">"'+r.reframe+'"</p>'+
       /* details stay folded so the care CTA is reached within one screen after the name */
