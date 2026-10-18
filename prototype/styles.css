@@ -315,3 +315,14 @@ button,a,input{touch-action:manipulation}
 .app.is-reveal .mym-buddy{background:var(--gray-50,#FBFBFB);border-color:var(--gray-300,#E6E6E6)}
 .app.is-reveal .mym-buddy .muted{color:var(--accent)}
 .app.is-reveal .safety{text-align:center;border-top:0;margin-top:var(--space-8);padding-top:0}
+/* v3.4: How to ดูแล screen laid out as in Figma (copy unchanged) */
+.app.is-care .head .back{font-weight:500;color:var(--ink-soft)}
+.app.is-care #careH{text-align:center;font-size:16px;line-height:20px;font-weight:300;color:var(--ink-soft);margin-top:var(--space-8)}
+.app.is-care h2{text-align:center;font-size:20px;line-height:28px;font-weight:600}
+.app.is-care .care-opt{text-align:center;align-items:center;border-color:var(--turquoise-100,#B3EDE8)}
+@media (hover:hover){.app.is-care .care-opt:hover{border-color:var(--brand)}}
+.app.is-care .care-opt[aria-checked="true"]{border-color:var(--brand);background:var(--turquoise-50,#E0F8F6)}
+.app.is-care .care-when{font-size:16px;line-height:24px;font-weight:300;color:var(--ink)}
+.app.is-care .care-text{font-size:16px;line-height:24px}
+.app.is-care .safety{text-align:center;border-top:0;margin-top:var(--space-8);padding-top:0}
+.app.is-care #careFollow .note{text-align:center}

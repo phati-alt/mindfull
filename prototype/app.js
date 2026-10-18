@@ -73,6 +73,7 @@
     app.classList.toggle('is-landing',S.screen==='landing');
     app.classList.toggle('is-question',S.screen==='question');
     app.classList.toggle('is-reveal',S.screen==='reveal');
+    app.classList.toggle('is-care',S.screen==='care');
     if(S.screen==='landing')html=landing();
     else if(S.screen==='question')html=question();
     else if(S.screen==='reveal')html=reveal();
@@ -169,7 +170,8 @@
         var on=S.carePick===i;
         return '<button class="care-opt" role="radio" aria-checked="'+on+'" data-act="care" data-v="'+i+'"><span class="care-when">'+WHEN[i]+'</span><span class="care-text">'+t+'</span></button>';
       }).join('')+'</div>'+
-      '<div class="actions" id="careFollow" aria-live="polite">'+careFollow()+'</div>';
+      '<div class="actions" id="careFollow" aria-live="polite">'+careFollow()+'</div>'+
+      '<div class="q-foot"><hr class="hero-rule"><img class="logo q-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82"><p class="hero-note">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p></div>';
   }
   function careFollow(){
     var skip='<button class="link" data-act="to-next">ไปที่ก้าวต่อไป</button>';
