@@ -259,4 +259,4 @@ button,a,input{touch-action:manipulation}
 .more[open]>summary::after{content:"\2013"}
 .more-body{display:flex;flex-direction:column;gap:var(--space-12);padding-top:var(--space-8)}
 /* v3.4: the "ช่วงนี้…" line adds a row; on short phones (iPhone SE) the scene gives up the space */
-@media (max-height:700px){.app .stage .scene img{height:calc(clamp(150px,24dvh,260px) + var(--space-24))}}
+@media (max-height:700px){.app .stage .scene img{height:calc(clamp(150px,24dvh,260px) + var(--space-24))}.parade img{height:calc(clamp(170px,30dvh,300px) + var(--space-24))}}

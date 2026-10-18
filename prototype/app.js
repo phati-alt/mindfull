@@ -49,7 +49,7 @@
   function buildParade(){
     var el=document.getElementById('parade');
     if(el.getAttribute('data-built'))return;
-    el.innerHTML='<span class="parade-hint">ใครจะมาเยือนคุณ เฉลยตอนจบ</span><img src="assets/characters/all.jpg" width="900" height="672" alt="" decoding="async">';
+    el.innerHTML='<span class="parade-hint">เพื่อนเมฆรออยู่ เฉลยตอนจบนะ</span><img src="assets/characters/all.jpg" width="900" height="672" alt="" decoding="async">';
     el.setAttribute('data-built','1');
   }
   function updateFog(){
@@ -85,13 +85,12 @@
   function landing(){
     return ''+
       '<img class="logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82">'+
-      '<h1 tabindex="-1" data-focus>วันนี้เพื่อนเมฆตัวไหนจะมาเยือนคุณ?</h1>'+
-      '<p>ใจคนเราก็มีสภาพอากาศเหมือนท้องฟ้า เปลี่ยนได้ทุกวัน ตอบ 6 คำถามตามความรู้สึกช่วงสัปดาห์นี้ แล้วดูว่าใจคุณวันนี้เป็นเมฆแบบไหน พร้อมวิธีดูแลที่ทำได้ทันที</p>'+
-      '<p class="muted">คำถามอิงแบบวัด WHO-5 และ PSS</p>'+
-      '<p class="muted">ใช้เวลาราว 2 นาที ไม่ต้องสมัครสมาชิก และไม่เก็บคำตอบของคุณ</p>'+
+      '<h1 tabindex="-1" data-focus>วันนี้ท้องฟ้าในใจคุณ<br>เป็นยังไงบ้าง?</h1>'+
+      '<p>ใจคนเราก็เหมือนท้องฟ้า บางวันฟ้าใส บางวันก็มีเมฆบ้าง ลองตอบ 6 คำถามสบายๆ เกี่ยวกับงานช่วงนี้ แล้วมาดูกันว่าวันนี้เมฆแบบไหนลอยมาหาคุณ พร้อมวิธีดูแลใจเล็กๆ ที่ทำได้เลย</p>'+
+      '<p class="muted">ใช้แค่ 2 นาที · ไม่ต้องสมัคร · ไม่เก็บคำตอบ<br>คำถามอิงแบบวัด WHO-5 และ PSS</p>'+
       '<div class="actions">'+
-        '<button class="btn" data-act="start">เริ่มเลย</button>'+
-        '<p class="muted" style="text-align:center">นี่เป็นการสำรวจความรู้สึก ไม่ใช่การวินิจฉัย</p>'+
+        '<button class="btn" data-act="start">ไปดูท้องฟ้ากัน</button>'+
+        '<p class="muted" style="text-align:center">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p>'+
       '</div>';
   }
 
