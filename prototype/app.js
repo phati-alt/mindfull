@@ -89,7 +89,7 @@
       '<p>ใจคนเราก็เหมือนท้องฟ้า บางวันฟ้าใส บางวันก็มีเมฆบ้าง ลองตอบ 6 คำถามสบายๆ เกี่ยวกับงานช่วงนี้ แล้วมาดูกันว่าวันนี้เมฆแบบไหนลอยมาหาคุณ พร้อมวิธีดูแลใจเล็กๆ ที่ทำได้เลย</p>'+
       '<p class="muted">ใช้แค่ 2 นาที · ไม่ต้องสมัคร · ไม่เก็บคำตอบ<br>คำถามอิงแบบวัด WHO-5 และ PSS</p>'+
       '<div class="actions">'+
-        '<button class="btn" data-act="start">ไปดูท้องฟ้ากัน</button>'+
+        '<button class="btn" data-act="start">ไปดูน้องก้อนเมฆกัน</button>'+
         '<p class="muted" style="text-align:center">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p>'+
       '</div>';
   }
@@ -128,12 +128,7 @@
         '<p class="mym-type">'+c.cloud+'</p>'+
       '</div>'+
       '<section class="mym-about" aria-label="รู้จัก '+c.name+'"><p class="mym-label">รู้จัก '+c.name+'</p><p>'+a.a+'</p>'+'</section>'+
-      '<section class="mym-care" aria-labelledby="careH"><p class="mym-label" id="careH">How to ดูแล '+c.name+'</p>'+
-        '<p class="mym-ptext">เลือกวิธีดูแลตัวเองเล็กๆ โดยทำกิจกรรมสั้นๆ 20&nbsp;วินาที แล้วไปก้าวต่อไป</p>'+
-        '<button class="btn" data-act="to-care">ลองทำดู</button>'+
-      '</section>'+
-      '<p class="mym-quote">"'+r.reframe+'"</p>'+
-      /* details stay folded so the care CTA is reached within one screen after the name */
+      /* more about the cloud sits right under รู้จัก, folded so the care CTA stays within the first screen */
       '<details class="more"><summary>รู้จัก '+c.name+' ให้มากขึ้น</summary><div class="more-body">'+
         '<section class="mym-power" aria-label="พลังพิเศษ"><p class="mym-label">พลังพิเศษ</p><p class="mym-pname">"'+c.power+'" <span>('+c.en+')</span></p><p class="mym-ptext">'+c.p+'</p></section>'+
         '<div class="mym-pair">'+
@@ -142,6 +137,11 @@
         '</div>'+
         '<div class="buddy mym-buddy"><div class="buddy-av" aria-hidden="true"><img src="assets/characters/'+CHAR[c.buddy].name.toLowerCase()+'.jpg" width="72" height="72" alt="" decoding="async"></div><div><p class="mym-label">เพื่อนซี้</p><p class="bname">'+CHAR[c.buddy].name+'</p><p class="muted">'+c.bnote+'</p></div></div>'+
       '</div></details>'+
+      '<section class="mym-care" aria-labelledby="careH"><p class="mym-label" id="careH">How to ดูแล '+c.name+'</p>'+
+        '<p class="mym-ptext">เลือกวิธีดูแลตัวเองเล็กๆ โดยทำกิจกรรมสั้นๆ 20&nbsp;วินาที แล้วไปก้าวต่อไป</p>'+
+        '<button class="btn" data-act="to-care">ลองทำดู</button>'+
+      '</section>'+
+      '<p class="mym-quote">"'+r.reframe+'"</p>'+
       '<div class="actions">'+
         '<button class="btn ghost" data-act="share">ส่งการ์ด '+c.name+' ให้เพื่อน</button>'+
         '<button class="link" data-act="to-next">ไปที่ก้าวต่อไป</button>'+
