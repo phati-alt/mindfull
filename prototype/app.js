@@ -3,12 +3,12 @@
   'use strict';
 
   /* ---------- State ---------- */
-  var S = {screen:'landing', i:0, answers:[], order:[], duration:null, result:null, fogLeft:1};
+  var S = {screen:'landing', i:0, answers:[], order:[], duration:null, result:null};
   var timers = [];
 
   var app = document.getElementById('app');
   var content = document.getElementById('content');
-  var charWrap = document.getElementById('charWrap'), charFog = document.getElementById('charFog');
+  var charWrap = document.getElementById('charWrap');
   var overlay = document.getElementById('overlay');
   var shareCard = document.getElementById('shareCard');
   var toastEl = document.getElementById('toast');
@@ -41,7 +41,7 @@
   function showChar(k){
     app.classList.toggle('show-char',!!k);
     if(!k)buildParade();
-    if(!k){charWrap.innerHTML='';charFog.style.opacity=0;return;}
+    if(!k){charWrap.innerHTML='';charWrap.removeAttribute('data-k');return;}
     var c=CHAR[k];
     /* the last screen shows the app-reminder picture instead of the character */
     var key=S.screen==='next'?'next':k;
@@ -50,16 +50,12 @@
       else{var nm=c.name.toLowerCase();charWrap.innerHTML='<img src="assets/characters/'+nm+'.jpg" width="900" height="900" alt="'+CHAR_IMG_ALT[nm]+'" decoding="async">';}
       charWrap.setAttribute('data-k',key);
     }
-    updateFog();
   }
   function buildParade(){
     var el=document.getElementById('parade');
     if(el.getAttribute('data-built'))return;
     el.innerHTML='<span class="parade-hint">เพื่อนเมฆรออยู่ เฉลยตอนจบนะ</span><img src="assets/characters/all.jpg" width="900" height="672" alt="" decoding="async">';
     el.setAttribute('data-built','1');
-  }
-  function updateFog(){
-    charFog.style.opacity=(S.result==='fog'&&S.screen==='micro')?(0.9*S.fogLeft).toFixed(2):0;
   }
 
   /* ---------- Screens ---------- */
@@ -293,7 +289,7 @@
 
   /* ---------- Actions ---------- */
   function start(){
-    S.i=0;S.carePick=null;S.answers=[];S.duration=null;S.durIdx=null;S.result=null;S.fogLeft=1;
+    S.i=0;S.carePick=null;S.answers=[];S.duration=null;S.durIdx=null;S.result=null;
     S.order=QUESTIONS.map(function(q){return shuffle(q.opts);});
     SCENES.forEach(function(html){var m=/src="([^"]+)"/.exec(html);if(m)new Image().src=m[1];}); /* warm the cache so the next picture is ready */
     setScreen('question');
@@ -341,8 +337,6 @@
     var nowIdx=-1;items.forEach(function(li,i){if(li.classList.contains('now'))nowIdx=i;});
     if(nowIdx<0)return;
     items[nowIdx].classList.remove('now');items[nowIdx].classList.add('done');
-    S.fogLeft=Math.max(0,1-(nowIdx+1)/3);
-    updateFog();
     if(nowIdx+1<items.length){items[nowIdx+1].classList.add('now');}
     else{doneMicro('หมอกจางลงนิดหนึ่งแล้ว');}
   }
@@ -371,8 +365,8 @@
     else if(act==='to-reveal')setScreen('reveal');
     else if(act==='care')pickCare(t);
     else if(act==='care-remind')toast('Prototype: ในแอปจริง จะตั้งเตือนให้ลองทำตามที่เลือกไว้');
-    else if(act==='micro'){S.fogLeft=1;setScreen('micro');}
-    else if(act==='to-next'){S.fogLeft=1;setScreen('next');}
+    else if(act==='micro')setScreen('micro');
+    else if(act==='to-next')setScreen('next');
     else if(act==='breath-start')breathe();
     else if(act==='let-go')letGo();
     else if(act==='ground')ground();
