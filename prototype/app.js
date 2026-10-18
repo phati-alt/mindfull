@@ -75,6 +75,7 @@
     app.classList.toggle('is-reveal',S.screen==='reveal');
     app.classList.toggle('is-care',S.screen==='care');
     app.classList.toggle('is-next',S.screen==='next');
+    app.classList.toggle('is-micro',S.screen==='micro');
     if(S.screen==='landing')html=landing();
     else if(S.screen==='question')html=question();
     else if(S.screen==='reveal')html=reveal();
@@ -214,7 +215,8 @@
     return '<div class="head"><button class="back" data-act="to-reveal">กลับไปที่ผลลัพธ์</button><span></span></div>'+
       '<p class="muted">How to ดูแล '+CHAR[k].name+' ใช้เวลา 20 วินาที</p>'+
       '<h2 tabindex="-1" data-focus>'+r.microTitle+'</h2>'+
-      '<p>'+r.microIntro+'</p>'+inner;
+      '<p>'+r.microIntro+'</p>'+inner+
+      '<div class="q-foot"><hr class="hero-rule"><img class="logo q-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82"><p class="hero-note">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p></div>';
   }
 
   function doneMicro(msgHtml){
