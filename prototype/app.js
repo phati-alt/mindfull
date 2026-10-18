@@ -202,7 +202,8 @@
         '<p class="field-error" id="fieldErr" hidden>พิมพ์สักหนึ่งอย่างก่อน หรือกดข้ามได้</p>'+
         '<div class="actions" id="microActions"><button class="btn" data-act="keep">เก็บไว้</button><button class="link" data-act="to-next">ข้าม</button></div>';
     }
-    return '<p class="muted">How to ดูแล '+CHAR[k].name+' ใช้เวลา 20 วินาที</p>'+
+    return '<div class="head"><button class="back" data-act="to-reveal">กลับไปที่ผลลัพธ์</button><span></span></div>'+
+      '<p class="muted">How to ดูแล '+CHAR[k].name+' ใช้เวลา 20 วินาที</p>'+
       '<h2 tabindex="-1" data-focus>'+r.microTitle+'</h2>'+
       '<p>'+r.microIntro+'</p>'+inner;
   }
@@ -216,6 +217,7 @@
   function nextStep(){
     var r=RESULTS[S.result], n=NEXT[S.result][S.duration];
     return ''+
+      '<div class="head"><button class="back" data-act="to-reveal">กลับไปที่ผลลัพธ์</button><span></span></div>'+
       '<p class="muted">ก้าวต่อไปที่พอดีกับคุณ</p>'+
       '<h2 tabindex="-1" data-focus>ก้าวต่อไปหลัง '+CHAR[S.result].name+' มาเยือน</h2>'+
       (S.carePick!=null?'<div class="commit"><p class="mym-label">สิ่งที่คุณเลือกจะลอง ('+WHEN[S.carePick].split(' ·')[0]+')</p><p>'+CARE[S.result][S.carePick]+'</p></div>':'')+
