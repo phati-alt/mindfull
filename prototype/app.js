@@ -212,13 +212,16 @@
   function nextStep(){
     var k=S.result, c=CHAR[k], n=NEXT[k][S.duration];
     /* a short recap of the whole visit: today's cloud, how long, what they chose to try */
-    var rows='<dt>เมฆที่มาเยือน</dt><dd>'+c.name+' · '+c.title+'</dd>';
-    if(S.durIdx!=null)rows+=S.durIdx===0?'<dt>ช่วงนี้</dt><dd>ไม่ค่อยรู้สึกเหนื่อยหรือหนักใจเรื่องงาน</dd>':'<dt>เป็นแบบนี้มา</dt><dd>'+DURATION_Q.opts[S.durIdx].t+'</dd>';
-    if(S.carePick!=null)rows+='<dt>สิ่งที่จะลอง</dt><dd>'+WHEN[S.carePick].split(' ·')[0]+': '+CARE[k][S.carePick]+'</dd>';
+    var rows='';
+    if(S.durIdx!=null)rows+=S.durIdx===0?'<div class="sum-row"><p class="mym-label">ช่วงนี้</p><p>ไม่ค่อยรู้สึกเหนื่อยหรือหนักใจเรื่องงาน</p></div>':'<div class="sum-row"><p class="mym-label">เป็นแบบนี้มา</p><p>'+DURATION_Q.opts[S.durIdx].t+'</p></div>';
+    if(S.carePick!=null)rows+='<div class="sum-row"><p class="mym-label">สิ่งที่จะลอง · '+WHEN[S.carePick].split(' ·')[0]+'</p><p>'+CARE[k][S.carePick]+'</p></div>';
+    var recap='<section class="summary" aria-label="สรุปใจคุณวันนี้">'+
+      '<div class="sum-head"><div class="buddy-av" aria-hidden="true"><img src="assets/characters/'+c.name.toLowerCase()+'.jpg" width="56" height="56" alt="" decoding="async"></div>'+
+      '<div><p class="bname">'+c.name+'</p><p class="muted">'+c.title+'</p></div></div>'+rows+'</section>';
     return ''+
       '<div class="head"><button class="back" data-act="to-reveal">กลับไปที่ผลลัพธ์</button><span></span></div>'+
       '<h2 tabindex="-1" data-focus>สรุปใจคุณวันนี้</h2>'+
-      '<dl class="summary">'+rows+'</dl>'+
+      recap+
       '<div class="note"><p class="mym-label">ก้าวต่อไป</p><p>'+n.body+'</p></div>'+
       '<div class="actions">'+
         '<button class="btn" data-act="primary">'+n.primary+'</button>'+
