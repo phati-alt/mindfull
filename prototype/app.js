@@ -138,7 +138,7 @@
         '<div class="buddy mym-buddy"><div class="buddy-av" aria-hidden="true"><img src="assets/characters/'+CHAR[c.buddy].name.toLowerCase()+'.jpg" width="72" height="72" alt="" decoding="async"></div><div><p class="mym-label">เพื่อนซี้</p><p class="bname">'+CHAR[c.buddy].name+'</p><p class="muted">'+c.bnote+'</p></div></div>'+
       '</div></details>'+
       '<section class="mym-care" aria-labelledby="careH"><p class="mym-label" id="careH">How to ดูแล '+c.name+'</p>'+
-        '<p class="mym-ptext">เลือกวิธีดูแลตัวเองเล็กๆ โดยทำกิจกรรมสั้นๆ 20&nbsp;วินาที แล้วไปก้าวต่อไป</p>'+
+        '<p class="mym-ptext">เลือกสิ่งเล็กๆ ที่ช่วยดูแลใจ ลองตอนนี้ 20&nbsp;วินาที หรือนัดตัวเองไว้คืนนี้ สัปดาห์นี้</p>'+
         '<button class="btn" data-act="to-care">ลองทำดู</button>'+
       '</section>'+
       '<p class="mym-quote">"'+r.reframe+'"</p>'+
