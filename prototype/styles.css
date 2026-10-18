@@ -161,7 +161,7 @@ p{margin:0;font-size:16px;line-height:20px;font-weight:300;max-width:60ch} /* th
 .scene{display:none;width:100%}
 /* the picture fills the whole stage edge to edge */
 /* one picture height on every screen, so the card does not jump between screens */
-:root{--stage-h:calc(clamp(150px,28dvh,260px) + var(--space-24))}
+:root{--stage-h:calc(clamp(150px,34dvh,300px) + var(--space-24))}
 .app .stage .scene img{width:100%;max-width:none;height:var(--stage-h);object-fit:cover;object-position:center 38%;display:block;margin:0;border-radius:0}
 /* question screens: the card slides over the picture, only its top corners show */
 .app .sheet{margin:calc(var(--space-24) * -1) 0 0;border-radius:var(--radius-24,24px) var(--radius-24,24px) 0 0;position:relative;padding-left:var(--space-24);padding-right:var(--space-24);padding-bottom:calc(var(--space-16) + env(safe-area-inset-bottom,0px))}
