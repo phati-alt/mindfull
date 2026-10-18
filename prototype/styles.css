@@ -322,3 +322,15 @@ button,a,input{touch-action:manipulation}
 /* v3.4 system: micro-action header centered like the other screens; inputs and steps stay left-aligned */
 .app.is-micro .head~.muted,.app.is-micro h2,.app.is-micro h2+p{text-align:center}
 .app.is-micro h2{font-size:20px;line-height:28px;font-weight:600}
+/* v3.4 result hierarchy: รู้จัก is the green card, the folded details go quiet, How to ดูแล is the one that stands out */
+.app.is-reveal .mym-about{background:var(--turquoise-50,#E0F8F6);border:1.5px solid var(--turquoise-200,#80E2D9);border-radius:var(--radius-24,24px);padding:var(--space-16) var(--space-16) var(--space-20)}
+.app.is-reveal .mym-about p:last-child{color:var(--turquoise-gray-1,#355956)}
+.app.is-reveal .more>summary{font-size:14px;line-height:20px}
+.app.is-reveal .mym-power{background:var(--surface);border:1px solid var(--gray-300,#E6E6E6)}
+.app.is-reveal .mym-pname{color:var(--ink);font-size:16px;line-height:24px;font-weight:500}
+.app.is-reveal .mym-power .mym-ptext,.app.is-reveal .mym-cell p:last-child{color:var(--ink-soft)}
+.app.is-reveal .mym-cell,.app.is-reveal .mym-cell.warn{background:var(--surface);border:1px solid var(--gray-300,#E6E6E6)}
+.app.is-reveal .mym-power .mym-label,.app.is-reveal .mym-cell .mym-label{color:var(--ink-soft);font-weight:500}
+.app.is-reveal .mym-care{background:var(--blue-50,#E4EFFB);border:2px solid var(--accent);box-shadow:var(--elevation-03);padding:var(--space-20)}
+.app.is-reveal .mym-care .mym-label{font-size:18px;line-height:24px;font-weight:600;color:var(--ink)}
+.app.is-reveal .mym-care .mym-ptext{color:var(--ink);font-size:16px;line-height:24px}
