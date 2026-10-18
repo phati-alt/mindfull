@@ -225,9 +225,8 @@
 
   function nextStep(){
     var k=S.result, c=CHAR[k], n=NEXT[k][S.duration];
-    /* a short recap of the whole visit: today's cloud, how long, what they chose to try */
+    /* a short recap of the visit: today's cloud, what they chose to try, and the next step */
     var rows='';
-    if(S.durIdx!=null)rows+=S.durIdx===0?'<div class="sum-row"><p class="mym-label">ช่วงนี้</p><p>ไม่ค่อยรู้สึกเหนื่อยหรือหนักใจเรื่องงาน</p></div>':'<div class="sum-row"><p class="mym-label">เป็นแบบนี้มา</p><p>'+DURATION_Q.opts[S.durIdx].t+'</p></div>';
     if(S.carePick!=null)rows+='<div class="sum-row pick"><p class="mym-label">สิ่งที่จะลอง · '+WHEN[S.carePick].split(' ·')[0]+'</p><p>'+CARE[k][S.carePick]+'</p></div>';
     var recap='<section class="summary" aria-label="สรุปใจคุณวันนี้">'+
       '<div class="sum-head"><div class="buddy-av" aria-hidden="true"><img src="assets/characters/'+c.name.toLowerCase()+'.jpg" width="56" height="56" alt="" decoding="async"></div>'+
