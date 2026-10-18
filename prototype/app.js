@@ -99,7 +99,7 @@
   function head(){
     var dots='';for(var i=0;i<TOTAL;i++)dots+='<span class="dot'+(i<=S.i?' on':'')+'"></span>';
     return '<div class="head">'+
-      (S.i>0?'<button class="back" data-act="back">ย้อนกลับ</button>':'<span></span>')+
+      '<span class="head-nav">'+(S.i>0?'<button class="back" data-act="back">ข้อก่อนหน้า</button>':'')+'<button class="back" data-act="home">หน้าแรก</button></span>'+
       '<div class="progress"><span>'+(S.i===TOTAL-1?'ข้อสุดท้าย':'ข้อ '+(S.i+1)+' จาก '+TOTAL)+'</span><span class="dots" aria-hidden="true">'+dots+'</span></div>'+
     '</div>';
   }
@@ -374,6 +374,7 @@
     else if(act==='primary')primary();
     else if(act==='share')openShare();
     else if(act==='again')setScreen('landing');
+    else if(act==='home')setScreen('landing');
   });
   content.addEventListener('keydown',function(e){
     if(e.key==='Enter'&&e.target.classList.contains('field')){
