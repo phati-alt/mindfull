@@ -334,3 +334,4 @@ button,a,input{touch-action:manipulation}
 .app.is-reveal .mym-care{background:var(--blue-50,#E4EFFB);border:2px solid var(--accent);box-shadow:var(--elevation-03);padding:var(--space-20)}
 .app.is-reveal .mym-care .mym-label{font-size:18px;line-height:24px;font-weight:600;color:var(--ink)}
 .app.is-reveal .mym-care .mym-ptext{color:var(--ink);font-size:16px;line-height:24px}
+.app.is-reveal .mym-quote{font-size:16px;line-height:24px}
