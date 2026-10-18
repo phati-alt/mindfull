@@ -210,16 +210,19 @@
   }
 
   function nextStep(){
-    var r=RESULTS[S.result], n=NEXT[S.result][S.duration];
+    var k=S.result, c=CHAR[k], n=NEXT[k][S.duration];
+    /* a short recap of the whole visit: today's cloud, how long, what they chose to try */
+    var rows='<dt>เมฆที่มาเยือน</dt><dd>'+c.name+' · '+c.title+'</dd>';
+    if(S.durIdx!=null)rows+=S.durIdx===0?'<dt>ช่วงนี้</dt><dd>ไม่ค่อยรู้สึกเหนื่อยหรือหนักใจเรื่องงาน</dd>':'<dt>เป็นแบบนี้มา</dt><dd>'+DURATION_Q.opts[S.durIdx].t+'</dd>';
+    if(S.carePick!=null)rows+='<dt>สิ่งที่จะลอง</dt><dd>'+WHEN[S.carePick].split(' ·')[0]+': '+CARE[k][S.carePick]+'</dd>';
     return ''+
       '<div class="head"><button class="back" data-act="to-reveal">กลับไปที่ผลลัพธ์</button><span></span></div>'+
-      '<p class="muted">ก้าวต่อไปที่พอดีกับคุณ</p>'+
-      '<h2 tabindex="-1" data-focus>ก้าวต่อไปหลัง '+CHAR[S.result].name+' มาเยือน</h2>'+
-      (S.carePick!=null?'<div class="commit"><p class="mym-label">สิ่งที่คุณเลือกจะลอง ('+WHEN[S.carePick].split(' ·')[0]+')</p><p>'+CARE[S.result][S.carePick]+'</p></div>':'')+
-      '<p class="note">'+n.body+'</p>'+
+      '<h2 tabindex="-1" data-focus>สรุปใจคุณวันนี้</h2>'+
+      '<dl class="summary">'+rows+'</dl>'+
+      '<div class="note"><p class="mym-label">ก้าวต่อไป</p><p>'+n.body+'</p></div>'+
       '<div class="actions">'+
         '<button class="btn" data-act="primary">'+n.primary+'</button>'+
-        (n.share?'':'<button class="btn ghost" data-act="share">ส่งการ์ด '+CHAR[S.result].name+' ให้เพื่อน</button>')+
+        (n.share?'':'<button class="btn ghost" data-act="share">ส่งการ์ด '+c.name+' ให้เพื่อน</button>')+
         '<button class="link" data-act="again">เล่นอีกครั้ง</button>'+
       '</div>';
   }

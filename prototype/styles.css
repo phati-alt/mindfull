@@ -234,7 +234,6 @@ button,a,input{touch-action:manipulation}
 .care-text{font-size:14px;line-height:24px;font-weight:300} /* th-body-3 */
 #careFollow{display:flex;flex-direction:column;gap:var(--space-8)}
 #careFollow:not(:empty){margin-top:var(--space-4)}
-.commit{border-left:4px solid var(--brand);padding:var(--space-4) 0 var(--space-4) var(--space-12);display:flex;flex-direction:column;gap:var(--space-4)}
 
 
 /* landing and character pictures fill the stage like the question scenes; the card overlaps them */
@@ -260,3 +259,8 @@ button,a,input{touch-action:manipulation}
 .more-body{display:flex;flex-direction:column;gap:var(--space-12);padding-top:var(--space-8)}
 /* v3.4: the "ช่วงนี้…" line adds a row; on short phones (iPhone SE) the scene gives up the space */
 @media (max-height:700px){.app .stage .scene img{height:calc(clamp(150px,24dvh,260px) + var(--space-24))}.parade img{height:calc(clamp(170px,30dvh,300px) + var(--space-24))}}
+/* v3.4: next step opens with a short recap of the visit */
+.summary{margin:0;display:grid;grid-template-columns:auto 1fr;gap:var(--space-8) var(--space-12);border:1.5px solid var(--line);border-radius:var(--radius-24,24px);padding:var(--space-16)}
+.summary dt{font-size:14px;line-height:24px;font-weight:300;color:var(--ink-soft);white-space:nowrap} /* th-body-3 */
+.summary dd{margin:0;font-size:14px;line-height:24px;font-weight:500}
+.note .mym-label{margin-bottom:var(--space-4)}
