@@ -268,3 +268,14 @@ button,a,input{touch-action:manipulation}
 .note .mym-label{margin-bottom:var(--space-4)}
 /* v3.4: question header offers the previous question and the landing page */
 .head-nav{display:flex;align-items:center;gap:var(--space-16)}
+/* v3.4: landing laid out as in Figma (copy unchanged) */
+.hero-logo{height:36px;margin:var(--space-4) auto var(--space-8)}
+.hero-title{text-align:center;font-size:20px;line-height:28px;font-weight:600;color:var(--turquoise-text,#009688);margin:0} /* large text: 3.7:1 on white */
+.hero-meta{text-align:center}
+/* intro panel: tinted like Figma; body text stays turquoise-gray-1 for contrast (Figma teal is 3.3:1 on this tint) */
+.hero-panel{text-align:center;background:var(--turquoise-50,#E0F8F6);color:var(--turquoise-gray-1,#355956);border-radius:var(--radius-24,24px);padding:var(--space-24) var(--space-20);margin:var(--space-4) 0 0}
+.hero-actions{gap:var(--space-16)}
+.hero-rule{width:45%;margin:0 auto;border:0;border-top:1px solid var(--control-line)}
+.hero-note{text-align:center;color:var(--accent);font-size:16px;line-height:20px;font-weight:500;margin:0}
+.app.is-landing .safety{text-align:center;border-top:0;margin-top:var(--space-8);padding-top:0}
+@media (max-height:700px){.hero-logo{height:30px;margin-bottom:var(--space-4)}.hero-panel{padding:var(--space-16) var(--space-12)}.hero-actions{gap:var(--space-12)}}

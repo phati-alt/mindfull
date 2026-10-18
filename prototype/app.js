@@ -70,6 +70,7 @@
 
   function render(){
     var html='';
+    app.classList.toggle('is-landing',S.screen==='landing');
     if(S.screen==='landing')html=landing();
     else if(S.screen==='question')html=question();
     else if(S.screen==='reveal')html=reveal();
@@ -85,14 +86,16 @@
   }
 
   function landing(){
+    /* layout follows the Figma landing: centered logo and title, info line, tinted intro panel, button, short rule, note */
     return ''+
-      '<img class="logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82">'+
-      '<h1 tabindex="-1" data-focus>วันนี้ท้องฟ้าในใจคุณ<br>เป็นยังไงบ้าง?</h1>'+
-      '<p>ใจคนเราก็เหมือนท้องฟ้า บางวันฟ้าใส บางวันก็มีเมฆบ้าง ลองตอบ 6 คำถามสบายๆ เกี่ยวกับงานช่วงนี้ แล้วมาดูกันว่าวันนี้เมฆแบบไหนลอยมาหาคุณ พร้อมวิธีดูแลใจเล็กๆ ที่ทำได้เลย</p>'+
-      '<p class="muted">ใช้แค่ 2 นาที · ไม่ต้องสมัคร · ไม่เก็บคำตอบ<br>คำถามอิงแบบวัด WHO-5 และ PSS</p>'+
-      '<div class="actions">'+
+      '<img class="logo hero-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82">'+
+      '<h1 class="hero-title" tabindex="-1" data-focus>วันนี้ท้องฟ้าในใจคุณ<br>เป็นยังไงบ้าง?</h1>'+
+      '<p class="muted hero-meta">ใช้แค่ 2 นาที · ไม่ต้องสมัคร · ไม่เก็บคำตอบ<br>คำถามอิงแบบวัด WHO-5 และ PSS</p>'+
+      '<p class="hero-panel">ใจคนเราก็เหมือนท้องฟ้า บางวันฟ้าใส บางวันก็มีเมฆบ้าง ลองตอบ 6 คำถามสบายๆ เกี่ยวกับงานช่วงนี้ แล้วมาดูกันว่าวันนี้เมฆแบบไหนลอยมาหาคุณ พร้อมวิธีดูแลใจเล็กๆ ที่ทำได้เลย</p>'+
+      '<div class="actions hero-actions">'+
         '<button class="btn" data-act="start">ไปดูน้องก้อนเมฆกัน</button>'+
-        '<p class="muted" style="text-align:center">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p>'+
+        '<hr class="hero-rule">'+
+        '<p class="hero-note">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p>'+
       '</div>';
   }
 
