@@ -71,6 +71,7 @@
   function render(){
     var html='';
     app.classList.toggle('is-landing',S.screen==='landing');
+    app.classList.toggle('is-question',S.screen==='question');
     if(S.screen==='landing')html=landing();
     else if(S.screen==='question')html=question();
     else if(S.screen==='reveal')html=reveal();
@@ -120,7 +121,9 @@
     return head()+
       '<h2 tabindex="-1" data-focus>'+esc(q.text)+'</h2>'+
       (isDur?'':'<p class="muted">ช่วงนี้ ถ้าเจอแบบนี้ คุณน่าจะ…</p>')+
-      '<div class="opts" role="group" aria-label="ตัวเลือก">'+list+'</div>';
+      '<div class="opts" role="group" aria-label="ตัวเลือก">'+list+'</div>'+
+      /* Figma question footer: short rule, wordmark, reminder that this is not a diagnosis */
+      '<div class="q-foot"><hr class="hero-rule"><img class="logo q-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82"><p class="hero-note">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p></div>';
   }
 
   function reveal(){
