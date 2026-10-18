@@ -43,7 +43,7 @@ node scripts/build-og-image.mjs
 | `prototype/styles.css` | Semantic tokens, layout, responsive rules |
 | `prototype/content.js` | All copy, scoring axes, picture alt texts |
 | `prototype/app.js` | State, scoring, screens, micro-actions, share |
-| `prototype/assets/scenes/`, `prototype/assets/characters/` | Question pictures (`q1`–`q6.jpg`), landing picture (`all.jpg`) and one picture per character (named after it, lowercase) |
+| `prototype/assets/scenes/`, `prototype/assets/characters/` | Question pictures (`q1`–`q6.jpg`), the last-screen picture (`next-app.jpg`), landing picture (`all.jpg`) and one picture per character (named after it, lowercase) |
 | `prototype/assets/mindfull-tokens.css` | Copy of the design-system `:root` tokens |
 | `prototype/assets/mindfull-logo.svg` | mindfull wordmark (use as supplied, never recolor) |
 | `prototype/og-image.png` | Link-preview image (1200×630); rebuild with `node scripts/build-og-image.mjs` |

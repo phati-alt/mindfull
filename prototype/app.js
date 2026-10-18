@@ -43,7 +43,13 @@
     if(!k)buildParade();
     if(!k){charWrap.innerHTML='';charFog.style.opacity=0;return;}
     var c=CHAR[k];
-    if(charWrap.getAttribute('data-k')!==k){var nm=c.name.toLowerCase();charWrap.innerHTML='<img src="assets/characters/'+nm+'.jpg" width="900" height="900" alt="'+CHAR_IMG_ALT[nm]+'" decoding="async">';charWrap.setAttribute('data-k',k);}
+    /* the last screen shows the app-reminder picture instead of the character */
+    var key=S.screen==='next'?'next':k;
+    if(charWrap.getAttribute('data-k')!==key){
+      if(key==='next')charWrap.innerHTML='<img src="'+NEXT_IMG.src+'" width="900" height="672" alt="'+NEXT_IMG.alt+'" decoding="async">';
+      else{var nm=c.name.toLowerCase();charWrap.innerHTML='<img src="assets/characters/'+nm+'.jpg" width="900" height="900" alt="'+CHAR_IMG_ALT[nm]+'" decoding="async">';}
+      charWrap.setAttribute('data-k',key);
+    }
     updateFog();
   }
   function buildParade(){

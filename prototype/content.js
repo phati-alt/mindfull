@@ -99,3 +99,6 @@ var LOGO_SRC = 'assets/mindfull-logo.svg';
 
 /* Character and landing pictures (files in assets/characters/, named after the character) */
 var CHAR_IMG_ALT = {"cumulo": "Cumulo หัวเป็นก้อนเมฆสีเทาเข้ม ใส่สูทเทา เนคไทแดง ถือโทรศัพท์กับแล็ปท็อป มีสายฟ้าเล็กๆ เหนือหัว", "nimbo": "Nimbo หัวเป็นก้อนเมฆสีฟ้าหม่น หน้าง่วงๆ ใส่เสื้อคาร์ดิแกนกรมท่า กางร่มให้ต้นไม้ แต่หัวตัวเองโดนฝน", "strato": "Strato หัวเป็นเมฆสีขาวหมอก ใส่ฮู้ดสีเทาคลุมหัว ซุกมือในกระเป๋า หลับตาเคลิ้ม มีหมอกจางๆ ที่เท้า", "humi": "Humi หัวเป็นก้อนเมฆสีขาวฟู ยิ้มกว้าง ใส่สูทฟ้า เนคไทเขียว ถือแก้วกาแฟ มีดวงอาทิตย์ตัวจิ๋วเป็นเพื่อน"};
+
+/* Picture for the last screen (สรุปใจคุณวันนี้): continuing in the app with a reminder */
+var NEXT_IMG = {src:'assets/scenes/next-app.jpg', alt:'คนหัวเมฆนั่งบนโซฟาถือโทรศัพท์ มีการแจ้งเตือนกับปฏิทินลอยอยู่ข้างๆ ชวนกลับมาเช็กใจอีกครั้ง'};
