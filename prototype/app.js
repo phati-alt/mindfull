@@ -74,6 +74,7 @@
     app.classList.toggle('is-question',S.screen==='question');
     app.classList.toggle('is-reveal',S.screen==='reveal');
     app.classList.toggle('is-care',S.screen==='care');
+    app.classList.toggle('is-next',S.screen==='next');
     if(S.screen==='landing')html=landing();
     else if(S.screen==='question')html=question();
     else if(S.screen==='reveal')html=reveal();
@@ -227,20 +228,22 @@
     /* a short recap of the whole visit: today's cloud, how long, what they chose to try */
     var rows='';
     if(S.durIdx!=null)rows+=S.durIdx===0?'<div class="sum-row"><p class="mym-label">ช่วงนี้</p><p>ไม่ค่อยรู้สึกเหนื่อยหรือหนักใจเรื่องงาน</p></div>':'<div class="sum-row"><p class="mym-label">เป็นแบบนี้มา</p><p>'+DURATION_Q.opts[S.durIdx].t+'</p></div>';
-    if(S.carePick!=null)rows+='<div class="sum-row"><p class="mym-label">สิ่งที่จะลอง · '+WHEN[S.carePick].split(' ·')[0]+'</p><p>'+CARE[k][S.carePick]+'</p></div>';
+    if(S.carePick!=null)rows+='<div class="sum-row pick"><p class="mym-label">สิ่งที่จะลอง · '+WHEN[S.carePick].split(' ·')[0]+'</p><p>'+CARE[k][S.carePick]+'</p></div>';
     var recap='<section class="summary" aria-label="สรุปใจคุณวันนี้">'+
       '<div class="sum-head"><div class="buddy-av" aria-hidden="true"><img src="assets/characters/'+c.name.toLowerCase()+'.jpg" width="56" height="56" alt="" decoding="async"></div>'+
-      '<div><p class="bname">'+c.name+'</p><p class="muted">'+c.title+'</p></div></div>'+rows+'</section>';
+      '<div><p class="bname">'+c.name+'</p><p class="muted">'+c.title+'</p></div></div>'+rows+
+      /* Figma keeps the next step inside the same card */
+      '<div class="sum-row sum-next"><p class="mym-label">ก้าวต่อไป</p><p>'+n.body+'</p></div></section>';
     return ''+
       '<div class="head"><button class="back" data-act="to-reveal">กลับไปที่ผลลัพธ์</button><span></span></div>'+
       '<h2 tabindex="-1" data-focus>สรุปใจคุณวันนี้</h2>'+
       recap+
-      '<div class="note"><p class="mym-label">ก้าวต่อไป</p><p>'+n.body+'</p></div>'+
       '<div class="actions">'+
         '<button class="btn" data-act="primary">'+n.primary+'</button>'+
         (n.share?'':'<button class="btn ghost" data-act="share">ส่งการ์ด '+c.name+' ให้เพื่อน</button>')+
         '<button class="link" data-act="again">เล่นอีกครั้ง</button>'+
-      '</div>';
+      '</div>'+
+      '<div class="q-foot"><hr class="hero-rule"><img class="logo q-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82"><p class="hero-note">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p></div>';
   }
 
   /* ---------- Breathing ---------- */
