@@ -251,3 +251,13 @@ button,a,input{touch-action:manipulation}
   .parade img,#charWrap img{height:100dvh}
   .parade-hint{top:auto;bottom:var(--space-12);right:50%;transform:translateX(50%)}
 }
+
+/* v3.4: result details folded under "รู้จัก [ชื่อ] ให้มากขึ้น" */
+.more{border-top:1px solid var(--line);padding-top:var(--space-4)}
+.more>summary{list-style:none;cursor:pointer;min-height:44px;display:flex;align-items:center;justify-content:space-between;gap:var(--space-8);color:var(--accent);font-size:16px;line-height:20px;font-weight:500;border-radius:var(--radius-24,24px)}
+.more>summary::-webkit-details-marker{display:none}
+.more>summary::after{content:"+";font-size:24px;line-height:24px;font-weight:300}
+.more[open]>summary::after{content:"\2013"}
+.more-body{display:flex;flex-direction:column;gap:var(--space-12);padding-top:var(--space-8)}
+/* v3.4: the "ช่วงนี้…" line adds a row; on short phones (iPhone SE) the scene gives up the space */
+@media (max-height:700px){.app .stage .scene img{height:calc(clamp(150px,24dvh,260px) + var(--space-24))}}

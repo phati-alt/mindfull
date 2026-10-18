@@ -86,7 +86,8 @@
     return ''+
       '<img class="logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82">'+
       '<h1 tabindex="-1" data-focus>วันนี้เพื่อนเมฆตัวไหนจะมาเยือนคุณ?</h1>'+
-      '<p>ตอบ 6 คำถามจากเรื่องงานที่หลายคนเคยเจอ แล้วพบกับเพื่อนเมฆที่มาเยือนใจคุณวันนี้ พร้อมพลังพิเศษและวิธีดูแลที่ทำได้ทันที</p>'+
+      '<p>ใจคนเราก็มีสภาพอากาศเหมือนท้องฟ้า เปลี่ยนได้ทุกวัน ตอบ 6 คำถามตามความรู้สึกช่วงสัปดาห์นี้ แล้วดูว่าใจคุณวันนี้เป็นเมฆแบบไหน พร้อมวิธีดูแลที่ทำได้ทันที</p>'+
+      '<p class="muted">คำถามอิงแบบวัด WHO-5 และ PSS</p>'+
       '<p class="muted">ใช้เวลาราว 2 นาที ไม่ต้องสมัครสมาชิก และไม่เก็บคำตอบของคุณ</p>'+
       '<div class="actions">'+
         '<button class="btn" data-act="start">เริ่มเลย</button>'+
@@ -98,7 +99,7 @@
     var dots='';for(var i=0;i<TOTAL;i++)dots+='<span class="dot'+(i<=S.i?' on':'')+'"></span>';
     return '<div class="head">'+
       (S.i>0?'<button class="back" data-act="back">ย้อนกลับ</button>':'<span></span>')+
-      '<div class="progress"><span>ข้อ '+(S.i+1)+' จาก '+TOTAL+'</span><span class="dots" aria-hidden="true">'+dots+'</span></div>'+
+      '<div class="progress"><span>'+(S.i===TOTAL-1?'ข้อสุดท้าย':'ข้อ '+(S.i+1)+' จาก '+TOTAL)+'</span><span class="dots" aria-hidden="true">'+dots+'</span></div>'+
     '</div>';
   }
 
@@ -114,6 +115,7 @@
     }).join('');
     return head()+
       '<h2 tabindex="-1" data-focus>'+esc(q.text)+'</h2>'+
+      (isDur?'':'<p class="muted">ช่วงนี้ ถ้าเจอแบบนี้ คุณน่าจะ…</p>')+
       (isDur?'<p class="muted durhint">ข้อนี้ไม่เปลี่ยนเพื่อนเมฆที่จะมาเยือน แต่ช่วยให้เราแนะนำก้าวต่อไปได้พอดีกับคุณ</p>':'')+
       '<div class="opts" role="group" aria-label="ตัวเลือก">'+list+'</div>';
   }
@@ -122,23 +124,28 @@
     var r=RESULTS[S.result], c=CHAR[S.result], k=CARD[S.result], a=ABOUT[S.result];
     return ''+
       '<div class="mym-head">'+
-        '<p class="mym-kicker">วันนี้มาเยือนคุณ</p>'+
+        '<p class="mym-kicker">ใจคุณวันนี้</p>'+
         '<h2 class="mym-name" tabindex="-1" data-focus>'+c.name+'</h2>'+
         '<p class="mym-title">'+c.title+'</p>'+
         '<p class="mym-type">'+c.cloud+'</p>'+
       '</div>'+
+      '<p class="muted" style="text-align:center">นี่คือใจคุณช่วงนี้ เมฆลอยผ่านไปได้ พรุ่งนี้อาจเป็นเมฆตัวอื่น</p>'+
       '<section class="mym-about" aria-label="รู้จัก '+c.name+'"><p class="mym-label">รู้จัก '+c.name+'</p><p>'+a.a+'</p>'+'</section>'+
-      '<section class="mym-power" aria-label="พลังพิเศษ"><p class="mym-label">พลังพิเศษ</p><p class="mym-pname">"'+c.power+'" <span>('+c.en+')</span></p><p class="mym-ptext">'+c.p+'</p></section>'+
-      '<div class="mym-pair">'+
-        '<section class="mym-cell"><p class="mym-label">จุดเด่น</p><p>'+k.st+'</p></section>'+
-        '<section class="mym-cell warn"><p class="mym-label">เมื่อพลังล้น</p><p>'+k.ov+'</p></section>'+
-      '</div>'+
       '<section class="mym-care" aria-labelledby="careH"><p class="mym-label" id="careH">How to ดูแล '+c.name+'</p>'+
         '<p class="mym-ptext">เลือกวิธีดูแลตัวเองเล็กๆ หนึ่งอย่าง จะลองตอนนี้ 20 วินาที คืนนี้ หรือสัปดาห์นี้ก็ได้</p>'+
         '<button class="btn" data-act="to-care">เลือกวิธีดูแล '+c.name+'</button>'+
+        '<p class="muted" style="text-align:center">กิจกรรมสั้น 20 วินาที แล้วไปก้าวต่อไป</p>'+
       '</section>'+
       '<p class="mym-quote">"'+r.reframe+'"</p>'+
-      '<div class="buddy mym-buddy"><div class="buddy-av" aria-hidden="true"><img src="assets/characters/'+CHAR[c.buddy].name.toLowerCase()+'.jpg" width="72" height="72" alt="" decoding="async"></div><div><p class="mym-label">เพื่อนซี้</p><p class="bname">'+CHAR[c.buddy].name+'</p><p class="muted">'+c.bnote+'</p></div></div>'+
+      /* details stay folded so the care CTA is reached within one screen after the name */
+      '<details class="more"><summary>รู้จัก '+c.name+' ให้มากขึ้น</summary><div class="more-body">'+
+        '<section class="mym-power" aria-label="พลังพิเศษ"><p class="mym-label">พลังพิเศษ</p><p class="mym-pname">"'+c.power+'" <span>('+c.en+')</span></p><p class="mym-ptext">'+c.p+'</p></section>'+
+        '<div class="mym-pair">'+
+          '<section class="mym-cell"><p class="mym-label">ข้อดีที่ '+c.name+' พามาด้วย</p><p>'+k.st+'</p></section>'+
+          '<section class="mym-cell warn"><p class="mym-label">เมื่อพลังล้น</p><p>'+k.ov+'</p></section>'+
+        '</div>'+
+        '<div class="buddy mym-buddy"><div class="buddy-av" aria-hidden="true"><img src="assets/characters/'+CHAR[c.buddy].name.toLowerCase()+'.jpg" width="72" height="72" alt="" decoding="async"></div><div><p class="mym-label">เพื่อนซี้</p><p class="bname">'+CHAR[c.buddy].name+'</p><p class="muted">'+c.bnote+'</p></div></div>'+
+      '</div></details>'+
       '<div class="actions">'+
         '<button class="btn ghost" data-act="share">ส่งการ์ด '+c.name+' ให้เพื่อน</button>'+
         '<button class="link" data-act="to-next">ไปที่ก้าวต่อไป</button>'+
