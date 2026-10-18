@@ -124,12 +124,11 @@
     var r=RESULTS[S.result], c=CHAR[S.result], k=CARD[S.result], a=ABOUT[S.result];
     return ''+
       '<div class="mym-head">'+
-        '<p class="mym-kicker">ใจคุณวันนี้</p>'+
+        '<p class="mym-kicker">นี่คือใจคุณช่วงนี้<br>เมฆลอยผ่านไปได้ พรุ่งนี้อาจเป็นเมฆตัวอื่น</p>'+
         '<h2 class="mym-name" tabindex="-1" data-focus>'+c.name+'</h2>'+
         '<p class="mym-title">'+c.title+'</p>'+
         '<p class="mym-type">'+c.cloud+'</p>'+
       '</div>'+
-      '<p class="muted" style="text-align:center">นี่คือใจคุณช่วงนี้ เมฆลอยผ่านไปได้ พรุ่งนี้อาจเป็นเมฆตัวอื่น</p>'+
       '<section class="mym-about" aria-label="รู้จัก '+c.name+'"><p class="mym-label">รู้จัก '+c.name+'</p><p>'+a.a+'</p>'+'</section>'+
       '<section class="mym-care" aria-labelledby="careH"><p class="mym-label" id="careH">How to ดูแล '+c.name+'</p>'+
         '<p class="mym-ptext">เลือกวิธีดูแลตัวเองเล็กๆ หนึ่งอย่าง จะลองตอนนี้ 20 วินาที คืนนี้ หรือสัปดาห์นี้ก็ได้</p>'+
