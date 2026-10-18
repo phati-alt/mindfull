@@ -293,4 +293,25 @@ button,a,input{touch-action:manipulation}
 .q-logo{height:24px;margin:var(--space-4) auto 0}
 .app.is-question .safety{text-align:center;border-top:0;margin-top:var(--space-8);padding-top:0}
 /* short phones: the question footer gives its room to the answers (the hotline line stays) */
-@media (max-height:760px){.q-foot{display:none}}
+@media (max-height:760px){.app.is-question .q-foot{display:none}}
+/* v3.4: result card laid out as in Figma (copy and order unchanged) */
+.app.is-reveal .mym-name{color:var(--turquoise-text,#009688)}
+.app.is-reveal .mym-title{background:var(--turquoise-50,#E0F8F6);font-weight:600;padding:var(--space-8) var(--space-20)}
+.app.is-reveal .mym-type{font-size:14px;line-height:20px}
+.app.is-reveal .hero-rule{margin:var(--space-4) auto}
+.app.is-reveal .mym-about,.app.is-reveal .mym-care,.app.is-reveal .mym-cell{text-align:center;align-items:center}
+.app.is-reveal .mym-about .mym-label,.app.is-reveal .mym-cell .mym-label,.app.is-reveal .mym-care .mym-label{color:var(--ink)}
+.app.is-reveal .mym-ptext{text-align:center}
+.app.is-reveal .mym-power{background:var(--turquoise-50,#E0F8F6);border:1.5px solid var(--turquoise-200,#80E2D9)}
+.app.is-reveal .mym-pname{color:var(--turquoise-text,#009688);font-weight:600}
+.app.is-reveal .mym-power .mym-ptext{color:var(--turquoise-gray-1,#355956)} /* Figma teal is 3.3:1 on the tint */
+.app.is-reveal .mym-cell{background:var(--blue-50,#E4EFFB);border-color:var(--blue-200,#8FBBEF)}
+.app.is-reveal .mym-cell p:last-child{color:var(--blue-900,#0A47CA)}
+.app.is-reveal .mym-cell.warn{background:var(--surface);border-color:var(--flamingo-500,#EF7773)}
+.app.is-reveal .mym-cell.warn p:last-child{color:var(--ink-soft)} /* flamingo text is under 3:1 on white */
+.app.is-reveal .mym-care{border-color:var(--gray-300,#E6E6E6)}
+.app.is-reveal .mym-care .mym-ptext{color:var(--accent)}
+.app.is-reveal .mym-quote{color:var(--ink);font-weight:500}
+.app.is-reveal .mym-buddy{background:var(--gray-50,#FBFBFB);border-color:var(--gray-300,#E6E6E6)}
+.app.is-reveal .mym-buddy .muted{color:var(--accent)}
+.app.is-reveal .safety{text-align:center;border-top:0;margin-top:var(--space-8);padding-top:0}

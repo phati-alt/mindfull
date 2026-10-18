@@ -72,6 +72,7 @@
     var html='';
     app.classList.toggle('is-landing',S.screen==='landing');
     app.classList.toggle('is-question',S.screen==='question');
+    app.classList.toggle('is-reveal',S.screen==='reveal');
     if(S.screen==='landing')html=landing();
     else if(S.screen==='question')html=question();
     else if(S.screen==='reveal')html=reveal();
@@ -135,6 +136,7 @@
         '<p class="mym-title">'+c.title+'</p>'+
         '<p class="mym-type">'+c.cloud+'</p>'+
       '</div>'+
+      '<hr class="hero-rule">'+
       '<section class="mym-about" aria-label="รู้จัก '+c.name+'"><p class="mym-label">รู้จัก '+c.name+'</p><p>'+a.a+'</p>'+'</section>'+
       /* more about the cloud sits right under รู้จัก, folded so the care CTA stays within the first screen */
       '<details class="more"><summary>รู้จัก '+c.name+' ให้มากขึ้น</summary><div class="more-body">'+
@@ -153,7 +155,8 @@
       '<div class="actions">'+
         '<button class="btn ghost" data-act="share">ส่งการ์ด '+c.name+' ให้เพื่อน</button>'+
         '<button class="link" data-act="to-next">ไปที่ก้าวต่อไป</button>'+
-      '</div>';
+      '</div>'+
+      '<div class="q-foot"><hr class="hero-rule"><img class="logo q-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82"><p class="hero-note">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p></div>';
   }
 
   /* How to ดูแล: its own screen, reached from the result card's main CTA */
