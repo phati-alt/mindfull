@@ -259,7 +259,7 @@ button,a,input{touch-action:manipulation}
 .more[open]>summary::after{content:"\2013"}
 .more-body{display:flex;flex-direction:column;gap:var(--space-12);padding-top:var(--space-8)}
 /* v3.4: the "ช่วงนี้…" line adds a row; on short phones (iPhone SE) the scene gives up the space */
-@media (max-height:700px){:root{--stage-h:calc(clamp(150px,24dvh,260px) + var(--space-24))}}
+@media (max-height:800px){:root{--stage-h:calc(clamp(150px,24dvh,260px) + var(--space-24))}}
 /* v3.4: next step opens with a short recap of the visit: cloud on top, rows stacked */
 .summary{border:1.5px solid var(--line);border-radius:var(--radius-24,24px);padding:var(--space-16);display:flex;flex-direction:column;gap:var(--space-12)}
 .sum-head{display:flex;align-items:center;gap:var(--space-12)}
@@ -292,8 +292,6 @@ button,a,input{touch-action:manipulation}
 .q-foot{margin-top:auto;padding-top:var(--space-8);display:flex;flex-direction:column;align-items:center;gap:var(--space-8)}
 .q-logo{height:24px;margin:var(--space-4) auto 0}
 .app.is-question .safety{text-align:center;border-top:0;margin-top:var(--space-8);padding-top:0}
-/* short phones: the question footer gives its room to the answers (the hotline line stays) */
-@media (max-height:760px){.app.is-question .q-foot{display:none}}
 /* v3.4: result card laid out as in Figma (copy and order unchanged) */
 .app.is-reveal .mym-name{color:var(--turquoise-text,#009688)}
 .app.is-reveal .mym-title{background:var(--turquoise-50,#E0F8F6);font-weight:600;padding:var(--space-8) var(--space-20)}
@@ -336,3 +334,6 @@ button,a,input{touch-action:manipulation}
 .app.is-next .sum-row.pick p:last-child{color:var(--turquoise-text,#009688);font-size:20px;line-height:28px;font-weight:600} /* large text: 3.3:1 on the tint */
 .app.is-next .sum-next p:last-child{color:var(--turquoise-gray-1,#355956);font-size:14px;line-height:24px}
 .app.is-next .safety{text-align:center;border-top:0;margin-top:var(--space-8);padding-top:0}
+/* short phones: the footer stays, just tighter */
+@media (max-height:760px){.q-foot{gap:var(--space-4);padding-top:var(--space-4)}.q-logo{height:20px;margin-top:0}.app.is-question h2{margin-top:0}}
+@media (max-height:680px){.app.is-question .q-logo{display:none}}
