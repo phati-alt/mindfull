@@ -116,7 +116,6 @@
     return head()+
       '<h2 tabindex="-1" data-focus>'+esc(q.text)+'</h2>'+
       (isDur?'':'<p class="muted">ช่วงนี้ ถ้าเจอแบบนี้ คุณน่าจะ…</p>')+
-      (isDur?'<p class="muted durhint">ข้อนี้ไม่เปลี่ยนเพื่อนเมฆที่จะมาเยือน แต่ช่วยให้เราแนะนำก้าวต่อไปได้พอดีกับคุณ</p>':'')+
       '<div class="opts" role="group" aria-label="ตัวเลือก">'+list+'</div>';
   }
 
@@ -148,8 +147,7 @@
       '<div class="actions">'+
         '<button class="btn ghost" data-act="share">ส่งการ์ด '+c.name+' ให้เพื่อน</button>'+
         '<button class="link" data-act="to-next">ไปที่ก้าวต่อไป</button>'+
-      '</div>'+
-      '<p class="muted" style="text-align:center">เมฆลอยผ่านไปได้เสมอ พรุ่งนี้อาจมีเพื่อนเมฆตัวอื่นมาเยือน</p>';
+      '</div>';
   }
 
   /* How to ดูแล: its own screen, reached from the result card's main CTA */

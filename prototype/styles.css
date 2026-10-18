@@ -236,7 +236,6 @@ button,a,input{touch-action:manipulation}
 #careFollow:not(:empty){margin-top:var(--space-4)}
 .commit{border-left:4px solid var(--brand);padding:var(--space-4) 0 var(--space-4) var(--space-12);display:flex;flex-direction:column;gap:var(--space-4)}
 
-@media (max-height:740px){.durhint{display:none}}
 
 /* landing and character pictures fill the stage like the question scenes; the card overlaps them */
 .parade{position:relative}
