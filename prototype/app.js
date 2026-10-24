@@ -123,30 +123,31 @@
       '<p class="land-foot">ไม่ต้องสมัคร · ไม่เก็บคำตอบ · ไม่ใช่การวินิจฉัย</p>';
   }
 
-  function head(){
-    var dots='';for(var i=0;i<TOTAL;i++)dots+='<span class="dot'+(i<=S.i?' on':'')+'"></span>';
-    return '<div class="head">'+
-      '<span class="head-nav">'+(S.i>0?'<button class="back" data-act="back">ข้อก่อนหน้า</button>':'<button class="back" data-act="home">กลับหน้าแรก</button>')+'</span>'+
-      '<div class="progress"><span>'+(S.i===TOTAL-1?'ข้อสุดท้าย':'ข้อ '+(S.i+1)+' จาก '+TOTAL)+'</span><span class="dots" aria-hidden="true">'+dots+'</span></div>'+
-    '</div>';
-  }
-
+  /* v3.8 question screen (the scene picture sits in the stage above; the white sheet overlaps its lower edge): back + group tag, 'คำถามที่ n / 6' with a bar, question, answer cards with the check circle in front, footer.
+     Copy of the questions and options is untouched; picking an option still moves on by itself. */
+  var IC_CHECK='<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   function question(){
     var isDur=S.i===QUESTIONS.length;
     var q=isDur?DURATION_Q:QUESTIONS[S.i];
     var opts=isDur?q.opts:S.order[S.i];
     var picked=isDur?S.duration:S.answers[S.i];
+    var n=S.i+1;
+    var who=WHO.filter(function(w){return w.k===(S.who||'work');})[0];
     var list=opts.map(function(o,idx){
       var val=isDur?idx:o.k;
       var pressed=isDur?(S.durIdx===idx):(picked===o.k);
-      return '<button class="opt" aria-pressed="'+(pressed?'true':'false')+'" data-act="pick" data-v="'+val+'">'+esc(o.t)+'</button>';
+      return '<button class="opt" aria-pressed="'+(pressed?'true':'false')+'" data-act="pick" data-v="'+val+'">'+
+        '<span class="opt-s" aria-hidden="true">'+IC_CHECK+'</span><span class="opt-t">'+esc(o.t)+'</span></button>';
     }).join('');
-    return head()+
-      '<h2 tabindex="-1" data-focus>'+esc(q.text)+'</h2>'+
-      (isDur?'':'<p class="muted">ช่วงนี้ ถ้าเจอแบบนี้ คุณน่าจะ…</p>')+
+    return ''+
+      '<div class="q-top">'+(S.i>0?'<button class="back" data-act="back">ข้อก่อนหน้า</button>':'<button class="back" data-act="home">กลับหน้าแรก</button>')+'<span class="q-who">'+who.t+'</span></div>'+
+      '<div class="q-prog"><p class="q-count">คำถามที่ <b>'+n+'</b> / '+TOTAL+'</p>'+
+        '<div class="q-bar" role="progressbar" aria-label="ความคืบหน้า" aria-valuemin="1" aria-valuemax="'+TOTAL+'" aria-valuenow="'+n+'" aria-valuetext="คำถามที่ '+n+' จาก '+TOTAL+'"><span style="width:'+Math.round(n/TOTAL*100)+'%"></span></div></div>'+
+      '<h2 class="q-text" tabindex="-1" data-focus>'+esc(q.text)+'</h2>'+
+      (isDur?'':'<p class="muted q-frame">ช่วงนี้ ถ้าเจอแบบนี้ คุณน่าจะ…</p>')+
       '<div class="opts" role="group" aria-label="ตัวเลือก">'+list+'</div>'+
-      /* Figma question footer: short rule, wordmark, reminder that this is not a diagnosis */
-      '<div class="q-foot"><hr class="hero-rule"><img class="logo q-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82"><p class="hero-note">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p></div>';
+      /* footer: short rule, wordmark, reminder that this is not a diagnosis */
+      '<div class="q-foot"><hr class="hero-rule"><img class="logo q-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82"><p class="q-note">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p></div>';
   }
 
   function reveal(){
