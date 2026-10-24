@@ -188,29 +188,10 @@ button,a,input{touch-action:manipulation}
 @media (orientation:landscape) and (max-height:500px){.app{padding:0}}
 
 /* v2.4: Meet-Your-Monster style result card, ~30s read */
-.mym-head{text-align:center;display:flex;flex-direction:column;align-items:center;gap:var(--space-4)}
-.mym-kicker{font-size:14px;line-height:20px;font-weight:300;color:var(--ink-soft)} /* th-subheader-2 */
-.mym-name{font-family:var(--en);font-size:36px;font-weight:600;line-height:40px;margin:0} /* th-h1 */
-.mym-title{font-size:16px;line-height:20px;font-weight:500;background:var(--chip);border-radius:var(--radius-24,24px);padding:var(--space-4) var(--space-16);margin-top:var(--space-4)} /* th-title-3 */
-.mym-type{font-size:12px;line-height:16px;font-weight:300;color:var(--ink-soft)} /* th-body-5 */
 .mym-label{font-size:14px;line-height:20px;font-weight:500;color:var(--ink-soft)} /* th-subheader-1 */
-.mym-power{text-align:center;background:var(--chip);border-radius:var(--radius-24,24px);padding:var(--space-16) var(--space-16) var(--space-20);display:flex;flex-direction:column;gap:var(--space-4);align-items:center}
-.mym-pname{font-size:20px;font-weight:500;line-height:24px} /* th-title-1 */
-.mym-pname span{font-family:var(--en);font-size:14px;line-height:24px;font-weight:500;color:var(--ink-soft)} /* th-body-2 */
-.mym-pair{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-8)}
-.mym-cell{border:1.5px solid var(--line);border-radius:var(--radius-24,24px);padding:var(--space-16);display:flex;flex-direction:column;gap:var(--space-4)}
-.mym-cell p:last-child{font-size:14px;line-height:24px;font-weight:300} /* th-body-3 */
 /* "เมื่อพลังล้น": highlighted information in accent orange, carried by the border next to the label */
-.mym-cell.warn{border-color:var(--highlight)}
-.mym-care{border:1.5px solid var(--line);border-radius:var(--radius-24,24px);padding:var(--space-16);display:flex;flex-direction:column;gap:var(--space-8)}
-.mym-care .btn{margin-top:var(--space-4)}
-.mym-quote{text-align:center;font-weight:500;font-size:18px;line-height:22px;color:var(--ink-soft);padding:0 var(--space-4)} /* th-title-2 */
-@media (max-width:340px){.mym-pair{grid-template-columns:1fr}}
 .share-body .fact{margin-top:var(--space-4)}
 
-.mym-about{display:flex;flex-direction:column;gap:var(--space-4);padding:var(--space-4) var(--space-4)}
-.mym-ptext{text-align:left;font-size:14px;line-height:24px;font-weight:300} /* th-body-3 */
-.mym-buddy{border:1.5px solid var(--line);border-radius:var(--radius-24,24px);padding:var(--space-16)}
 
 .care-opts{display:flex;flex-direction:column;gap:var(--space-8);margin-top:var(--space-4)}
 .care-opt{font:inherit;text-align:left;color:var(--ink);background:var(--surface);border:1.5px solid var(--control-line);border-radius:var(--radius-24,24px);padding:var(--space-12) var(--space-16);min-height:56px;display:flex;flex-direction:column;gap:var(--space-4);cursor:pointer;transition:border-color .2s,background-color .2s}
@@ -234,12 +215,6 @@ button,a,input{touch-action:manipulation}
 }
 
 /* v3.4: result details folded under "รู้จัก [ชื่อ] ให้มากขึ้น" */
-.more{border-top:1px solid var(--line);padding-top:var(--space-4)}
-.more>summary{list-style:none;cursor:pointer;min-height:44px;display:flex;align-items:center;justify-content:space-between;gap:var(--space-8);color:var(--accent);font-size:16px;line-height:20px;font-weight:500;border-radius:var(--radius-24,24px)}
-.more>summary::-webkit-details-marker{display:none}
-.more>summary::after{content:"+";font-size:24px;line-height:24px;font-weight:300}
-.more[open]>summary::after{content:"\2013"}
-.more-body{display:flex;flex-direction:column;gap:var(--space-12);padding-top:var(--space-8)}
 /* v3.4: next step opens with a short recap of the visit: cloud on top, rows stacked */
 .summary{border:1.5px solid var(--line);border-radius:var(--radius-24,24px);padding:var(--space-16);display:flex;flex-direction:column;gap:var(--space-12)}
 .sum-head{display:flex;align-items:center;gap:var(--space-12)}
@@ -261,25 +236,6 @@ button,a,input{touch-action:manipulation}
 .q-foot{margin-top:auto;padding-top:var(--space-8);display:flex;flex-direction:column;align-items:center;gap:var(--space-8)}
 .q-logo{height:24px;margin:var(--space-4) auto 0}
 /* v3.4: result card laid out as in Figma (copy and order unchanged) */
-.app.is-reveal .mym-name{color:var(--turquoise-text,#009688)}
-.app.is-reveal .mym-title{background:var(--turquoise-50,#E0F8F6);font-weight:600;padding:var(--space-8) var(--space-20)}
-.app.is-reveal .mym-type{font-size:14px;line-height:20px}
-.app.is-reveal .hero-rule{margin:var(--space-4) auto}
-.app.is-reveal .mym-about,.app.is-reveal .mym-care,.app.is-reveal .mym-cell{text-align:center;align-items:center}
-.app.is-reveal .mym-about .mym-label,.app.is-reveal .mym-cell .mym-label,.app.is-reveal .mym-care .mym-label{color:var(--ink)}
-.app.is-reveal .mym-ptext{text-align:center}
-.app.is-reveal .mym-power{background:var(--turquoise-50,#E0F8F6);border:1.5px solid var(--turquoise-200,#80E2D9)}
-.app.is-reveal .mym-pname{color:var(--turquoise-text,#009688);font-weight:600}
-.app.is-reveal .mym-power .mym-ptext{color:var(--turquoise-gray-1,#355956)} /* Figma teal is 3.3:1 on the tint */
-.app.is-reveal .mym-cell{background:var(--blue-50,#E4EFFB);border-color:var(--blue-200,#8FBBEF)}
-.app.is-reveal .mym-cell p:last-child{color:var(--blue-900,#0A47CA)}
-.app.is-reveal .mym-cell.warn{background:var(--surface);border-color:var(--flamingo-500,#EF7773)}
-.app.is-reveal .mym-cell.warn p:last-child{color:var(--ink-soft)} /* flamingo text is under 3:1 on white */
-.app.is-reveal .mym-care{border-color:var(--gray-300,#E6E6E6)}
-.app.is-reveal .mym-care .mym-ptext{color:var(--accent)}
-.app.is-reveal .mym-quote{color:var(--ink);font-weight:500}
-.app.is-reveal .mym-buddy{background:var(--gray-50,#FBFBFB);border-color:var(--gray-300,#E6E6E6)}
-.app.is-reveal .mym-buddy .muted{color:var(--accent)}
 /* v3.4: How to ดูแล screen laid out as in Figma (copy unchanged) */
 .app.is-care #careH{text-align:center;font-size:16px;line-height:20px;font-weight:300;color:var(--ink-soft);margin-top:var(--space-8)}
 .app.is-care h2{text-align:center;font-size:20px;line-height:28px;font-weight:600}
@@ -304,39 +260,10 @@ button,a,input{touch-action:manipulation}
 .app.is-micro .head~.muted,.app.is-micro h2,.app.is-micro h2+p{text-align:center}
 .app.is-micro h2{font-size:20px;line-height:28px;font-weight:600}
 /* v3.4 result hierarchy: รู้จัก is the green card, the folded details go quiet, How to ดูแล is the one that stands out */
-.app.is-reveal .mym-about{background:var(--turquoise-50,#E0F8F6);border:1.5px solid var(--turquoise-200,#80E2D9);border-radius:var(--radius-24,24px);padding:var(--space-16) var(--space-16) var(--space-20)}
-.app.is-reveal .mym-about p:last-child{color:var(--turquoise-gray-1,#355956)}
-.app.is-reveal .more>summary{font-size:14px;line-height:20px}
-.app.is-reveal .mym-power{background:var(--surface);border:1px solid var(--gray-300,#E6E6E6)}
-.app.is-reveal .mym-pname{color:var(--ink);font-size:16px;line-height:24px;font-weight:500}
-.app.is-reveal .mym-power .mym-ptext,.app.is-reveal .mym-cell p:last-child{color:var(--ink-soft)}
-.app.is-reveal .mym-cell,.app.is-reveal .mym-cell.warn{background:var(--surface);border:1px solid var(--gray-300,#E6E6E6)}
-.app.is-reveal .mym-power .mym-label,.app.is-reveal .mym-cell .mym-label{color:var(--ink-soft);font-weight:500}
-.app.is-reveal .mym-care{background:var(--blue-50,#E4EFFB);border:2px solid var(--accent);box-shadow:var(--elevation-03);padding:var(--space-20)}
-.app.is-reveal .mym-care .mym-label{font-size:18px;line-height:24px;font-weight:600;color:var(--ink)}
-.app.is-reveal .mym-care .mym-ptext{color:var(--ink);font-size:16px;line-height:24px}
-.app.is-reveal .mym-quote{font-size:16px;line-height:24px}
 /* "รู้จัก [ชื่อ] ให้มากขึ้น" as a quiet card: easy to spot, not competing with How to ดูแล */
-.app.is-reveal .more{border:1px solid var(--gray-300,#E6E6E6);border-radius:var(--radius-24,24px);background:var(--gray-50,#FBFBFB);padding:0 var(--space-16)}
-.app.is-reveal .more>summary{min-height:48px;font-size:14px;line-height:20px;font-weight:500}
-.app.is-reveal .more>summary::after{width:24px;height:24px;border-radius:50%;background:var(--surface);border:1px solid var(--gray-300,#E6E6E6);display:flex;align-items:center;justify-content:center;font-size:18px;line-height:18px}
-.app.is-reveal .more[open]{padding-bottom:var(--space-16)}
-.app.is-reveal .more-body{padding-top:var(--space-4)}
 /* keep the care button inside the first screen at 390x844 with the folded card in place */
-.app.is-reveal .hero-rule{margin:0 auto}
-.app.is-reveal .mym-about{padding:var(--space-12) var(--space-16) var(--space-16)}
-.app.is-reveal .more>summary{min-height:44px}
-.app.is-reveal .mym-care{padding:var(--space-16) var(--space-20) var(--space-20)}
-.app.is-reveal .mym-type{line-height:16px}
-.app.is-reveal .mym-head+.hero-rule{display:none}
-.app.is-reveal .mym-title{padding:var(--space-4) var(--space-20)}
 
 /* v3.6 สัญญาณที่พบบ่อย: student set only, inside the folded "รู้จัก … ให้มากขึ้น" */
-.mym-signs{display:flex;flex-direction:column;gap:var(--space-4)}
-.mym-list{margin:0;padding-left:var(--space-20);font-size:14px;line-height:24px;font-weight:300;color:var(--ink-soft)}
-.app.is-reveal .mym-signs{align-items:center}
-.app.is-reveal .mym-signs .mym-label{color:var(--ink-soft)}
-.app.is-reveal .mym-list{text-align:left}
 
 /* v3.7 landing: light teal/blue page, no stage; the characters live only inside the card banners */
 body.on-landing{background:linear-gradient(180deg,var(--turquoise-50,#E0F8F6) 0,var(--blue-50,#E4EFFB) 55%,var(--page) 100%) fixed}
@@ -406,3 +333,43 @@ body.on-landing{background:linear-gradient(180deg,var(--turquoise-50,#E0F8F6) 0,
 .app.is-question .q-logo{height:20px;margin:var(--space-4) auto 0;opacity:.9}
 .app.is-question .opt:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
 .app.is-question .opt:active{background:var(--turquoise-50,#E0F8F6)}
+
+/* v3.9 result page */
+.app.is-reveal .content{gap:var(--space-16)}
+.res-head{display:flex;flex-direction:column;align-items:center;gap:var(--space-8);text-align:center}
+.res-badge{margin:0;background:var(--turquoise-50,#E0F8F6);color:var(--turquoise-gray-1,#355956);border:1px solid var(--selected);border-radius:var(--radius-24,24px);padding:var(--space-4) var(--space-12);font-size:12px;line-height:16px;font-weight:500}
+.res-name{margin:0;font-family:var(--en);font-size:36px;line-height:40px;font-weight:600;color:var(--turquoise-text,#009688)} /* th-h1 */
+.res-role{margin:0;font-size:16px;line-height:24px;font-weight:500;color:var(--ink)}
+.res-type{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:var(--space-8);margin:0}
+.res-chip{background:var(--chip);color:var(--turquoise-gray-1,#355956);border-radius:var(--radius-24,24px);padding:var(--space-4) var(--space-12);font-size:14px;line-height:20px;font-weight:500}
+.res-sci{font-size:14px;line-height:20px;font-weight:300;color:var(--ink-soft)}
+.res-kicker{margin:0;max-width:34ch;font-size:14px;line-height:24px;font-weight:300;color:var(--ink-soft)}
+.res-card{display:flex;flex-direction:column;gap:var(--space-8);border-radius:var(--radius-24,24px);padding:var(--space-20)}
+.res-label{margin:0;font-size:14px;line-height:20px;font-weight:500;color:var(--ink-soft)}
+.res-body{margin:0;max-width:none;font-size:16px;line-height:26px;font-weight:300;color:var(--turquoise-gray-1,#355956)}
+.res-about{background:var(--turquoise-50,#E0F8F6);border:1.5px solid var(--turquoise-200,#80E2D9)}
+.res-about .res-label{color:var(--turquoise-gray-1,#355956)}
+.res-step{background:var(--blue-50,#E4EFFB);border:2px solid var(--accent);box-shadow:var(--elevation-03)}
+.res-step .res-label{color:var(--accent)}
+.res-step-t{margin:0;font-size:20px;line-height:28px;font-weight:600;color:var(--ink)}
+.res-desc{margin:0;max-width:none;font-size:16px;line-height:24px;font-weight:300;color:var(--ink)}
+.res-step .btn{width:100%;margin-top:var(--space-8)}
+.res-more{border:1px solid var(--gray-300,#E6E6E6);border-radius:var(--radius-24,24px);background:var(--gray-50,#FBFBFB);padding:0 var(--space-16)}
+.res-more>summary{list-style:none;cursor:pointer;min-height:52px;display:flex;align-items:center;justify-content:space-between;gap:var(--space-8);color:var(--accent);font-size:16px;line-height:24px;font-weight:500;border-radius:var(--radius-24,24px)}
+.res-more>summary::-webkit-details-marker{display:none}
+.res-more>summary::after{content:"";flex:none;width:24px;height:24px;border-radius:50%;border:1px solid var(--gray-300,#E6E6E6);background:linear-gradient(currentColor,currentColor) center/10px 2px no-repeat,linear-gradient(currentColor,currentColor) center/2px 10px no-repeat,var(--surface)}
+.res-more[open]>summary::after{background:linear-gradient(currentColor,currentColor) center/10px 2px no-repeat,var(--surface)}
+.res-more-body{display:flex;flex-direction:column;gap:var(--space-12);padding:var(--space-4) 0 var(--space-16)}
+.res-sub{display:flex;flex-direction:column;gap:var(--space-4);background:var(--surface);border:1px solid var(--gray-300,#E6E6E6);border-radius:var(--radius-24,24px);padding:var(--space-16)}
+.res-sub p{margin:0;max-width:none;font-size:14px;line-height:24px;font-weight:300;color:var(--ink-soft)}
+.res-sub p.res-label{font-weight:500}
+.res-sub .res-pname{font-size:16px;line-height:24px;font-weight:500;color:var(--ink)}
+.res-pname span{font-family:var(--en);font-size:14px;font-weight:500;color:var(--ink-soft)}
+.res-sub.warn{border-color:var(--flamingo-500,#EF7773)}
+.res-pair{display:grid;grid-template-columns:1fr;gap:var(--space-12)}
+.res-list{margin:0;padding-left:var(--space-20);font-size:14px;line-height:24px;font-weight:300;color:var(--ink-soft)}
+.res-buddy{flex-direction:row;align-items:center;gap:var(--space-12)}
+.res-bname{font-family:var(--en);font-size:16px;line-height:20px;font-weight:500;color:var(--ink)}
+.res-sub p.res-bname{color:var(--ink);font-size:16px;line-height:24px}
+.res-quote{margin:0;background:var(--surface);border:1px solid var(--gray-300,#E6E6E6);border-left:4px solid var(--brand);border-radius:var(--radius-16,16px);padding:var(--space-16) var(--space-20);font-size:16px;line-height:26px;font-weight:500;color:var(--ink)}
+.res-more>summary:focus-visible{outline:2px solid var(--focus);outline-offset:2px}

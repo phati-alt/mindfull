@@ -150,37 +150,40 @@
       '<div class="q-foot"><hr class="hero-rule"><img class="logo q-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82"><p class="q-note">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p></div>';
   }
 
+  /* v3.9 result page: character picture on top (stage), badge, name, role + cloud type, feeling overview card, 'small step' card with the main CTA,
+     folded 'know more' section, closing sentence box, share + next-step, footer. All copy comes from CHAR / ABOUT / CARD / RESULTS. */
   function reveal(){
     var r=RESULTS[S.result], c=CHAR[S.result], k=CARD[S.result], a=ABOUT[S.result];
+    var sci=String(c.cloud).split(' | ')[0];
     return ''+
-      '<div class="mym-head">'+
-        '<p class="mym-kicker">นี่คือใจคุณช่วงนี้<br>เมฆลอยผ่านไปได้ พรุ่งนี้อาจเป็นเมฆตัวอื่น</p>'+
-        '<h2 class="mym-name" tabindex="-1" data-focus>'+c.name+'</h2>'+
-        '<p class="mym-title">'+c.title+'</p>'+
-        '<p class="mym-type">'+c.cloud+'</p>'+
+      '<div class="res-head">'+
+        '<p class="res-badge">ผลเช็กใจของคุณ · วันนี้</p>'+
+        '<h2 class="res-name" tabindex="-1" data-focus>'+c.name+'</h2>'+
+        '<p class="res-role">'+c.title+'</p>'+
+        '<p class="res-type"><span class="res-chip">'+r.name+'</span><span class="res-sci">'+sci+'</span></p>'+
+        '<p class="res-kicker">นี่คือใจคุณช่วงนี้ เมฆลอยผ่านไปได้ พรุ่งนี้อาจเป็นเมฆตัวอื่น</p>'+
       '</div>'+
-      '<hr class="hero-rule">'+
-      '<section class="mym-about" aria-label="รู้จัก '+c.name+'"><p class="mym-label">รู้จัก '+c.name+'</p><p>'+a.a+'</p>'+'</section>'+
-      /* more about the cloud sits right under รู้จัก, folded so the care CTA stays within the first screen */
-      '<details class="more"><summary>รู้จัก '+c.name+' ให้มากขึ้น</summary><div class="more-body">'+
-        '<section class="mym-power" aria-label="พลังพิเศษ"><p class="mym-label">พลังพิเศษ</p><p class="mym-pname">"'+c.power+'" <span>('+c.en+')</span></p><p class="mym-ptext">'+c.p+'</p></section>'+
-        (S.who==='student'&&a.sg?'<section class="mym-signs" aria-label="สัญญาณที่พบบ่อย"><p class="mym-label">สัญญาณที่พบบ่อย</p><ul class="mym-list">'+a.sg.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul></section>':'')+
-        '<div class="mym-pair">'+
-          '<section class="mym-cell"><p class="mym-label">ข้อดีที่ '+c.name+' พามาด้วย</p><p>'+k.st+'</p></section>'+
-          '<section class="mym-cell warn"><p class="mym-label">เมื่อพลังล้น</p><p>'+k.ov+'</p></section>'+
-        '</div>'+
-        '<div class="buddy mym-buddy"><div class="buddy-av" aria-hidden="true"><img src="'+charSrc(CHAR[c.buddy].name.toLowerCase())+'" width="72" height="72" alt="" decoding="async"></div><div><p class="mym-label">เพื่อนซี้</p><p class="bname">'+CHAR[c.buddy].name+'</p><p class="muted">'+c.bnote+'</p></div></div>'+
-      '</div></details>'+
-      '<section class="mym-care" aria-labelledby="careH"><p class="mym-label" id="careH">How to ดูแล '+c.name+'</p>'+
-        '<p class="mym-ptext">เลือกสิ่งเล็กๆ ที่ช่วยดูแลใจ ลองตอนนี้ 20&nbsp;วินาที หรือนัดตัวเองไว้คืนนี้ สัปดาห์นี้</p>'+
-        '<button class="btn" data-act="to-care">ลองทำดู</button>'+
+      '<section class="res-card res-about" aria-labelledby="aboutH"><p class="res-label" id="aboutH">ภาพรวมความรู้สึก</p><p class="res-body">'+a.a+'</p></section>'+
+      '<section class="res-card res-step" aria-labelledby="stepH"><p class="res-label" id="stepH">ก้าวเล็กๆ ที่เริ่มได้</p>'+
+        '<h3 class="res-step-t">อยากลองดูแลใจตัวเองไหม?</h3>'+
+        '<p class="res-desc">เลือกสิ่งเล็กๆ ที่ช่วยดูแลใจ ลองตอนนี้ 20&nbsp;วินาที หรือนัดตัวเองไว้คืนนี้ สัปดาห์นี้</p>'+
+        '<button class="btn" data-act="to-care">เลือกวิธีดูแลใจ</button>'+
       '</section>'+
-      '<p class="mym-quote">"'+r.reframe+'"</p>'+
+      '<details class="res-more"><summary>รู้จัก '+c.name+' ให้มากขึ้น</summary><div class="res-more-body">'+
+        '<section class="res-sub" aria-label="พลังพิเศษ"><p class="res-label">พลังพิเศษ</p><p class="res-pname">"'+c.power+'" <span>('+c.en+')</span></p><p>'+c.p+'</p></section>'+
+        (S.who==='student'&&a.sg?'<section class="res-sub" aria-label="สัญญาณที่พบบ่อย"><p class="res-label">สัญญาณที่พบบ่อย</p><ul class="res-list">'+a.sg.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul></section>':'')+
+        '<div class="res-pair">'+
+          '<section class="res-sub"><p class="res-label">ข้อดีที่ '+c.name+' พามาด้วย</p><p>'+k.st+'</p></section>'+
+          '<section class="res-sub warn"><p class="res-label">เมื่อพลังล้น</p><p>'+k.ov+'</p></section>'+
+        '</div>'+
+        '<section class="res-sub res-buddy" aria-label="เพื่อนซี้"><div class="buddy-av" aria-hidden="true"><img src="'+charSrc(CHAR[c.buddy].name.toLowerCase())+'" width="72" height="72" alt="" decoding="async"></div><div><p class="res-label">เพื่อนซี้</p><p class="res-bname">'+CHAR[c.buddy].name+'</p><p>'+c.bnote+'</p></div></section>'+
+      '</div></details>'+
+      '<blockquote class="res-quote">"'+r.reframe+'"</blockquote>'+
       '<div class="actions">'+
-        '<button class="btn ghost" data-act="share">ส่งการ์ด '+c.name+' ให้เพื่อน</button>'+
-        '<button class="link" data-act="to-next">ไปที่ก้าวต่อไป</button>'+
+        '<button class="btn ghost" data-act="share">แชร์ผลลัพธ์นี้</button>'+
+        '<button class="link" data-act="to-next">ดูก้าวต่อไป</button>'+
       '</div>'+
-      '<div class="q-foot"><hr class="hero-rule"><img class="logo q-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82"><p class="hero-note">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p></div>';
+      '<div class="q-foot"><hr class="hero-rule"><img class="logo q-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82"><p class="q-note">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p></div>';
   }
 
   /* How to ดูแล: its own screen, reached from the result card's main CTA */
