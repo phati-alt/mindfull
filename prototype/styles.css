@@ -152,10 +152,7 @@ p{margin:0;font-size:16px;line-height:20px;font-weight:300;max-width:60ch} /* th
 .buddy-av img{width:100%;height:100%;object-fit:cover;transform:scale(1.6);transform-origin:50% 36%}
 .bname{font-family:var(--en);font-size:16px;line-height:20px;font-weight:500} /* th-title-3 */
 
-/* v2.1: walking parade while answering, reveal only at the end */
-.app.show-char .parade{display:none}
 /* v3.0.1: characters stand still in one row on the landing screen */
-.parade-hint{position:absolute;z-index:1;top:var(--space-12);right:var(--space-12);font-size:12px;line-height:16px;font-weight:300;background:var(--surface);color:var(--ink-soft);padding:var(--space-4) var(--space-8);border-radius:var(--radius-24,24px);box-shadow:var(--elevation-01)}
 
 /* v2.2: scenario illustration on question screens */
 .scene{display:none;width:100%}
@@ -165,7 +162,6 @@ p{margin:0;font-size:16px;line-height:20px;font-weight:300;max-width:60ch} /* th
 .app .stage .scene img{width:100%;max-width:none;height:var(--stage-h);object-fit:cover;object-position:center 38%;display:block;margin:0;border-radius:0}
 /* question screens: the card slides over the picture, only its top corners show */
 .app .sheet{margin:calc(var(--space-24) * -1) 0 0;border-radius:var(--radius-24,24px) var(--radius-24,24px) 0 0;position:relative;padding-left:var(--space-24);padding-right:var(--space-24);padding-bottom:calc(var(--space-16) + env(safe-area-inset-bottom,0px))}
-.app.compact .parade{display:none}
 .app.compact .scene{display:block}
 .scene.swap{animation:sceneIn .4s ease-out}
 @keyframes sceneIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
@@ -231,8 +227,6 @@ button,a,input{touch-action:manipulation}
 
 
 /* landing and character pictures fill the stage like the question scenes; the card overlaps them */
-.parade{position:relative}
-.parade img{width:100%;height:var(--stage-h);object-fit:cover;object-position:center 55%;display:block}
 .app.show-char .chars{display:block;width:100%}
 #charWrap{width:100%;overflow:hidden}
 #charWrap img{width:100%;height:var(--stage-h);object-fit:cover;object-position:center 32%;display:block;transform-origin:50% 75%;transition:transform .6s ease}
@@ -240,8 +234,7 @@ button,a,input{touch-action:manipulation}
 #charWrap.exhale img{transition:transform 6s ease-in-out;transform:scale(1)}
 @media (prefers-reduced-motion: reduce){#charWrap.inhale img,#charWrap.exhale img{transform:none}}
 @media (orientation:landscape) and (max-height:500px){
-  .parade img,#charWrap img{height:100dvh}
-  .parade-hint{top:auto;bottom:var(--space-12);right:50%;transform:translateX(50%)}
+  #charWrap img{height:100dvh}
 }
 
 /* v3.4: result details folded under "รู้จัก [ชื่อ] ให้มากขึ้น" */
@@ -350,17 +343,46 @@ button,a,input{touch-action:manipulation}
 .app.is-reveal .mym-head+.hero-rule{display:none}
 .app.is-reveal .mym-title{padding:var(--space-4) var(--space-20)}
 
-/* v3.6 คุณคือใคร: two choices on the landing page; picking one starts the questions */
-.who-label{text-align:center;font-size:16px;line-height:20px;font-weight:500;color:var(--ink);margin:0 auto}
-.who-opts{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-8)}
-.who-opt{font:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--space-4);text-align:center;color:var(--turquoise-gray-1,#355956);background:var(--surface);border:2px solid var(--brand);border-radius:var(--radius-24,24px);padding:var(--space-12) var(--space-8);min-height:72px;cursor:pointer;transition:background-color .2s}
-.who-t{font-size:16px;line-height:20px;font-weight:500;color:var(--turquoise-text,#009688)}
-.who-s{font-size:12px;line-height:16px;font-weight:300;color:var(--ink-soft)}
-@media (hover:hover){.who-opt:hover{background:var(--turquoise-50,#E0F8F6)}}
-.who-opt:active,.who-opt[aria-pressed="true"]{background:var(--turquoise-50,#E0F8F6)}
 /* v3.6 สัญญาณที่พบบ่อย: student set only, inside the folded "รู้จัก … ให้มากขึ้น" */
 .mym-signs{display:flex;flex-direction:column;gap:var(--space-4)}
 .mym-list{margin:0;padding-left:var(--space-20);font-size:14px;line-height:24px;font-weight:300;color:var(--ink-soft)}
 .app.is-reveal .mym-signs{align-items:center}
 .app.is-reveal .mym-signs .mym-label{color:var(--ink-soft)}
 .app.is-reveal .mym-list{text-align:left}
+
+/* v3.7 landing: light teal/blue page, no stage; the characters live only inside the card banners */
+body.on-landing{background:linear-gradient(180deg,var(--turquoise-50,#E0F8F6) 0,var(--blue-50,#E4EFFB) 55%,var(--page) 100%) fixed}
+.app.is-landing .stage{display:none}
+.app.is-landing .sheet{width:100%;margin:0;background:transparent;box-shadow:none;border-radius:0;padding:var(--space-24) var(--space-16) calc(var(--space-16) + env(safe-area-inset-bottom,0px))}
+.app.is-landing .content{gap:var(--space-16);align-items:stretch}
+.app.is-landing .hero-logo{height:32px;margin:var(--space-8) auto 0}
+.land-kicker{display:flex;align-items:center;justify-content:center;gap:var(--space-8);margin:0;font-size:14px;line-height:20px;font-weight:500;color:var(--turquoise-gray-1,#355956)}
+.land-ic{flex:none;color:var(--turquoise-text,#009688)}
+.land-title{margin:0;text-align:center;white-space:nowrap;font-size:clamp(20px,6.4vw,28px);line-height:1.3;font-weight:600;color:var(--turquoise-text,#009688)} /* one line; large text: 3.7:1 */
+.land-lead{margin:0 auto;max-width:34ch;text-align:center;font-size:16px;line-height:24px;font-weight:300;color:var(--ink)}
+.land-tip{display:flex;gap:var(--space-12);align-items:flex-start;background:var(--surface);border:1px solid var(--selected);border-radius:var(--radius-24,24px);padding:var(--space-16);box-shadow:var(--elevation-03)}
+.land-tip-ic{flex:none;display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:var(--turquoise-50,#E0F8F6);color:var(--turquoise-text,#009688)}
+.land-tip p{margin:0}
+.land-tip-t{font-size:16px;line-height:24px;font-weight:500;color:var(--ink)}
+.land-tip-s{font-size:14px;line-height:24px;font-weight:300;color:var(--ink-soft)}
+.land-h2{margin:var(--space-8) 0 calc(var(--space-4) * -1);text-align:center;font-size:20px;line-height:28px;font-weight:600;color:var(--ink)}
+.who-cards{display:flex;flex-direction:column;gap:var(--space-16)}
+.who-card{display:flex;flex-direction:column;overflow:hidden;background:var(--surface);border:2px solid var(--brand);border-radius:var(--radius-24,24px);box-shadow:var(--elevation-03)}
+.who-pic{position:relative;background:var(--turquoise-50,#E0F8F6);aspect-ratio:900/672}
+.who-pic img{display:block;width:100%;height:100%;object-fit:cover}
+.who-badge{position:absolute;top:var(--space-12);left:var(--space-12);background:var(--surface);color:var(--turquoise-gray-1,#355956);border-radius:var(--radius-24,24px);padding:var(--space-4) var(--space-12);font-size:12px;line-height:16px;font-weight:500;box-shadow:var(--elevation-03)}
+.who-body{display:flex;flex-direction:column;gap:var(--space-8);padding:var(--space-16)}
+.who-t{margin:0;font-size:20px;line-height:28px;font-weight:600;color:var(--turquoise-text,#009688)}
+.who-s{margin:0 0 var(--space-4);font-size:14px;line-height:24px;font-weight:300;color:var(--ink-soft)}
+.who-body .btn{width:100%}
+.land-foot{margin:var(--space-4) 0 0;text-align:center;font-size:14px;line-height:24px;font-weight:300;color:var(--ink-soft)}
+.app.is-landing .safety{margin-top:0}
+@media (orientation:landscape) and (max-height:500px){.app.is-landing{flex-direction:column;align-items:stretch;max-width:460px}}
+@media (min-width:720px) and (min-height:501px){
+  .app.is-landing{max-width:760px}
+  .who-cards{flex-direction:row;align-items:stretch}
+  .who-card{flex:1 1 0}
+  .who-body{flex:1}
+  .who-body .btn{margin-top:auto}
+}
+.nw{white-space:nowrap}

@@ -1,4 +1,4 @@
-/* App logic: state, scoring, screens, parade, scenes, result card, care pick, micro-actions, share. Uses globals from content.js */
+/* App logic: state, scoring, screens, scenes, result card, care pick, micro-actions, share. Uses globals from content.js */
 (function(){
   'use strict';
 
@@ -58,7 +58,6 @@
 
   function showChar(k){
     app.classList.toggle('show-char',!!k);
-    if(!k)buildParade();
     if(!k){charWrap.innerHTML='';charWrap.removeAttribute('data-k');return;}
     var c=CHAR[k];
     /* the last screen shows the app-reminder picture instead of the character */
@@ -69,13 +68,6 @@
       charWrap.setAttribute('data-k',key);
     }
   }
-  function buildParade(){
-    var el=document.getElementById('parade');
-    if(el.getAttribute('data-built')===(S.who||'work'))return;
-    el.innerHTML='<span class="parade-hint">เพื่อนเมฆรออยู่ เฉลยตอนจบนะ</span><img src="'+charSrc('all')+'" width="900" height="672" alt="" decoding="async">';
-    el.setAttribute('data-built',S.who||'work');
-  }
-
   /* ---------- Screens ---------- */
   function setScreen(name){
     clearTimers();
@@ -89,6 +81,7 @@
   function render(){
     var html='';
     app.classList.toggle('is-landing',S.screen==='landing');
+    document.body.classList.toggle('on-landing',S.screen==='landing');
     app.classList.toggle('is-question',S.screen==='question');
     app.classList.toggle('is-reveal',S.screen==='reveal');
     app.classList.toggle('is-care',S.screen==='care');
@@ -108,22 +101,26 @@
     window.scrollTo(0,0);
   }
 
+  /* v3.7 landing: logo, kicker, one-line title, lead, tip banner, two set cards (picture banner + badge + button), footer note.
+     Choosing a card is the start button. The characters appear only inside the card banners. */
+  var IC_CLOCK='<svg class="land-ic" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 4.5V8l2.25 1.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var IC_INFO='<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.25" fill="none" stroke="currentColor" stroke-width="1.75"/><path d="M12 11v5.25" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/><circle cx="12" cy="7.75" r="1.1" fill="currentColor"/></svg>';
   function landing(){
-    /* layout follows the Figma landing: centered logo and title, info line, tinted intro panel, button, short rule, note */
     return ''+
       '<img class="logo hero-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82">'+
-      '<h1 class="hero-title" tabindex="-1" data-focus>วันนี้ท้องฟ้าในใจคุณ<br>เป็นยังไงบ้าง?</h1>'+
-      '<p class="muted hero-meta">ใช้แค่ 2 นาที · ไม่ต้องสมัคร · ไม่เก็บคำตอบ<br>คำถามอิงแบบวัด WHO-5 และ PSS</p>'+
-      '<p class="hero-panel">ใจคนเราก็เหมือนท้องฟ้า บางวันฟ้าใส บางวันก็มีเมฆบ้าง ลองตอบ 6 คำถามสบายๆ เกี่ยวกับชีวิตช่วงนี้ แล้วมาดูกันว่าวันนี้เมฆแบบไหนลอยมาหาคุณ พร้อมวิธีดูแลใจเล็กๆ ที่ทำได้เลย</p>'+
-      '<div class="actions hero-actions">'+
-        /* v3.6: choosing who you are is the start button, so there is no extra step */
-        '<p class="who-label" id="whoH">คุณคือใคร? เลือกแล้วไปดูน้องก้อนเมฆกัน</p>'+
-        '<div class="who-opts" role="group" aria-labelledby="whoH">'+WHO.map(function(w){
-          return '<button class="who-opt" data-act="start" data-v="'+w.k+'"'+(S.who===w.k?' aria-pressed="true"':'')+'><span class="who-t">'+w.t+'</span><span class="who-s">'+w.s+'</span></button>';
-        }).join('')+'</div>'+
-        '<hr class="hero-rule">'+
-        '<p class="hero-note">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p>'+
-      '</div>';
+      '<p class="land-kicker">'+IC_CLOCK+'เช็กอินใจ · ใช้เวลาประมาณ 2 นาที</p>'+
+      '<h1 class="land-title" tabindex="-1" data-focus>วันนี้ใจคุณเป็นแบบไหน?</h1>'+
+      '<p class="land-lead">ลองสังเกตความรู้สึกของตัวเองผ่าน 6 คำถาม <span class="nw">ไม่มีคำตอบถูกหรือผิด</span></p>'+
+      '<aside class="land-tip"><span class="land-tip-ic">'+IC_INFO+'</span><div><p class="land-tip-t">เลือกชุดคำถามให้ตรงกับชีวิตช่วงนี้</p><p class="land-tip-s">เนื้อหาแยกตามวัย เพื่อให้สถานการณ์ใกล้ตัวและตอบได้ง่ายขึ้น</p></div></aside>'+
+      '<h2 class="land-h2" id="whoH">คุณอยู่ในช่วงไหน?</h2>'+
+      '<div class="who-cards" role="group" aria-labelledby="whoH">'+WHO.map(function(w){
+        return '<article class="who-card">'+
+          '<div class="who-pic"><img src="assets/'+w.k+'/characters/all.jpg" width="900" height="672" alt="'+w.alt+'" decoding="async"><span class="who-badge">ชุดคำถาม '+w.n+'</span></div>'+
+          '<div class="who-body"><h3 class="who-t">'+w.t+'</h3><p class="who-s">'+w.s+'</p>'+
+          '<button class="btn" data-act="start" data-v="'+w.k+'" aria-label="เลือกชุดคำถามนี้ สำหรับ'+w.t+'">เลือกชุดคำถามนี้</button></div>'+
+        '</article>';
+      }).join('')+'</div>'+
+      '<p class="land-foot">ไม่ต้องสมัคร · ไม่เก็บคำตอบ · ไม่ใช่การวินิจฉัย</p>';
   }
 
   function head(){
@@ -436,6 +433,5 @@
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!overlay.hidden)closeShare();});
 
 
-  buildParade();
   render();
 })();
