@@ -1,5 +1,5 @@
 :root{
-  /* Colours bound to the mindfull design system tokens (assets/mindfull-tokens.css, copied from mindfull-design-system/exports).
+  /* Colours bound to the mindfull design system tokens (assets/logo/mindfull-tokens.css, copied from mindfull-design-system/exports).
      Each fallback is the same value, so the page still renders if the token file is not loaded.
      Plain hex = not in the design system yet. */
   /* text: primary black, secondary turquoise-gray-1 (brand cast) */
@@ -349,3 +349,18 @@ button,a,input{touch-action:manipulation}
 .app.is-reveal .mym-type{line-height:16px}
 .app.is-reveal .mym-head+.hero-rule{display:none}
 .app.is-reveal .mym-title{padding:var(--space-4) var(--space-20)}
+
+/* v3.6 คุณคือใคร: two choices on the landing page; picking one starts the questions */
+.who-label{text-align:center;font-size:16px;line-height:20px;font-weight:500;color:var(--ink);margin:0 auto}
+.who-opts{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-8)}
+.who-opt{font:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--space-4);text-align:center;color:var(--turquoise-gray-1,#355956);background:var(--surface);border:2px solid var(--brand);border-radius:var(--radius-24,24px);padding:var(--space-12) var(--space-8);min-height:72px;cursor:pointer;transition:background-color .2s}
+.who-t{font-size:16px;line-height:20px;font-weight:500;color:var(--turquoise-text,#009688)}
+.who-s{font-size:12px;line-height:16px;font-weight:300;color:var(--ink-soft)}
+@media (hover:hover){.who-opt:hover{background:var(--turquoise-50,#E0F8F6)}}
+.who-opt:active,.who-opt[aria-pressed="true"]{background:var(--turquoise-50,#E0F8F6)}
+/* v3.6 สัญญาณที่พบบ่อย: student set only, inside the folded "รู้จัก … ให้มากขึ้น" */
+.mym-signs{display:flex;flex-direction:column;gap:var(--space-4)}
+.mym-list{margin:0;padding-left:var(--space-20);font-size:14px;line-height:24px;font-weight:300;color:var(--ink-soft)}
+.app.is-reveal .mym-signs{align-items:center}
+.app.is-reveal .mym-signs .mym-label{color:var(--ink-soft)}
+.app.is-reveal .mym-list{text-align:left}

@@ -2,7 +2,7 @@
 
 [![mindfull](prototype/og-image.png)](https://mindfull-prototype.vercel.app)
 
-Mobile-first 2-minute mental-health check-in for Thai office workers. Answer 6 illustrated work scenarios, meet the cloud friend visiting today (Cumulo, Nimbo, Strato or Humi), pick one way to care for yourself (now / tonight / this week), and get a right-sized next step into the consultation app.
+Mobile-first 2-minute mental-health check-in for Thai office workers and students (pick one on the first screen). Answer 6 illustrated scenarios, meet the cloud friend visiting today (Cumulo, Nimbo, Strato or Humi), pick one way to care for yourself (now / tonight / this week), and get a right-sized next step into the consultation app.
 
 **Live:** https://mindfull-prototype.vercel.app
 
@@ -43,9 +43,9 @@ node scripts/build-og-image.mjs
 | `prototype/styles.css` | Semantic tokens, layout, responsive rules |
 | `prototype/content.js` | All copy, scoring axes, picture alt texts |
 | `prototype/app.js` | State, scoring, screens, micro-actions, share |
-| `prototype/assets/scenes/`, `prototype/assets/characters/` | Question pictures (`q1`–`q6.jpg`), the last-screen picture (`next-app.jpg`), landing picture (`all.jpg`) and one picture per character (named after it, lowercase) |
-| `prototype/assets/mindfull-tokens.css` | Copy of the design-system `:root` tokens |
-| `prototype/assets/mindfull-logo.svg` | mindfull wordmark (use as supplied, never recolor) |
+| `prototype/assets/work/`, `prototype/assets/student/` | One folder per group. `scenes/`: question pictures `q1`–`q6.jpg` and the last-screen picture `sentnoti.jpg`. `characters/`: one picture per character (lowercase name) and the landing picture `all.jpg` |
+| `prototype/assets/logo/mindfull-tokens.css` | Copy of the design-system `:root` tokens |
+| `prototype/assets/logo/mindfull-logo.svg` | mindfull wordmark (use as supplied, never recolor) |
 | `prototype/og-image.png` | Link-preview image (1200×630); rebuild with `node scripts/build-og-image.mjs` |
 | `docs/overview.md` | Product logic: principles, questions and their sources, results, next steps, safety, decision log |
 | `docs/user-flow.md` | Screen-by-screen flow with timings |

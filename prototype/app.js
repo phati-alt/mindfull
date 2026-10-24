@@ -3,7 +3,7 @@
   'use strict';
 
   /* ---------- State ---------- */
-  var S = {screen:'landing', i:0, answers:[], order:[], duration:null, result:null};
+  var S = {screen:'landing', who:null, i:0, answers:[], order:[], duration:null, result:null};
   var timers = [];
 
   var app = document.getElementById('app');
@@ -23,6 +23,24 @@
     toastEl.textContent=msg;toastEl.classList.add('show');
     clearTimeout(toast._t);toast._t=setTimeout(function(){toastEl.classList.remove('show');},2600);
   }
+
+  /* ---------- v3.6 คุณคือใคร: swap the question set and the work/study wording; clouds and scoring stay the same ---------- */
+  var BASE={questions:QUESTIONS,duration:DURATION_Q,scenes:SCENES,results:RESULTS,char:CHAR,about:ABOUT,card:CARD,care:CARE};
+  function merge(base,over){var out={};for(var k in base){out[k]={};var b=base[k],o=(over&&over[k])||{},f;for(f in b)out[k][f]=b[f];for(f in o)out[k][f]=o[f];}return out;}
+  var STUDENT_SET={questions:STUDENT.questions,duration:STUDENT.duration,scenes:STUDENT.scenes,
+    results:merge(RESULTS,STUDENT.results),char:merge(CHAR,STUDENT.char),about:merge(ABOUT,STUDENT.about),card:merge(CARD,STUDENT.card),
+    care:(function(){var o={};for(var k in CARE)o[k]=(STUDENT.care[k]||CARE[k]);return o;})()};
+  function useWho(k){
+    var set=k==='student'?STUDENT_SET:BASE;
+    S.who=k;
+    QUESTIONS=set.questions;DURATION_Q=set.duration;SCENES=set.scenes;RESULTS=set.results;CHAR=set.char;ABOUT=set.about;CARD=set.card;CARE=set.care;
+    TOTAL=QUESTIONS.length+1;
+    var sc=document.getElementById('scene');if(sc)sc.removeAttribute('data-i');
+  }
+  /* pictures live in assets/<work|student>/ ; the landing page shows the group chosen last time, work by default */
+  function charSrc(n){return 'assets/'+(S.who||'work')+'/characters/'+n+'.jpg';}
+  function charAlt(n){return S.who==='student'?CHAR_IMG_ALT_STUDENT[n]:CHAR_IMG_ALT[n];}
+  function nextImg(){return S.who==='student'?NEXT_IMG_STUDENT:NEXT_IMG;}
 
   /* ---------- Scoring ---------- */
   function resultFrom(list){
@@ -46,16 +64,16 @@
     /* the last screen shows the app-reminder picture instead of the character */
     var key=S.screen==='next'?'next':k;
     if(charWrap.getAttribute('data-k')!==key){
-      if(key==='next')charWrap.innerHTML='<img src="'+NEXT_IMG.src+'" width="900" height="672" alt="'+NEXT_IMG.alt+'" decoding="async">';
-      else{var nm=c.name.toLowerCase();charWrap.innerHTML='<img src="assets/characters/'+nm+'.jpg" width="900" height="900" alt="'+CHAR_IMG_ALT[nm]+'" decoding="async">';}
+      if(key==='next')charWrap.innerHTML='<img src="'+nextImg().src+'" width="900" height="672" alt="'+nextImg().alt+'" decoding="async">';
+      else{var nm=c.name.toLowerCase();charWrap.innerHTML='<img src="'+charSrc(nm)+'" width="900" height="900" alt="'+charAlt(nm)+'" decoding="async">';}
       charWrap.setAttribute('data-k',key);
     }
   }
   function buildParade(){
     var el=document.getElementById('parade');
-    if(el.getAttribute('data-built'))return;
-    el.innerHTML='<span class="parade-hint">เพื่อนเมฆรออยู่ เฉลยตอนจบนะ</span><img src="assets/characters/all.jpg" width="900" height="672" alt="" decoding="async">';
-    el.setAttribute('data-built','1');
+    if(el.getAttribute('data-built')===(S.who||'work'))return;
+    el.innerHTML='<span class="parade-hint">เพื่อนเมฆรออยู่ เฉลยตอนจบนะ</span><img src="'+charSrc('all')+'" width="900" height="672" alt="" decoding="async">';
+    el.setAttribute('data-built',S.who||'work');
   }
 
   /* ---------- Screens ---------- */
@@ -96,9 +114,13 @@
       '<img class="logo hero-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82">'+
       '<h1 class="hero-title" tabindex="-1" data-focus>วันนี้ท้องฟ้าในใจคุณ<br>เป็นยังไงบ้าง?</h1>'+
       '<p class="muted hero-meta">ใช้แค่ 2 นาที · ไม่ต้องสมัคร · ไม่เก็บคำตอบ<br>คำถามอิงแบบวัด WHO-5 และ PSS</p>'+
-      '<p class="hero-panel">ใจคนเราก็เหมือนท้องฟ้า บางวันฟ้าใส บางวันก็มีเมฆบ้าง ลองตอบ 6 คำถามสบายๆ เกี่ยวกับงานช่วงนี้ แล้วมาดูกันว่าวันนี้เมฆแบบไหนลอยมาหาคุณ พร้อมวิธีดูแลใจเล็กๆ ที่ทำได้เลย</p>'+
+      '<p class="hero-panel">ใจคนเราก็เหมือนท้องฟ้า บางวันฟ้าใส บางวันก็มีเมฆบ้าง ลองตอบ 6 คำถามสบายๆ เกี่ยวกับชีวิตช่วงนี้ แล้วมาดูกันว่าวันนี้เมฆแบบไหนลอยมาหาคุณ พร้อมวิธีดูแลใจเล็กๆ ที่ทำได้เลย</p>'+
       '<div class="actions hero-actions">'+
-        '<button class="btn" data-act="start">ไปดูน้องก้อนเมฆกัน</button>'+
+        /* v3.6: choosing who you are is the start button, so there is no extra step */
+        '<p class="who-label" id="whoH">คุณคือใคร? เลือกแล้วไปดูน้องก้อนเมฆกัน</p>'+
+        '<div class="who-opts" role="group" aria-labelledby="whoH">'+WHO.map(function(w){
+          return '<button class="who-opt" data-act="start" data-v="'+w.k+'"'+(S.who===w.k?' aria-pressed="true"':'')+'><span class="who-t">'+w.t+'</span><span class="who-s">'+w.s+'</span></button>';
+        }).join('')+'</div>'+
         '<hr class="hero-rule">'+
         '<p class="hero-note">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p>'+
       '</div>';
@@ -144,11 +166,12 @@
       /* more about the cloud sits right under รู้จัก, folded so the care CTA stays within the first screen */
       '<details class="more"><summary>รู้จัก '+c.name+' ให้มากขึ้น</summary><div class="more-body">'+
         '<section class="mym-power" aria-label="พลังพิเศษ"><p class="mym-label">พลังพิเศษ</p><p class="mym-pname">"'+c.power+'" <span>('+c.en+')</span></p><p class="mym-ptext">'+c.p+'</p></section>'+
+        (S.who==='student'&&a.sg?'<section class="mym-signs" aria-label="สัญญาณที่พบบ่อย"><p class="mym-label">สัญญาณที่พบบ่อย</p><ul class="mym-list">'+a.sg.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul></section>':'')+
         '<div class="mym-pair">'+
           '<section class="mym-cell"><p class="mym-label">ข้อดีที่ '+c.name+' พามาด้วย</p><p>'+k.st+'</p></section>'+
           '<section class="mym-cell warn"><p class="mym-label">เมื่อพลังล้น</p><p>'+k.ov+'</p></section>'+
         '</div>'+
-        '<div class="buddy mym-buddy"><div class="buddy-av" aria-hidden="true"><img src="assets/characters/'+CHAR[c.buddy].name.toLowerCase()+'.jpg" width="72" height="72" alt="" decoding="async"></div><div><p class="mym-label">เพื่อนซี้</p><p class="bname">'+CHAR[c.buddy].name+'</p><p class="muted">'+c.bnote+'</p></div></div>'+
+        '<div class="buddy mym-buddy"><div class="buddy-av" aria-hidden="true"><img src="'+charSrc(CHAR[c.buddy].name.toLowerCase())+'" width="72" height="72" alt="" decoding="async"></div><div><p class="mym-label">เพื่อนซี้</p><p class="bname">'+CHAR[c.buddy].name+'</p><p class="muted">'+c.bnote+'</p></div></div>'+
       '</div></details>'+
       '<section class="mym-care" aria-labelledby="careH"><p class="mym-label" id="careH">How to ดูแล '+c.name+'</p>'+
         '<p class="mym-ptext">เลือกสิ่งเล็กๆ ที่ช่วยดูแลใจ ลองตอนนี้ 20&nbsp;วินาที หรือนัดตัวเองไว้คืนนี้ สัปดาห์นี้</p>'+
@@ -197,7 +220,7 @@
         '<div class="actions" id="microActions"><button class="btn" data-act="breath-start">เริ่มหายใจ</button><button class="link" data-act="to-next">ข้าม</button></div>';
     } else if(k==='rain'){
       inner='<label class="muted" for="dropText">วันนี้ฉันจะวางเรื่องนี้ลงก่อน</label>'+
-        '<input class="field" id="dropText" maxlength="80" placeholder="เช่น ตอบแชตงานหลังสองทุ่ม" autocomplete="off">'+
+        '<input class="field" id="dropText" maxlength="80" placeholder="'+(S.who==='student'?STUDENT.dropHint:'เช่น ตอบแชตงานหลังสองทุ่ม')+'" autocomplete="off">'+
         '<p class="field-error" id="fieldErr" hidden>พิมพ์สักหนึ่งเรื่องก่อน หรือกดข้ามได้</p>'+
         '<div class="actions" id="microActions"><button class="btn" data-act="let-go">วางมันลง</button><button class="link" data-act="to-next">ข้าม</button></div>';
     } else if(k==='fog'){
@@ -231,7 +254,7 @@
     var rows='';
     if(S.carePick!=null)rows+='<div class="sum-row pick"><p class="mym-label">สิ่งที่จะลอง · '+WHEN[S.carePick].split(' ·')[0]+'</p><p>'+CARE[k][S.carePick]+'</p></div>';
     var recap='<section class="summary" aria-label="สรุปใจคุณวันนี้">'+
-      '<div class="sum-head"><div class="buddy-av" aria-hidden="true"><img src="assets/characters/'+c.name.toLowerCase()+'.jpg" width="56" height="56" alt="" decoding="async"></div>'+
+      '<div class="sum-head"><div class="buddy-av" aria-hidden="true"><img src="'+charSrc(c.name.toLowerCase())+'" width="56" height="56" alt="" decoding="async"></div>'+
       '<div><p class="bname">'+c.name+'</p><p class="muted">'+c.title+'</p></div></div>'+rows+
       /* Figma keeps the next step inside the same card */
       '<div class="sum-row sum-next"><p class="mym-label">ก้าวต่อไป</p><p>'+n.body+'</p></div></section>';
@@ -278,7 +301,7 @@
   function openShare(){
     var k=S.result;
     shareCard.innerHTML=''+
-      '<div class="share-sky"><img src="assets/characters/'+CHAR[k].name.toLowerCase()+'.jpg" width="900" height="900" alt="'+CHAR_IMG_ALT[CHAR[k].name.toLowerCase()]+'" decoding="async"></div>'+
+      '<div class="share-sky"><img src="'+charSrc(CHAR[k].name.toLowerCase())+'" width="900" height="900" alt="'+charAlt(CHAR[k].name.toLowerCase())+'" decoding="async"></div>'+
       '<div class="share-body">'+
         '<img class="logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82">'+
         '<p class="share-title" id="shareTitle">วันนี้ '+CHAR[k].name+' มาเยือนฉัน</p><p class="muted">'+CHAR[k].title+' · พลังพิเศษ "'+CHAR[k].power+'"</p>'+'<div class="fact"><p class="factl">รู้ไหม</p><p class="facttext">'+CHAR[k].fact+'</p></div>'+
@@ -308,7 +331,8 @@
   }
 
   /* ---------- Actions ---------- */
-  function start(){
+  function start(btn){
+    useWho((btn&&btn.getAttribute('data-v'))||'work');
     S.i=0;S.carePick=null;S.answers=[];S.duration=null;S.durIdx=null;S.result=null;
     S.order=QUESTIONS.map(function(q){return shuffle(q.opts);});
     SCENES.forEach(function(html){var m=/src="([^"]+)"/.exec(html);if(m)new Image().src=m[1];}); /* warm the cache so the next picture is ready */
@@ -378,7 +402,7 @@
   content.addEventListener('click',function(e){
     var t=e.target.closest('[data-act]');if(!t)return;
     var act=t.getAttribute('data-act');
-    if(act==='start')start();
+    if(act==='start')start(t);
     else if(act==='pick')pick(t);
     else if(act==='back')back();
     else if(act==='to-care')setScreen('care');

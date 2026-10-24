@@ -1,5 +1,5 @@
 // Renders prototype/og-image.png (1200×630), the link-preview image for LINE, Facebook, X and email.
-// It uses the landing picture (assets/characters/all.jpg), the mindfull logo and the design-system
+// It uses the landing picture (assets/work/characters/all.jpg), the mindfull logo and the design-system
 // tokens, so re-run it after swapping in final illustrations:
 //   node scripts/build-og-image.mjs
 // Needs Edge or Chrome; set OG_BROWSER to its path if it is not in a standard location.
@@ -17,7 +17,7 @@ const proto = join(root, 'prototype');
 const html = `<!doctype html>
 <html lang="th"><head><meta charset="utf-8">
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;600&display=block" rel="stylesheet">
-<link rel="stylesheet" href="${pathToFileURL(join(proto, 'assets', 'mindfull-tokens.css'))}">
+<link rel="stylesheet" href="${pathToFileURL(join(proto, 'assets', 'logo', 'mindfull-tokens.css'))}">
 <style>
   html,body{margin:0;width:1200px;height:630px;overflow:hidden}
   body{background:#C9E3F3;font-family:'Prompt',sans-serif;position:relative}
@@ -29,11 +29,11 @@ const html = `<!doctype html>
 </style></head>
 <body>
   <div class="text">
-    <img class="logo" src="${pathToFileURL(join(proto, 'assets', 'mindfull-logo.svg'))}" alt="">
+    <img class="logo" src="${pathToFileURL(join(proto, 'assets', 'logo', 'mindfull-logo.svg'))}" alt="">
     <h1>ท้องฟ้าในใจวันนี้</h1>
     <p>เช็กใจ 2 นาที แล้วพบเพื่อนเมฆที่มาเยือนคุณวันนี้</p>
   </div>
-  <img class="pic" src="${pathToFileURL(join(proto, 'assets', 'characters', 'all.jpg'))}" alt="">
+  <img class="pic" src="${pathToFileURL(join(proto, 'assets', 'work', 'characters', 'all.jpg'))}" alt="">
 </body></html>`;
 
 const browsers = [
