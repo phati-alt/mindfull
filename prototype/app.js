@@ -476,7 +476,7 @@
     return top+
       '<div class="sum-head"><p class="res-badge">ความยินยอม</p><h2 tabindex="-1" data-focus>ส่งข้อมูลไปที่แอปไหม</h2>'+
       '<p class="care-lead">เลือก ยอมรับ หรือ ไม่ยอมรับ ทีละหัวข้อ หัวข้อที่ไม่ยอมรับ เราจะไม่ส่ง</p></div>'+
-      '<p class="cs-notsent">ไม่ส่ง: คำตอบรายข้อ และข้อความที่คุณพิมพ์ในกิจกรรม</p>'+
+      '<section class="cs-notsent" aria-label="ไม่ส่ง"><span class="cs-no-ic" aria-hidden="true"></span><div><p class="cs-no-t">ไม่ส่ง</p><ul class="cs-no-list"><li>คำตอบรายข้อ</li><li>ข้อความที่คุณพิมพ์ในกิจกรรม</li></ul></div></section>'+
       '<div class="cs-list">'+topics.map(function(x,i){
         var cur=S.consent[i];
         return '<section class="cs-topic" aria-labelledby="csT'+i+'"><p class="cs-title" id="csT'+i+'">'+x.t+'</p><p class="cs-desc">'+x.d+'</p>'+(x.v?'<p class="cs-value">'+x.v+'</p>':'')+
