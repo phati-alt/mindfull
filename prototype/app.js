@@ -424,9 +424,9 @@
     var v=input.value.trim();
     if(!v){err.hidden=false;input.focus();return;}
     err.hidden=true;
-    /* the whole form goes away: only a check mark (read out as the old confirmation) and the next button stay */
+    /* the whole form goes away: a check mark with the confirmation text under it, and the next button */
     var card=content.querySelector('.act-card');
-    if(card)card.innerHTML='<div class="act-done" role="status"><span class="act-check" aria-hidden="true"></span><span class="sr-only">วางลงแล้ว วันนี้ไม่ต้องแบกเรื่องนี้</span></div>';
+    if(card)card.innerHTML='<div class="act-done" role="status"><span class="act-check" aria-hidden="true"></span><span class="act-msg">วางลงแล้ว วันนี้ไม่ต้องแบกเรื่องนี้</span></div>';
     doneMicro('');
   }
   function ground(){
@@ -443,9 +443,9 @@
     if(!v){err.hidden=false;input.focus();return;}
     err.hidden=true;
     try{localStorage.setItem('sky-note',v);}catch(e){}
-    /* the whole form goes away: only a check mark (read out as the old confirmation) and the next button stay */
+    /* the whole form goes away: a check mark with the confirmation text under it, and the next button */
     var card=content.querySelector('.act-card');
-    if(card)card.innerHTML='<div class="act-done" role="status"><span class="act-check" aria-hidden="true"></span><span class="sr-only">เก็บไว้แล้ว เป็นข้อความถึงตัวเองในวันที่ฟ้าครึ้ม</span></div>';
+    if(card)card.innerHTML='<div class="act-done" role="status"><span class="act-check" aria-hidden="true"></span><span class="act-msg">เก็บไว้แล้ว เป็นข้อความถึงตัวเองในวันที่ฟ้าครึ้ม</span></div>';
     doneMicro('');
   }
   /* v3.15 consent page opened by the summary's main button: 3-4 topics, each Accept / Decline, then a submit button.
