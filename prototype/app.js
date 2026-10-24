@@ -423,8 +423,10 @@
     var v=input.value.trim();
     if(!v){err.hidden=false;input.focus();return;}
     err.hidden=true;
-    input.outerHTML='<p class="note"><span class="letgo">'+esc(v)+'</span></p>';
-    doneMicro('วางลงแล้ว วันนี้ไม่ต้องแบกเรื่องนี้');
+    /* the whole form goes away: only a check mark (read out as the old confirmation) and the next button stay */
+    var card=content.querySelector('.act-card');
+    if(card)card.innerHTML='<div class="act-done" role="status"><span class="act-check" aria-hidden="true"></span><span class="sr-only">วางลงแล้ว วันนี้ไม่ต้องแบกเรื่องนี้</span></div>';
+    doneMicro('');
   }
   function ground(){
     var items=document.querySelectorAll('#steps li');
@@ -440,8 +442,10 @@
     if(!v){err.hidden=false;input.focus();return;}
     err.hidden=true;
     try{localStorage.setItem('sky-note',v);}catch(e){}
-    input.outerHTML='<p class="note">"'+esc(v)+'"</p>';
-    doneMicro('เก็บไว้แล้ว เป็นข้อความถึงตัวเองในวันที่ฟ้าครึ้ม');
+    /* the whole form goes away: only a check mark (read out as the old confirmation) and the next button stay */
+    var card=content.querySelector('.act-card');
+    if(card)card.innerHTML='<div class="act-done" role="status"><span class="act-check" aria-hidden="true"></span><span class="sr-only">เก็บไว้แล้ว เป็นข้อความถึงตัวเองในวันที่ฟ้าครึ้ม</span></div>';
+    doneMicro('');
   }
   /* v3.15 consent page opened by the summary's main button: 3-4 topics, each Accept / Decline, then a submit button.
      Raw answers and the text typed in the activities are never part of it. Nothing is sent from this prototype. */
