@@ -61,7 +61,7 @@
     if(!k){charWrap.innerHTML='';charWrap.removeAttribute('data-k');return;}
     var c=CHAR[k];
     /* the last screen shows the app-reminder picture instead of the character */
-    var key=S.screen==='next'?'next':k;
+    var key=(S.screen==='next'||S.screen==='consent')?'next':k;
     if(charWrap.getAttribute('data-k')!==key){
       if(key==='next')charWrap.innerHTML='<img src="'+nextImg().src+'" width="900" height="672" alt="'+nextImg().alt+'" decoding="async">';
       else{var nm=c.name.toLowerCase();charWrap.innerHTML='<img src="'+charSrc(nm)+'" width="900" height="900" alt="'+charAlt(nm)+'" decoding="async">';}
@@ -73,7 +73,7 @@
     clearTimers();
     charWrap.classList.remove('inhale','exhale');
     S.screen=name;
-    showChar(['reveal','care','plan','micro','next'].indexOf(name)>-1?S.result:null);
+    showChar(['reveal','care','plan','micro','next','consent'].indexOf(name)>-1?S.result:null);
     app.classList.toggle('compact', name==='question');
     render();
   }
@@ -87,6 +87,7 @@
     app.classList.toggle('is-care',S.screen==='care');
     app.classList.toggle('is-plan',S.screen==='plan');
     app.classList.toggle('is-next',S.screen==='next');
+    app.classList.toggle('is-consent',S.screen==='consent');
     app.classList.toggle('is-micro',S.screen==='micro');
     if(S.screen==='landing')html=landing();
     else if(S.screen==='question')html=question();
@@ -95,6 +96,7 @@
     else if(S.screen==='plan')html=plan();
     else if(S.screen==='micro')html=micro();
     else if(S.screen==='next')html=nextStep();
+    else if(S.screen==='consent')html=consent();
     content.classList.remove('enter');void content.offsetWidth;content.classList.add('enter');
     content.innerHTML=html;
     if(S.screen==='question'){var sc=document.getElementById('scene');if(sc.getAttribute('data-i')!==String(S.i)){sc.innerHTML=SCENES[S.i]||'';sc.setAttribute('data-i',S.i);sc.classList.remove('swap');void sc.offsetWidth;sc.classList.add('swap');}}
@@ -287,28 +289,29 @@
     var b=a&&a.querySelector('.btn');if(b)b.focus();
   }
 
+  /* v3.14 summary: back + group tag, badge, heading + lead (depends on whether a way to care was picked), character card (with 'what you chose' only when picked),
+     separate 'next step' card, buttons. Texts come from CHAR, CARE, WHEN and NEXT[result][duration]. */
   function nextStep(){
-    var k=S.result, c=CHAR[k], n=NEXT[k][S.duration];
-    /* a short recap of the visit: today's cloud, what they chose to try, and the next step */
-    var rows='';
-    if(S.carePick!=null)rows+='<div class="sum-row pick"><p class="mym-label">สิ่งที่จะลอง · '+WHEN[S.carePick].split(' ·')[0]+'</p><p>'+CARE[k][S.carePick]+'</p></div>';
-    var recap='<section class="summary" aria-label="สรุปใจคุณวันนี้">'+
-      '<div class="sum-head"><div class="buddy-av" aria-hidden="true"><img src="'+charSrc(c.name.toLowerCase())+'" width="56" height="56" alt="" decoding="async"></div>'+
-      '<div><p class="bname">'+c.name+'</p><p class="muted">'+c.title+'</p></div></div>'+rows+
-      /* Figma keeps the next step inside the same card */
-      '<div class="sum-row sum-next"><p class="mym-label">ก้าวต่อไป</p><p>'+n.body+'</p></div></section>';
+    var k=S.result, c=CHAR[k], n=NEXT[k][S.duration], pick=S.carePick;
+    var who=WHO.filter(function(w){return w.k===(S.who||'work');})[0];
+    var chosen=pick!=null?'<div class="sum-pick"><p class="sum-label">สิ่งที่คุณเลือก</p><span class="care-when">'+WHEN[pick]+'</span><p class="sum-text">'+CARE[k][pick]+'</p></div>':'';
     return ''+
-      '<div class="head"><button class="back" data-act="to-reveal">กลับไปที่ผลลัพธ์</button><span></span></div>'+
-      '<h2 tabindex="-1" data-focus>สรุปใจคุณวันนี้</h2>'+
-      recap+
+      '<div class="q-top"><button class="back" data-act="to-reveal">กลับไปที่ผลลัพธ์</button><span class="q-who">'+who.t+'</span></div>'+
+      '<div class="sum-head"><p class="res-badge">สรุปการเช็กอิน</p>'+
+        '<h2 tabindex="-1" data-focus>สรุปใจคุณวันนี้</h2>'+
+        '<p class="care-lead">'+(pick!=null?'นี่คือเพื่อนเมฆที่มาเยือนและสิ่งที่คุณเลือกไว้':'นี่คือผลเช็กอินของคุณและคำแนะนำขั้นต่อไป')+'</p></div>'+
+      '<section class="sum-card sum-char" aria-label="เพื่อนเมฆที่มาเยือน">'+
+        '<div class="sum-who"><div class="buddy-av" aria-hidden="true"><img src="'+charSrc(c.name.toLowerCase())+'" width="56" height="56" alt="" decoding="async"></div>'+
+        '<div><p class="sum-name">'+c.name+'</p><p class="sum-role">'+c.title+'</p></div></div>'+chosen+
+      '</section>'+
+      '<section class="sum-card sum-next" aria-labelledby="sumNextH"><p class="sum-label" id="sumNextH">ก้าวต่อไป</p><p class="sum-text">'+n.body+'</p></section>'+
       '<div class="actions">'+
         '<button class="btn" data-act="primary">'+n.primary+'</button>'+
         (n.share?'':'<button class="btn ghost" data-act="share">ส่งการ์ด '+c.name+' ให้เพื่อน</button>')+
         '<button class="link" data-act="again">เล่นอีกครั้ง</button>'+
       '</div>'+
-      '<div class="q-foot"><hr class="hero-rule"><img class="logo q-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82"><p class="hero-note">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p></div>';
+      '<div class="q-foot"><hr class="hero-rule"><img class="logo q-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82"><p class="q-note">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p></div>';
   }
-
   /* ---------- Breathing ---------- */
   function breathe(){
     var phases=[['หายใจเข้า',4,'inhale'],['หายใจออกช้าๆ',6,'exhale'],['หายใจเข้า',4,'inhale'],['หายใจออกช้าๆ',6,'exhale']];
@@ -440,10 +443,65 @@
     input.outerHTML='<p class="note">"'+esc(v)+'"</p>';
     doneMicro('เก็บไว้แล้ว เป็นข้อความถึงตัวเองในวันที่ฟ้าครึ้ม');
   }
+  /* v3.15 consent page opened by the summary's main button: 3-4 topics, each Accept / Decline, then a submit button.
+     Raw answers and the text typed in the activities are never part of it. Nothing is sent from this prototype. */
+  function consentTopics(){
+    var k=S.result, c=CHAR[k], n=NEXT[k][S.duration], pick=S.carePick;
+    var t=[{t:'เมฆที่มาเยือนวันนี้',d:'ให้แอปรู้ว่าวันนี้ใจคุณเป็นแบบไหน',v:c.name+' · '+c.title+' ('+RESULTS[k].name+')'}];
+    if(pick!=null)t.push({t:'วิธีดูแลใจที่คุณเลือก',d:'ให้แอปต่อยอดสิ่งที่คุณตั้งใจจะลอง',v:WHEN[pick]+': '+CARE[k][pick]});
+    t.push({t:'ระยะเวลาที่รู้สึกหนักใจ',d:'ให้แอปแนะนำก้าวต่อไปที่พอดีกับคุณ',v:DURATION_Q.opts[S.durIdx].t});
+    t.push({t:'ใช้เพื่อก้าวต่อไปในแอป',d:'ให้แอปใช้ข้อมูลข้างต้นเพื่อ "'+n.primary+'" ให้คุณเท่านั้น',v:null});
+    return t;
+  }
+  function consent(){
+    var topics=consentTopics();
+    var who=WHO.filter(function(w){return w.k===(S.who||'work');})[0];
+    if(!S.consent||S.consent.length!==topics.length)S.consent=topics.map(function(){return null;});
+    var top='<div class="q-top"><button class="back" data-act="to-next">กลับไปที่สรุป</button><span class="q-who">'+who.t+'</span></div>';
+    var foot='<div class="q-foot"><hr class="hero-rule"><img class="logo q-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82"><p class="q-note">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p></div>';
+    if(S.consentDone){
+      var sent=S.consent.filter(function(v){return v==='yes';}).length;
+      return top+
+        '<div class="sum-head"><p class="res-badge">ความยินยอม</p><h2 tabindex="-1" data-focus>บันทึกการเลือกแล้ว</h2>'+
+        '<p class="care-lead">'+(sent?'แอปจะได้รับเฉพาะหัวข้อที่คุณยอมรับ':'คุณไม่ได้ส่งข้อมูลใดๆ ให้แอป')+'</p></div>'+
+        '<section class="cs-card" aria-label="สรุปการเลือก">'+topics.map(function(x,i){var y=S.consent[i]==='yes';return '<div class="cs-row"><span class="cs-row-t">'+x.t+'</span><span class="cs-state '+(y?'yes':'no')+'">'+(y?'ยอมรับ':'ไม่ยอมรับ')+'</span></div>';}).join('')+'</section>'+
+        '<p class="cs-proto">prototype นี้ไม่ได้ส่งข้อมูลออกจากเครื่องจริง ในแอปจริงจะส่งเฉพาะหัวข้อที่ยอมรับ</p>'+
+        '<div class="actions"><button class="btn" data-act="to-next">กลับไปที่สรุป</button><button class="link" data-act="again">เล่นอีกครั้ง</button></div>'+foot;
+    }
+    return top+
+      '<div class="sum-head"><p class="res-badge">ความยินยอม</p><h2 tabindex="-1" data-focus>ส่งข้อมูลไปที่แอปไหม</h2>'+
+      '<p class="care-lead">เลือก ยอมรับ หรือ ไม่ยอมรับ ทีละหัวข้อ หัวข้อที่ไม่ยอมรับ เราจะไม่ส่ง</p></div>'+
+      '<p class="cs-notsent">ไม่ส่ง: คำตอบรายข้อ และข้อความที่คุณพิมพ์ในกิจกรรม</p>'+
+      '<div class="cs-list">'+topics.map(function(x,i){
+        var cur=S.consent[i];
+        return '<section class="cs-topic" aria-labelledby="csT'+i+'"><p class="cs-title" id="csT'+i+'">'+x.t+'</p><p class="cs-desc">'+x.d+'</p>'+(x.v?'<p class="cs-value">'+x.v+'</p>':'')+
+          '<div class="cs-choice" role="radiogroup" aria-labelledby="csT'+i+'">'+
+            '<button class="cs-opt cs-yes" role="radio" aria-checked="'+(cur==='yes')+'" data-act="consent-pick" data-i="'+i+'" data-v="yes">ยอมรับ</button>'+
+            '<button class="cs-opt cs-no" role="radio" aria-checked="'+(cur==='no')+'" data-act="consent-pick" data-i="'+i+'" data-v="no">ไม่ยอมรับ</button></div></section>';
+      }).join('')+'</div>'+
+      '<p class="field-error" id="csErr" role="alert" hidden>เลือก ยอมรับ หรือ ไม่ยอมรับ ให้ครบทุกหัวข้อก่อนส่ง</p>'+
+      '<div class="actions"><button class="btn" data-act="consent-submit">ส่งข้อมูล</button><button class="link" data-act="to-next">ยกเลิก กลับไปที่สรุป</button></div>'+foot;
+  }
+  function consentPick(btn){
+    var i=+btn.getAttribute('data-i');
+    S.consent[i]=btn.getAttribute('data-v');
+    btn.parentNode.querySelectorAll('.cs-opt').forEach(function(b){b.setAttribute('aria-checked',b===btn?'true':'false');});
+    var err=document.getElementById('csErr');if(err)err.hidden=true;
+  }
+  function consentSubmit(){
+    var miss=S.consent.indexOf(null);
+    if(S.consent.some(function(v){return v==null;})){
+      var err=document.getElementById('csErr');err.hidden=false;
+      var g=content.querySelectorAll('.cs-topic')[miss];if(g){g.scrollIntoView({block:'center'});g.querySelector('.cs-opt').focus();}
+      return;
+    }
+    S.consentDone=true;render();
+  }
+
   function primary(){
     var n=NEXT[S.result][S.duration];
     if(n.share){openShare();return;}
-    toast('Prototype: ในแอปจริง ปุ่ม "'+n.primary+'" จะพาเข้าแอปปรึกษา');
+    S.consent=null;S.consentDone=false;setScreen('consent');
   }
 
   content.addEventListener('click',function(e){
@@ -464,6 +522,8 @@
     else if(act==='ground')ground();
     else if(act==='keep')keep();
     else if(act==='primary')primary();
+    else if(act==='consent-pick')consentPick(t);
+    else if(act==='consent-submit')consentSubmit();
     else if(act==='share')openShare();
     else if(act==='again')setScreen('landing');
     else if(act==='home')setScreen('landing');
