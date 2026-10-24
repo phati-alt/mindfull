@@ -304,19 +304,27 @@
   }
 
   /* ---------- Share ---------- */
+  /* v3.11 share card (dialog on top of the result page): picture, tag, brand, badge, title, role, power, 'รู้ไหม', privacy line, share + back.
+     Everything is read from CHAR for the current result and group (pictures from assets/<work|student>/characters/). */
   function openShare(){
-    var k=S.result;
+    var k=S.result, c=CHAR[k], nm=c.name.toLowerCase();
     shareCard.innerHTML=''+
-      '<div class="share-sky"><img src="'+charSrc(CHAR[k].name.toLowerCase())+'" width="900" height="900" alt="'+charAlt(CHAR[k].name.toLowerCase())+'" decoding="async"></div>'+
-      '<div class="share-body">'+
-        '<img class="logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82">'+
-        '<p class="share-title" id="shareTitle">วันนี้ '+CHAR[k].name+' มาเยือนฉัน</p><p class="muted">'+CHAR[k].title+' · พลังพิเศษ "'+CHAR[k].power+'"</p>'+'<div class="fact"><p class="factl">รู้ไหม</p><p class="facttext">'+CHAR[k].fact+'</p></div>'+
-        '<p class="muted">การ์ดนี้แสดงแค่เพื่อนเมฆ ไม่มีคำตอบหรือรายละเอียดส่วนตัวของคุณ</p>'+
-        '<button class="btn" data-act="share-now">แชร์</button>'+
-        '<button class="link" data-act="share-close">ปิด</button>'+
+      '<div class="sh-pic"><img src="'+charSrc(nm)+'" width="900" height="900" alt="'+charAlt(nm)+'" decoding="async">'+
+        '<span class="sh-tag">การ์ดผลลัพธ์</span>'+
+        '<button class="sh-x" data-act="share-close" aria-label="ปิดหน้าต่างแชร์"><span aria-hidden="true"></span></button></div>'+
+      '<div class="sh-body">'+
+        '<div class="sh-brand"><img class="logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82"><span class="sh-brand-t">ท้องฟ้าในใจวันนี้</span></div>'+
+        '<p class="sh-badge">ผลเช็กใจของฉัน</p>'+
+        '<h2 class="sh-title" id="shareTitle">วันนี้ '+c.name+' มาเยือนฉัน</h2>'+
+        '<p class="sh-role">'+c.title+'</p>'+
+        '<section class="sh-power" aria-label="พลังพิเศษ"><p class="sh-label">พลังพิเศษ</p><p class="sh-pname">"'+c.power+'" <span>('+c.en+')</span></p></section>'+
+        '<section class="sh-fact" aria-label="รู้ไหม"><p class="sh-label">รู้ไหม</p><p class="sh-fact-t">'+c.fact+'</p></section>'+
+        '<p class="sh-privacy">การ์ดนี้แสดงแค่เพื่อนเมฆ ไม่มีคำตอบหรือรายละเอียดส่วนตัวของคุณ</p>'+
+        '<div class="sh-actions"><button class="btn" data-act="share-now">แชร์การ์ดนี้</button><button class="btn ghost" data-act="share-close">กลับไปดูผลลัพธ์</button></div>'+
       '</div>';
+    shareCard.scrollTop=0;
     overlay.hidden=false;
-    shareCard.querySelector('.btn').focus();
+    shareCard.querySelector('[data-act="share-now"]').focus();
   }
   function closeShare(){overlay.hidden=true;var b=content.querySelector('[data-act="share"],[data-act="primary"]');if(b)b.focus();}
   function copyShare(text){
@@ -388,7 +396,7 @@
     if(nowIdx<0)return;
     items[nowIdx].classList.remove('now');items[nowIdx].classList.add('done');
     if(nowIdx+1<items.length){items[nowIdx+1].classList.add('now');}
-    else{doneMicro('หมอกจางลงนิดหนึ่งแล้ว');}
+    else{doneMicro('กลับมารับรู้ได้นิดหนึ่งแล้ว');}
   }
   function keep(){
     var input=document.getElementById('goodText'), err=document.getElementById('fieldErr');
