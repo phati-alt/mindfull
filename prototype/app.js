@@ -73,7 +73,7 @@
     clearTimers();
     charWrap.classList.remove('inhale','exhale');
     S.screen=name;
-    showChar(['reveal','care','micro','next'].indexOf(name)>-1?S.result:null);
+    showChar(['reveal','care','plan','micro','next'].indexOf(name)>-1?S.result:null);
     app.classList.toggle('compact', name==='question');
     render();
   }
@@ -85,12 +85,14 @@
     app.classList.toggle('is-question',S.screen==='question');
     app.classList.toggle('is-reveal',S.screen==='reveal');
     app.classList.toggle('is-care',S.screen==='care');
+    app.classList.toggle('is-plan',S.screen==='plan');
     app.classList.toggle('is-next',S.screen==='next');
     app.classList.toggle('is-micro',S.screen==='micro');
     if(S.screen==='landing')html=landing();
     else if(S.screen==='question')html=question();
     else if(S.screen==='reveal')html=reveal();
     else if(S.screen==='care')html=care();
+    else if(S.screen==='plan')html=plan();
     else if(S.screen==='micro')html=micro();
     else if(S.screen==='next')html=nextStep();
     content.classList.remove('enter');void content.offsetWidth;content.classList.add('enter');
@@ -207,45 +209,76 @@
       '<div class="q-foot"><hr class="hero-rule"><img class="logo q-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82"><p class="q-note">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p></div>';
   }
   function careFollow(){
-    var skip='<button class="link" data-act="to-next">ไปที่ก้าวต่อไป</button>';
-    if(S.carePick==null)return skip;
-    if(S.carePick===0)return '<button class="btn" data-act="micro">เริ่มเลย 20 วินาที</button>'+skip;
-    return '<button class="btn" data-act="to-next">ไปที่ก้าวต่อไป</button>'+
-      '<button class="btn ghost" data-act="care-remind">ตั้งเตือนในแอป</button>';
+    return '<button class="link" data-act="to-next">ไปที่ก้าวต่อไป</button>';
   }
   function pickCare(btn){
     S.carePick=+btn.getAttribute('data-v');
     content.querySelectorAll('.care-opt').forEach(function(b){b.setAttribute('aria-checked',b===btn?'true':'false');});
-    document.getElementById('careFollow').innerHTML=careFollow();
+    /* like the questions: the picked card shows for a moment, then the next screen opens */
+    later(function(){if(S.screen==='care')setScreen('plan');},500);
   }
 
+  /* v3.12 after picking a way to care: back (change it), group tag, label, heading, lead, card 01 (what you chose), card 02 (what happens next), buttons that match the pick.
+     Texts come from CARE[...] and WHEN; card 02 and the buttons depend on the time. */
+  function plan(){
+    var c=CHAR[S.result], i=S.carePick, now=(i===0);
+    var who=WHO.filter(function(w){return w.k===(S.who||'work');})[0];
+    var next=now?'เมื่อพร้อม กดเริ่มกิจกรรมสั้นๆ ใช้เวลาประมาณ 20 วินาที':'คุณบันทึกแผนนี้ไว้ แล้วไปดูก้าวต่อไปได้';
+    var buttons=now
+      ?'<button class="btn" data-act="micro">เริ่มเลย 20 วินาที</button><button class="btn ghost" data-act="to-next">ข้ามไปดูก้าวต่อไป</button>'
+      :'<button class="btn" data-act="to-next">ไปที่ก้าวต่อไป</button><button class="btn ghost" data-act="care-remind">ตั้งเตือนในแอป</button>';
+    return ''+
+      '<div class="q-top"><button class="back" data-act="change-care">เปลี่ยนวิธีที่เลือก</button><span class="q-who">'+who.t+'</span></div>'+
+      '<div class="care-head"><p class="care-eyebrow">HOW TO ดูแล · '+c.name+'</p>'+
+        '<h2 tabindex="-1" data-focus>วิธีดูแลใจที่คุณเลือก</h2>'+
+        '<p class="care-lead">เก็บไว้เป็นก้าวเล็กๆ ที่ทำได้ในจังหวะของคุณ</p></div>'+
+      '<section class="plan-card plan-chosen" aria-labelledby="planChosenH">'+
+        '<span class="plan-n" aria-hidden="true">01</span>'+
+        '<div class="plan-body"><div class="plan-tags"><span class="care-when">'+WHEN[i]+'</span><span class="plan-status"><span class="plan-tick" aria-hidden="true"></span>เลือกแล้ว</span></div>'+
+          '<p class="plan-label" id="planChosenH">สิ่งที่คุณจะลอง</p><p class="plan-text">'+CARE[S.result][i]+'</p></div>'+
+      '</section>'+
+      '<section class="plan-card plan-next" aria-labelledby="planNextH">'+
+        '<span class="plan-n" aria-hidden="true">02</span>'+
+        '<div class="plan-body"><p class="plan-label" id="planNextH">ขั้นต่อไป</p><p class="plan-text">'+next+'</p></div>'+
+      '</section>'+
+      '<div class="actions">'+buttons+'</div>'+
+      '<div class="q-foot"><hr class="hero-rule"><img class="logo q-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82"><p class="q-note">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p></div>';
+  }
+
+  /* v3.13 the 20-second activities share one frame: back + group tag, label + time chip, heading, intro, an activity card, buttons, footer.
+     Texts and behavior are unchanged (breathing, let it go, grounding 3-2-1, note to self). */
   function micro(){
     var r=RESULTS[S.result], k=S.result, inner='';
+    var who=WHO.filter(function(w){return w.k===(S.who||'work');})[0];
+    var actions;
     if(k==='storm'){
-      inner='<div class="breath" id="breath"><span class="count" id="count">4</span><span class="breath-label" id="breathLabel">พร้อมแล้วกดเริ่ม</span></div>'+
-        '<div class="actions" id="microActions"><button class="btn" data-act="breath-start">เริ่มหายใจ</button><button class="link" data-act="to-next">ข้าม</button></div>';
+      inner='<div class="breath" id="breath"><div class="breath-legend"><span class="bl bl-in"><i aria-hidden="true"></i>หายใจเข้า 4 วินาที</span><span class="bl bl-out"><i aria-hidden="true"></i>หายใจออก 6 วินาที</span></div><div class="breath-ring" aria-hidden="true"><span class="count" id="count">4</span></div><span class="breath-label" id="breathLabel" aria-live="polite">พร้อมแล้วกดเริ่ม</span></div>';
+      actions='<button class="btn" data-act="breath-start">เริ่มหายใจ</button><button class="link" data-act="to-next">ข้าม</button>';
     } else if(k==='rain'){
-      inner='<label class="muted" for="dropText">วันนี้ฉันจะวางเรื่องนี้ลงก่อน</label>'+
+      inner='<label class="act-label" for="dropText">วันนี้ฉันจะวางเรื่องนี้ลงก่อน</label>'+
         '<input class="field" id="dropText" maxlength="80" placeholder="'+(S.who==='student'?STUDENT.dropHint:'เช่น ตอบแชตงานหลังสองทุ่ม')+'" autocomplete="off">'+
-        '<p class="field-error" id="fieldErr" hidden>พิมพ์สักหนึ่งเรื่องก่อน หรือกดข้ามได้</p>'+
-        '<div class="actions" id="microActions"><button class="btn" data-act="let-go">วางมันลง</button><button class="link" data-act="to-next">ข้าม</button></div>';
+        '<p class="field-error" id="fieldErr" hidden>พิมพ์สักหนึ่งเรื่องก่อน หรือกดข้ามได้</p>';
+      actions='<button class="btn" data-act="let-go">วางมันลง</button><button class="link" data-act="to-next">ข้าม</button>';
     } else if(k==='fog'){
       inner='<ol class="steps" id="steps">'+
         '<li class="now">มองหา 3 สิ่งรอบตัวคุณ</li>'+
         '<li>ฟัง 2 เสียงที่ได้ยินตอนนี้</li>'+
-        '<li>สัมผัส 1 อย่างที่อยู่ใกล้มือ</li></ol>'+
-        '<div class="actions" id="microActions"><button class="btn" data-act="ground">ทำแล้ว</button><button class="link" data-act="to-next">ข้าม</button></div>';
+        '<li>สัมผัส 1 อย่างที่อยู่ใกล้มือ</li></ol>';
+      actions='<button class="btn" data-act="ground">ทำแล้ว</button><button class="link" data-act="to-next">ข้าม</button>';
     } else {
-      inner='<label class="muted" for="goodText">สัปดาห์นี้โอเคเพราะ</label>'+
+      inner='<label class="act-label" for="goodText">สัปดาห์นี้โอเคเพราะ</label>'+
         '<input class="field" id="goodText" maxlength="80" placeholder="เช่น ได้กินข้าวกับเพื่อนสนิท" autocomplete="off">'+
-        '<p class="field-error" id="fieldErr" hidden>พิมพ์สักหนึ่งอย่างก่อน หรือกดข้ามได้</p>'+
-        '<div class="actions" id="microActions"><button class="btn" data-act="keep">เก็บไว้</button><button class="link" data-act="to-next">ข้าม</button></div>';
+        '<p class="field-error" id="fieldErr" hidden>พิมพ์สักหนึ่งอย่างก่อน หรือกดข้ามได้</p>';
+      actions='<button class="btn" data-act="keep">เก็บไว้</button><button class="link" data-act="to-next">ข้าม</button>';
     }
-    return '<div class="head"><button class="back" data-act="to-reveal">กลับไปที่ผลลัพธ์</button><span></span></div>'+
-      '<p class="muted">How to ดูแล '+CHAR[k].name+' ใช้เวลา 20 วินาที</p>'+
-      '<h2 tabindex="-1" data-focus>'+r.microTitle+'</h2>'+
-      '<p>'+r.microIntro+'</p>'+inner+
-      '<div class="q-foot"><hr class="hero-rule"><img class="logo q-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82"><p class="hero-note">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p></div>';
+    return ''+
+      '<div class="q-top"><button class="back" data-act="to-reveal">กลับไปที่ผลลัพธ์</button><span class="q-who">'+who.t+'</span></div>'+
+      '<div class="care-head"><div class="act-meta"><p class="care-eyebrow">HOW TO ดูแล · '+CHAR[k].name+'</p><span class="care-when">ใช้เวลา 20 วินาที</span></div>'+
+        '<h2 tabindex="-1" data-focus>'+r.microTitle+'</h2>'+
+        '<p class="care-lead">'+r.microIntro+'</p></div>'+
+      '<section class="act-card" aria-label="กิจกรรม">'+inner+'</section>'+
+      '<div class="actions" id="microActions">'+actions+'</div>'+
+      '<div class="q-foot"><hr class="hero-rule"><img class="logo q-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82"><p class="q-note">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p></div>';
   }
 
   function doneMicro(msgHtml){
@@ -281,16 +314,16 @@
     var phases=[['หายใจเข้า',4,'inhale'],['หายใจออกช้าๆ',6,'exhale'],['หายใจเข้า',4,'inhale'],['หายใจออกช้าๆ',6,'exhale']];
     var a=document.getElementById('microActions');
     if(a)a.innerHTML='<button class="link" data-act="to-next">ข้าม</button>';
-    var countEl=document.getElementById('count'), labelEl=document.getElementById('breathLabel');
+    var countEl=document.getElementById('count'), labelEl=document.getElementById('breathLabel'), breathEl=document.getElementById('breath');
     var p=0;
     function runPhase(){
       if(p>=phases.length){
-        charWrap.classList.remove('inhale','exhale');
-        labelEl.textContent='ทำได้ดีมาก';countEl.textContent='';
+        charWrap.classList.remove('inhale','exhale');breathEl.classList.remove('inhale','exhale');
+        labelEl.textContent='ทำได้ดีมาก';countEl.textContent='';breathEl.classList.add('done');
         doneMicro('');return;
       }
       var ph=phases[p], left=ph[1];
-      charWrap.classList.remove('inhale','exhale');void charWrap.offsetWidth;charWrap.classList.add(ph[2]);
+      charWrap.classList.remove('inhale','exhale');breathEl.classList.remove('inhale','exhale');void charWrap.offsetWidth;charWrap.classList.add(ph[2]);breathEl.classList.add(ph[2]);
       labelEl.textContent=ph[0];countEl.textContent=left;
       (function tick(){
         later(function(){
@@ -420,6 +453,7 @@
     else if(act==='pick')pick(t);
     else if(act==='back')back();
     else if(act==='to-care')setScreen('care');
+    else if(act==='change-care'){S.carePick=null;setScreen('care');}
     else if(act==='to-reveal')setScreen('reveal');
     else if(act==='care')pickCare(t);
     else if(act==='care-remind')toast('Prototype: ในแอปจริง จะตั้งเตือนให้ลองทำตามที่เลือกไว้');
