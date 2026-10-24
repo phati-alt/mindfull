@@ -193,12 +193,6 @@ button,a,input{touch-action:manipulation}
 .share-body .fact{margin-top:var(--space-4)}
 
 
-.care-opts{display:flex;flex-direction:column;gap:var(--space-8);margin-top:var(--space-4)}
-.care-opt{font:inherit;text-align:left;color:var(--ink);background:var(--surface);border:1.5px solid var(--control-line);border-radius:var(--radius-24,24px);padding:var(--space-12) var(--space-16);min-height:56px;display:flex;flex-direction:column;gap:var(--space-4);cursor:pointer;transition:border-color .2s,background-color .2s}
-@media (hover:hover){.care-opt:hover{border-color:var(--accent)}}
-.care-opt[aria-checked="true"]{border-color:var(--accent);background:var(--selected)}
-.care-when{font-size:14px;line-height:20px;font-weight:500;color:var(--ink-soft)} /* th-subheader-1 */
-.care-text{font-size:14px;line-height:24px;font-weight:300} /* th-body-3 */
 #careFollow{display:flex;flex-direction:column;gap:var(--space-8)}
 #careFollow:not(:empty){margin-top:var(--space-4)}
 
@@ -237,14 +231,6 @@ button,a,input{touch-action:manipulation}
 .q-logo{height:24px;margin:var(--space-4) auto 0}
 /* v3.4: result card laid out as in Figma (copy and order unchanged) */
 /* v3.4: How to ดูแล screen laid out as in Figma (copy unchanged) */
-.app.is-care #careH{text-align:center;font-size:16px;line-height:20px;font-weight:300;color:var(--ink-soft);margin-top:var(--space-8)}
-.app.is-care h2{text-align:center;font-size:20px;line-height:28px;font-weight:600}
-.app.is-care .care-opt{text-align:center;align-items:center;border-color:var(--turquoise-100,#B3EDE8)}
-@media (hover:hover){.app.is-care .care-opt:hover{border-color:var(--brand)}}
-.app.is-care .care-opt[aria-checked="true"]{border-color:var(--brand);background:var(--turquoise-50,#E0F8F6)}
-.app.is-care .care-when{font-size:16px;line-height:24px;font-weight:300;color:var(--ink)}
-.app.is-care .care-text{font-size:16px;line-height:24px}
-.app.is-care #careFollow .note{text-align:center}
 /* v3.4: สรุปใจคุณวันนี้ laid out as in Figma: one tinted card, centered (copy unchanged) */
 .app.is-next h2{text-align:center;font-size:20px;line-height:28px;font-weight:600;margin-top:var(--space-8)}
 .app.is-next .summary{background:var(--turquoise-50,#E0F8F6);border-color:var(--brand);text-align:center;padding:var(--space-20)}
@@ -373,3 +359,25 @@ body.on-landing{background:linear-gradient(180deg,var(--turquoise-50,#E0F8F6) 0,
 .res-sub p.res-bname{color:var(--ink);font-size:16px;line-height:24px}
 .res-quote{margin:0;background:var(--surface);border:1px solid var(--gray-300,#E6E6E6);border-left:4px solid var(--brand);border-radius:var(--radius-16,16px);padding:var(--space-16) var(--space-20);font-size:16px;line-height:26px;font-weight:500;color:var(--ink)}
 .res-more>summary:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+
+/* v3.10 How to ดูแล */
+.app.is-care .content{gap:var(--space-16)}
+.care-head{display:flex;flex-direction:column;gap:var(--space-8)}
+.care-eyebrow{margin:0;font-size:12px;line-height:16px;font-weight:500;letter-spacing:.04em;color:var(--turquoise-gray-1,#355956)}
+.app.is-care h2{margin:0;font-size:20px;line-height:28px;font-weight:600;color:var(--ink);text-align:left}
+.care-lead{margin:0;max-width:none;font-size:14px;line-height:24px;font-weight:300;color:var(--ink-soft)}
+.care-opts{display:flex;flex-direction:column;gap:var(--space-12)}
+.care-opt{display:flex;align-items:center;gap:var(--space-16);font:inherit;text-align:left;color:var(--ink);background:var(--surface);border:1.5px solid var(--turquoise-100,#B3EDE8);border-radius:var(--radius-24,24px);padding:var(--space-16) var(--space-20);min-height:72px;cursor:pointer;box-shadow:var(--elevation-03);transition:border-color .2s,background-color .2s}
+.care-body{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:var(--space-4)}
+.care-when{background:var(--chip);color:var(--turquoise-gray-1,#355956);border-radius:var(--radius-24,24px);padding:2px var(--space-12);font-size:12px;line-height:16px;font-weight:500}
+.care-text{font-size:16px;line-height:24px;font-weight:300;color:var(--ink);overflow-wrap:anywhere}
+.care-s{flex:none;display:flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--control-line);color:transparent;transition:background-color .2s,border-color .2s}
+@media (hover:hover){.care-opt:hover{border-color:var(--brand)}}
+.care-opt:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.care-opt:active{background:var(--turquoise-50,#E0F8F6)}
+.care-opt[aria-checked="true"]{border-color:var(--brand);background:var(--turquoise-50,#E0F8F6)}
+.care-opt[aria-checked="true"] .care-when{background:var(--surface)}
+.care-opt[aria-checked="true"] .care-s{background:var(--brand);border-color:var(--brand);color:var(--surface)}
+.app.is-care .actions{margin-top:var(--space-4);padding-top:0;gap:var(--space-12)}
+.care-will{display:none}
+.care-opt[aria-checked="true"] .care-will{display:inline;font-weight:500;color:var(--turquoise-gray-1,#355956)}

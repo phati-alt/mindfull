@@ -187,25 +187,30 @@
   }
 
   /* How to ดูแล: its own screen, reached from the result card's main CTA */
+  /* v3.10 How to ดูแล: back + group tag, label, heading, lead, three time cards (check circle, time tag, text; the picked night / week card also shows 'ฉันจะลอง:' in front of its text), follow-up area that only appears after a pick, footer.
+     Texts come from CARE[...] and WHEN unchanged; the card size does not change when one is picked. */
   function care(){
     var c=CHAR[S.result];
-    return '<div class="head"><button class="back" data-act="to-reveal">ย้อนกลับ</button><span></span></div>'+
-      '<p class="mym-label" id="careH">How to ดูแล '+c.name+'</p>'+
-      '<h2 tabindex="-1" data-focus>เลือกหนึ่งอย่างที่คุณจะลอง</h2>'+
+    var who=WHO.filter(function(w){return w.k===(S.who||'work');})[0];
+    return ''+
+      '<div class="q-top"><button class="back" data-act="to-reveal">กลับไปดูผลลัพธ์</button><span class="q-who">'+who.t+'</span></div>'+
+      '<div class="care-head"><p class="care-eyebrow" id="careH">HOW TO ดูแล · '+c.name+'</p>'+
+        '<h2 tabindex="-1" data-focus>เลือกหนึ่งอย่างที่คุณจะลอง</h2>'+
+        '<p class="care-lead">เลือกตามเวลาและแรงที่มี ไม่จำเป็นต้องทำทุกข้อ</p></div>'+
       '<div class="care-opts" role="radiogroup" aria-labelledby="careH">'+CARE[S.result].map(function(t,i){
         var on=S.carePick===i;
-        return '<button class="care-opt" role="radio" aria-checked="'+on+'" data-act="care" data-v="'+i+'"><span class="care-when">'+WHEN[i]+'</span><span class="care-text">'+t+'</span></button>';
+        return '<button class="care-opt" role="radio" aria-checked="'+on+'" data-act="care" data-v="'+i+'">'+
+          '<span class="care-s" aria-hidden="true">'+IC_CHECK+'</span>'+
+          '<span class="care-body"><span class="care-when">'+WHEN[i]+'</span><span class="care-text">'+(i>0?'<span class="care-will">ฉันจะลอง: </span>':'')+t+'</span></span></button>';
       }).join('')+'</div>'+
       '<div class="actions" id="careFollow" aria-live="polite">'+careFollow()+'</div>'+
-      '<div class="q-foot"><hr class="hero-rule"><img class="logo q-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82"><p class="hero-note">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p></div>';
+      '<div class="q-foot"><hr class="hero-rule"><img class="logo q-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82"><p class="q-note">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p></div>';
   }
   function careFollow(){
     var skip='<button class="link" data-act="to-next">ไปที่ก้าวต่อไป</button>';
     if(S.carePick==null)return skip;
     if(S.carePick===0)return '<button class="btn" data-act="micro">เริ่มเลย 20 วินาที</button>'+skip;
-    var when=S.carePick===1?'คืนนี้':'สัปดาห์นี้';
-    return '<p class="note">'+when+'ฉันจะลอง: '+CARE[S.result][S.carePick]+'</p>'+
-      '<button class="btn" data-act="to-next">ไปที่ก้าวต่อไป</button>'+
+    return '<button class="btn" data-act="to-next">ไปที่ก้าวต่อไป</button>'+
       '<button class="btn ghost" data-act="care-remind">ตั้งเตือนในแอป</button>';
   }
   function pickCare(btn){
