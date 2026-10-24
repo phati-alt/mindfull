@@ -192,7 +192,7 @@
   }
 
   /* How to ดูแล: its own screen, reached from the result card's main CTA */
-  /* v3.10 How to ดูแล: back + group tag, label, heading, lead, three time cards (check circle, time tag, text; the picked night / week card also shows 'ฉันจะลอง:' in front of its text), follow-up area that only appears after a pick, footer.
+  /* v3.10 How to ดูแล: back + group tag, label, heading, lead, three time cards (check circle, time tag, text); tapping a card goes straight to the plan screen, follow-up area that only appears after a pick, footer.
      Texts come from CARE[...] and WHEN unchanged; the card size does not change when one is picked. */
   function care(){
     var c=CHAR[S.result];
@@ -206,7 +206,7 @@
         var on=S.carePick===i;
         return '<button class="care-opt" role="radio" aria-checked="'+on+'" data-act="care" data-v="'+i+'">'+
           '<span class="care-s" aria-hidden="true">'+IC_CHECK+'</span>'+
-          '<span class="care-body"><span class="care-when">'+WHEN[i]+'</span><span class="care-text">'+(i>0?'<span class="care-will">ฉันจะลอง: </span>':'')+t+'</span></span></button>';
+          '<span class="care-body"><span class="care-when">'+WHEN[i]+'</span><span class="care-text">'+t+'</span></span></button>';
       }).join('')+'</div>'+
       '<div class="actions" id="careFollow" aria-live="polite">'+careFollow()+'</div>'+
       '<div class="q-foot"><hr class="hero-rule"><img class="logo q-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82"><p class="q-note">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p></div>';
@@ -217,8 +217,8 @@
   function pickCare(btn){
     S.carePick=+btn.getAttribute('data-v');
     content.querySelectorAll('.care-opt').forEach(function(b){b.setAttribute('aria-checked',b===btn?'true':'false');});
-    /* like the questions: the picked card shows for a moment, then the next screen opens */
-    later(function(){if(S.screen==='care')setScreen('plan');},500);
+    /* tap and go: the plan screen opens right away */
+    setScreen('plan');
   }
 
   /* v3.12 after picking a way to care: back (change it), group tag, label, heading, lead, card 01 (what you chose), card 02 (what happens next), buttons that match the pick.

@@ -348,8 +348,6 @@ body.on-landing{background:linear-gradient(180deg,var(--turquoise-50,#E0F8F6) 0,
 .care-opt[aria-checked="true"] .care-when{background:var(--surface)}
 .care-opt[aria-checked="true"] .care-s{background:var(--brand);border-color:var(--brand);color:var(--surface)}
 .app.is-care .actions,.app.is-plan .actions,.app.is-micro .actions,.app.is-next .actions,.app.is-consent .actions{margin-top:var(--space-4);padding-top:0;gap:var(--space-12)}
-.care-will{display:none}
-.care-opt[aria-checked="true"] .care-will{display:inline;font-weight:500;color:var(--turquoise-gray-1,#355956)}
 
 /* v3.11 share card */
 .overlay{padding:var(--space-16)}
