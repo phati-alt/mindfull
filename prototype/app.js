@@ -101,7 +101,7 @@
     window.scrollTo(0,0);
   }
 
-  /* v3.7 landing: logo, kicker, one-line title, lead, tip banner, two set cards (picture banner + topic tag + button), footer note.
+  /* v3.7 landing: logo, kicker, one-line title, lead, tip banner, two set cards (picture banner + topic tags + short description + button), footer note.
      Choosing a card is the start button. The characters appear only inside the card banners. */
   var IC_CLOCK='<svg class="land-ic" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 4.5V8l2.25 1.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   var IC_INFO='<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.25" fill="none" stroke="currentColor" stroke-width="1.75"/><path d="M12 11v5.25" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/><circle cx="12" cy="7.75" r="1.1" fill="currentColor"/></svg>';
@@ -115,8 +115,8 @@
       '<h2 class="land-h2" id="whoH">คุณอยู่ในช่วงไหน?</h2>'+
       '<div class="who-cards" role="group" aria-labelledby="whoH">'+WHO.map(function(w){
         return '<article class="who-card">'+
-          '<div class="who-pic"><img src="assets/'+w.k+'/characters/all.jpg" width="900" height="672" alt="'+w.alt+'" decoding="async"><span class="who-badge">'+w.s+'</span></div>'+
-          '<div class="who-body"><h3 class="who-t">'+w.t+'</h3>'+
+          '<div class="who-pic"><img src="assets/'+w.k+'/characters/all.jpg" width="900" height="672" alt="'+w.alt+'" decoding="async"><span class="who-tags">'+w.tags.map(function(t){return '<span class="who-tag">'+t+'</span>';}).join('')+'</span></div>'+
+          '<div class="who-body"><h3 class="who-t">'+w.t+'</h3><p class="who-s">'+w.d+'</p>'+
           '<button class="btn" data-act="start" data-v="'+w.k+'" aria-label="เริ่มเช็กใจเลย สำหรับ'+w.t+'">เริ่มเช็กใจเลย</button></div>'+
         '</article>';
       }).join('')+'</div>'+
