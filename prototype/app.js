@@ -61,9 +61,10 @@
     if(!k){charWrap.innerHTML='';charWrap.removeAttribute('data-k');return;}
     var c=CHAR[k];
     /* the last screen shows the app-reminder picture instead of the character */
-    var key=(S.screen==='next'||S.screen==='consent')?'next':k;
+    var key=S.screen==='consent'?(S.consentDone?'consent-done':'consent'):(S.screen==='next'?'next':k);
     if(charWrap.getAttribute('data-k')!==key){
-      if(key==='next')charWrap.innerHTML='<img src="'+nextImg().src+'" width="900" height="672" alt="'+nextImg().alt+'" decoding="async">';
+      if(key==='consent'||key==='consent-done')charWrap.innerHTML='<img src="assets/consent/'+(key==='consent'?'consent':'sent')+'.jpg" width="900" height="672" alt="'+(key==='consent'?'โทรศัพท์แสดงรายการข้อมูลที่เลือกยอมรับหรือไม่ยอมรับ มีกุญแจและโล่ป้องกัน':'โทรศัพท์แสดงเครื่องหมายถูกและรายการที่ทำแล้ว มีเครื่องบินกระดาษส่งไปที่หน้าต่างแอปที่ล็อกไว้')+'" decoding="async">';
+      else if(key==='next')charWrap.innerHTML='<img src="'+nextImg().src+'" width="900" height="672" alt="'+nextImg().alt+'" decoding="async">';
       else{var nm=c.name.toLowerCase();charWrap.innerHTML='<img src="'+charSrc(nm)+'" width="900" height="900" alt="'+charAlt(nm)+'" decoding="async">';}
       charWrap.setAttribute('data-k',key);
     }
@@ -499,7 +500,7 @@
       var g=content.querySelectorAll('.cs-topic')[miss];if(g){g.scrollIntoView({block:'center'});g.querySelector('.cs-opt').focus();}
       return;
     }
-    S.consentDone=true;render();
+    S.consentDone=true;showChar(S.result);render();
   }
 
   function primary(){
