@@ -186,7 +186,7 @@
       '<blockquote class="res-quote">"'+r.reframe+'"</blockquote>'+
       '<div class="actions">'+
         '<button class="btn ghost" data-act="share">แชร์ผลลัพธ์นี้</button>'+
-        '<button class="link" data-act="to-next">ดูก้าวต่อไป</button>'+
+        '<button class="link" data-act="to-next">ดูสรุปใจวันนี้</button>'+
       '</div>'+
       '<div class="q-foot"><hr class="hero-rule"><img class="logo q-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82"><p class="q-note">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p></div>';
   }
@@ -212,7 +212,7 @@
       '<div class="q-foot"><hr class="hero-rule"><img class="logo q-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82"><p class="q-note">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p></div>';
   }
   function careFollow(){
-    return '<button class="link" data-act="to-next">ไปที่ก้าวต่อไป</button>';
+    return '<button class="link" data-act="to-next">ข้ามไปดูสรุป</button>';
   }
   function pickCare(btn){
     S.carePick=+btn.getAttribute('data-v');
@@ -226,10 +226,10 @@
   function plan(){
     var c=CHAR[S.result], i=S.carePick, now=(i===0);
     var who=WHO.filter(function(w){return w.k===(S.who||'work');})[0];
-    var next=now?'เมื่อพร้อม กดเริ่มกิจกรรมสั้นๆ ใช้เวลาประมาณ 20 วินาที':'คุณบันทึกแผนนี้ไว้ แล้วไปดูก้าวต่อไปได้';
+    var next=now?'เมื่อพร้อม กดเริ่มกิจกรรมสั้นๆ ใช้เวลาประมาณ 20 วินาที':'คุณบันทึกแผนนี้ไว้ แล้วไปดูสรุปใจวันนี้ได้';
     var buttons=now
-      ?'<button class="btn" data-act="micro">เริ่มเลย 20 วินาที</button><button class="btn ghost" data-act="to-next">ข้ามไปดูก้าวต่อไป</button>'
-      :'<button class="btn" data-act="to-next">ไปที่ก้าวต่อไป</button><button class="btn ghost" data-act="care-remind">ตั้งเตือนในแอป</button>';
+      ?'<button class="btn" data-act="micro">เริ่มเลย 20 วินาที</button><button class="btn ghost" data-act="to-next">ข้ามไปดูสรุป</button>'
+      :'<button class="btn" data-act="to-next">ดูสรุปใจวันนี้</button><button class="btn ghost" data-act="care-remind">ตั้งเตือนในแอป</button>';
     return ''+
       '<div class="q-top"><button class="back" data-act="change-care">เปลี่ยนวิธีที่เลือก</button><span class="q-who">'+who.t+'</span></div>'+
       '<div class="care-head"><p class="care-eyebrow">HOW TO ดูแล · '+c.name+'</p>'+
@@ -286,7 +286,7 @@
 
   function doneMicro(msgHtml){
     var a=document.getElementById('microActions');
-    if(a)a.innerHTML=(msgHtml?'<p class="note">'+msgHtml+'</p>':'')+'<button class="btn" data-act="to-next">ไปที่ก้าวต่อไป</button>';
+    if(a)a.innerHTML=(msgHtml?'<p class="note">'+msgHtml+'</p>':'')+'<button class="btn" data-act="to-next">ดูสรุปใจวันนี้</button>';
     var b=a&&a.querySelector('.btn');if(b)b.focus();
   }
 
@@ -307,8 +307,9 @@
       '</section>'+
       '<section class="sum-card sum-next" aria-labelledby="sumNextH"><p class="sum-label" id="sumNextH">ก้าวต่อไป</p><p class="sum-text">'+n.body+'</p></section>'+
       '<div class="actions">'+
-        '<button class="btn" data-act="primary">'+n.primary+'</button>'+
-        (n.share?'':'<button class="btn ghost" data-act="share">ส่งการ์ด '+c.name+' ให้เพื่อน</button>')+
+        /* the main button is the same in every case: it opens the consent page. Sharing is the secondary button; when the next step is to pass it on to a friend, it uses that wording */
+        '<button class="btn" data-act="primary">บันทึกผลเช็กใจไปที่แอป</button>'+
+        '<button class="btn ghost" data-act="share">'+(n.share?n.primary:'ส่งการ์ด '+c.name+' ให้เพื่อน')+'</button>'+
         '<button class="link" data-act="again">เล่นอีกครั้ง</button>'+
       '</div>'+
       '<div class="q-foot"><hr class="hero-rule"><img class="logo q-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82"><p class="q-note">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p></div>';
@@ -455,7 +456,7 @@
     var t=[{t:'เมฆที่มาเยือนวันนี้',d:'ให้แอปรู้ว่าวันนี้ใจคุณเป็นแบบไหน',v:c.name+' · '+c.title+' ('+RESULTS[k].name+')'}];
     if(pick!=null)t.push({t:'วิธีดูแลใจที่คุณเลือก',d:'ให้แอปต่อยอดสิ่งที่คุณตั้งใจจะลอง',v:WHEN[pick]+': '+CARE[k][pick]});
     t.push({t:'ระยะเวลาที่รู้สึกหนักใจ',d:'ให้แอปแนะนำก้าวต่อไปที่พอดีกับคุณ',v:DURATION_Q.opts[S.durIdx].t});
-    t.push({t:'ใช้เพื่อก้าวต่อไปในแอป',d:'ให้แอปใช้ข้อมูลข้างต้นเพื่อ "'+n.primary+'" ให้คุณเท่านั้น',v:null});
+    t.push({t:'ใช้เพื่อก้าวต่อไปในแอป',d:n.share?'ให้แอปใช้ข้อมูลข้างต้นเพื่อแนะนำก้าวต่อไปให้คุณเท่านั้น':'ให้แอปใช้ข้อมูลข้างต้นเพื่อ "'+n.primary+'" ให้คุณเท่านั้น',v:null});
     return t;
   }
   function consent(){
@@ -504,8 +505,6 @@
   }
 
   function primary(){
-    var n=NEXT[S.result][S.duration];
-    if(n.share){openShare();return;}
     S.consent=null;S.consentDone=false;setScreen('consent');
   }
 
