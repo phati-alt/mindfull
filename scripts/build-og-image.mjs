@@ -34,8 +34,8 @@ const html = `<!doctype html>
 <body>
   <div class="text">
     <img class="logo" src="${pathToFileURL(join(proto, 'assets', 'logo', 'mindfull-logo.svg'))}" alt="">
-    <h1>ท้องฟ้าในใจวันนี้</h1>
-    <p>เช็กใจ 2 นาที<br>แล้วพบเพื่อนเมฆที่มาเยือนคุณวันนี้</p>
+    <h1>ท้องฟ้าของคุณวันนี้</h1>
+    <p>เช็กอิน เช็กใจ ใช้เวลาประมาณ 2 นาที<br>แล้วพบเพื่อนเมฆที่มาเยือนคุณวันนี้</p>
   </div>
   <div class="card work"><img src="${pathToFileURL(join(proto, 'assets', 'work', 'characters', 'all.jpg'))}" alt=""><span>วัยทำงาน</span></div>
   <div class="card student"><img src="${pathToFileURL(join(proto, 'assets', 'student', 'characters', 'all.jpg'))}" alt=""><span>นักเรียน / นักศึกษา</span></div>

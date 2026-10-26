@@ -113,8 +113,8 @@
   function landing(){
     return ''+
       '<img class="logo hero-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82">'+
-      '<p class="land-kicker">'+IC_CLOCK+'เช็กอินใจ · ใช้เวลาประมาณ 2 นาที</p>'+
-      '<h1 class="land-title" tabindex="-1" data-focus>วันนี้ใจคุณเป็นแบบไหน?</h1>'+
+      '<p class="land-kicker">'+IC_CLOCK+'เช็กอิน เช็กใจ ใช้เวลาประมาณ 2 นาที</p>'+
+      '<h1 class="land-title" tabindex="-1" data-focus>วันนี้ท้องฟ้าของคุณเป็นแบบไหน?</h1>'+
       '<p class="land-lead">ลองสังเกตความรู้สึกของตัวเองผ่าน 6 คำถาม <span class="nw">ไม่มีคำตอบถูกหรือผิด</span></p>'+
       '<aside class="land-tip"><span class="land-tip-ic">'+IC_INFO+'</span><div><p class="land-tip-t">เลือกชุดคำถามให้ตรงกับชีวิตช่วงนี้</p><p class="land-tip-s">เนื้อหาแยกตามวัย เพื่อให้สถานการณ์ใกล้ตัวและตอบได้ง่ายขึ้น</p></div></aside>'+
       '<h2 class="land-h2" id="whoH">คุณอยู่ในช่วงไหน?</h2>'+
@@ -122,7 +122,7 @@
         return '<article class="who-card">'+
           '<div class="who-pic"><img src="assets/'+w.k+'/characters/all.jpg" width="900" height="672" alt="'+w.alt+'" decoding="async"><span class="who-tags">'+w.tags.map(function(t){return '<span class="who-tag">'+t+'</span>';}).join('')+'</span></div>'+
           '<div class="who-body"><h3 class="who-t">'+w.t+'</h3><p class="who-s">'+w.d+'</p>'+
-          '<button class="btn" data-act="start" data-v="'+w.k+'" aria-label="เริ่มเช็กใจเลย สำหรับ'+w.t+'">เริ่มเช็กใจเลย</button></div>'+
+          '<button class="btn" data-act="start" data-v="'+w.k+'" aria-label="เริ่มดูท้องฟ้าเลย สำหรับ'+w.t+'">เริ่มดูท้องฟ้าเลย</button></div>'+
         '</article>';
       }).join('')+'</div>'+
       '<p class="land-foot">ไม่ต้องสมัคร · ไม่เก็บคำตอบ · ไม่ใช่การวินิจฉัย</p>';
@@ -162,17 +162,17 @@
     var sci=String(c.cloud).split(' | ')[0];
     return ''+
       '<div class="res-head">'+
-        '<p class="res-badge">ผลเช็กใจของคุณ · วันนี้</p>'+
+        '<p class="res-badge">นี่คือท้องฟ้าของคุณในวันนี้</p>'+
         '<h2 class="res-name" tabindex="-1" data-focus>'+c.name+'</h2>'+
         '<p class="res-role">'+c.title+'</p>'+
         '<p class="res-type"><span class="res-chip">'+r.name+'</span><span class="res-sci">'+sci+'</span></p>'+
-        '<p class="res-kicker">นี่คือใจคุณช่วงนี้ เมฆลอยผ่านไปได้ พรุ่งนี้อาจเป็นเมฆตัวอื่น</p>'+
+        '<p class="res-kicker">เมฆลอยผ่านไปได้ พรุ่งนี้อาจเป็นเมฆตัวอื่น</p>'+
       '</div>'+
       '<section class="res-card res-about" aria-labelledby="aboutH"><p class="res-label" id="aboutH">ภาพรวมความรู้สึก</p><p class="res-body">'+a.a+'</p></section>'+
       '<section class="res-card res-step" aria-labelledby="stepH"><p class="res-label" id="stepH">ก้าวเล็กๆ ที่เริ่มได้</p>'+
-        '<h3 class="res-step-t">อยากลองดูแลใจตัวเองไหม?</h3>'+
-        '<p class="res-desc">เลือกสิ่งเล็กๆ ที่ช่วยดูแลใจ ลองตอนนี้ 20&nbsp;วินาที หรือนัดตัวเองไว้คืนนี้ สัปดาห์นี้</p>'+
-        '<button class="btn" data-act="to-care">เลือกวิธีดูแลใจ</button>'+
+        '<h3 class="res-step-t">อยากลองดูแลตัวเองไหม?</h3>'+
+        '<p class="res-desc">เลือกสิ่งเล็กๆ ที่จะช่วยดูแลตัวเอง ลองตอนนี้ 20&nbsp;วินาที หรือนัดตัวเองไว้คืนนี้ สัปดาห์นี้</p>'+
+        '<button class="btn" data-act="to-care">เลือกวิธีดูแลตัวเอง</button>'+
       '</section>'+
       '<details class="res-more"><summary>รู้จัก '+c.name+' ให้มากขึ้น</summary><div class="res-more-body">'+
         '<section class="res-sub" aria-label="พลังพิเศษ"><p class="res-label">พลังพิเศษ</p><p class="res-pname">"'+c.power+'" <span>('+c.en+')</span></p><p>'+c.p+'</p></section>'+
@@ -186,7 +186,7 @@
       '<blockquote class="res-quote">"'+r.reframe+'"</blockquote>'+
       '<div class="actions">'+
         '<button class="btn ghost" data-act="share">แชร์ผลลัพธ์นี้</button>'+
-        '<button class="link" data-act="to-next">ดูสรุปใจวันนี้</button>'+
+        '<button class="link" data-act="to-next">ดูสรุปท้องฟ้าวันนี้</button>'+
       '</div>'+
       '<div class="q-foot"><hr class="hero-rule"><img class="logo q-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82"><p class="q-note">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p></div>';
   }
@@ -226,14 +226,14 @@
   function plan(){
     var c=CHAR[S.result], i=S.carePick, now=(i===0);
     var who=WHO.filter(function(w){return w.k===(S.who||'work');})[0];
-    var next=now?'เมื่อพร้อม กดเริ่มกิจกรรมสั้นๆ ใช้เวลาประมาณ 20 วินาที':'คุณบันทึกแผนนี้ไว้ แล้วไปดูสรุปใจวันนี้ได้';
+    var next=now?'เมื่อพร้อม กดเริ่มกิจกรรมสั้นๆ ใช้เวลาประมาณ 20 วินาที':'คุณบันทึกแผนนี้ไว้ แล้วไปดูสรุปท้องฟ้าวันนี้ได้';
     var buttons=now
       ?'<button class="btn" data-act="micro">เริ่มเลย 20 วินาที</button><button class="btn ghost" data-act="to-next">ข้ามไปดูสรุป</button>'
-      :'<button class="btn" data-act="to-next">ดูสรุปใจวันนี้</button><button class="btn ghost" data-act="care-remind">ตั้งเตือนในแอป</button>';
+      :'<button class="btn" data-act="to-next">ดูสรุปท้องฟ้าวันนี้</button><button class="btn ghost" data-act="care-remind">ตั้งเตือนในแอป</button>';
     return ''+
       '<div class="q-top"><button class="back" data-act="change-care">เปลี่ยนวิธีที่เลือก</button><span class="q-who">'+who.t+'</span></div>'+
       '<div class="care-head"><p class="care-eyebrow">วิธีดูแล · '+c.name+'</p>'+
-        '<h2 tabindex="-1" data-focus>วิธีดูแลใจที่คุณเลือก</h2>'+
+        '<h2 tabindex="-1" data-focus>วิธีดูแลตัวเองที่คุณเลือก</h2>'+
         '<p class="care-lead">เก็บไว้เป็นก้าวเล็กๆ ที่ทำได้ในจังหวะของคุณ</p></div>'+
       '<section class="plan-card plan-chosen" aria-labelledby="planChosenH">'+
         '<span class="plan-n" aria-hidden="true">01</span>'+
@@ -286,7 +286,7 @@
 
   function doneMicro(msgHtml){
     var a=document.getElementById('microActions');
-    if(a)a.innerHTML=(msgHtml?'<p class="note">'+msgHtml+'</p>':'')+'<button class="btn" data-act="to-next">ดูสรุปใจวันนี้</button>';
+    if(a)a.innerHTML=(msgHtml?'<p class="note">'+msgHtml+'</p>':'')+'<button class="btn" data-act="to-next">ดูสรุปท้องฟ้าวันนี้</button>';
     var b=a&&a.querySelector('.btn');if(b)b.focus();
   }
 
@@ -299,7 +299,7 @@
     return ''+
       '<div class="q-top"><button class="back" data-act="to-reveal">กลับไปที่ผลลัพธ์</button><span class="q-who">'+who.t+'</span></div>'+
       '<div class="sum-head"><p class="res-badge">สรุปการเช็กอิน</p>'+
-        '<h2 tabindex="-1" data-focus>สรุปใจคุณวันนี้</h2>'+
+        '<h2 tabindex="-1" data-focus>สรุปท้องฟ้าของคุณวันนี้</h2>'+
         '<p class="care-lead">'+(pick!=null?'นี่คือเพื่อนเมฆที่มาเยือนและสิ่งที่คุณเลือกไว้':'นี่คือผลเช็กอินของคุณและคำแนะนำขั้นต่อไป')+'</p></div>'+
       '<section class="sum-card sum-char" aria-label="เพื่อนเมฆที่มาเยือน">'+
         '<div class="sum-who"><div class="buddy-av" aria-hidden="true"><img src="'+charSrc(c.name.toLowerCase())+'" width="56" height="56" alt="" decoding="async"></div>'+
@@ -308,7 +308,7 @@
       '<section class="sum-card sum-next" aria-labelledby="sumNextH"><p class="sum-label" id="sumNextH">ก้าวต่อไป</p><p class="sum-text">'+n.body+'</p></section>'+
       '<div class="actions">'+
         /* the main button is the same in every case: it opens the consent page. Sharing is the secondary button; when the next step is to pass it on to a friend, it uses that wording */
-        '<button class="btn" data-act="primary">บันทึกผลเช็กใจไปที่แอป</button>'+
+        '<button class="btn" data-act="primary">บันทึกท้องฟ้าวันนี้ไปที่แอป</button>'+
         '<button class="btn ghost" data-act="share">'+(n.share?n.primary:'ส่งการ์ด '+c.name+' ให้เพื่อน')+'</button>'+
         '<button class="link" data-act="again">เล่นอีกครั้ง</button>'+
       '</div>'+
@@ -351,8 +351,8 @@
         '<span class="sh-tag">การ์ดผลลัพธ์</span>'+
         '<button class="sh-x" data-act="share-close" aria-label="ปิดหน้าต่างแชร์"><span aria-hidden="true"></span></button></div>'+
       '<div class="sh-body">'+
-        '<div class="sh-brand"><img class="logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82"><span class="sh-brand-t">ท้องฟ้าในใจวันนี้</span></div>'+
-        '<p class="sh-badge">ผลเช็กใจของฉัน</p>'+
+        '<div class="sh-brand"><img class="logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82"><span class="sh-brand-t">ท้องฟ้าของคุณวันนี้</span></div>'+
+        '<p class="sh-badge">ท้องฟ้าของฉันวันนี้</p>'+
         '<h2 class="sh-title" id="shareTitle">วันนี้ '+c.name+' มาเยือนฉัน</h2>'+
         '<p class="sh-role">'+c.title+'</p>'+
         '<section class="sh-power" aria-label="พลังพิเศษ"><p class="sh-label">พลังพิเศษ</p><p class="sh-pname">"'+c.power+'" <span>('+c.en+')</span></p></section>'+
@@ -374,7 +374,7 @@
     var c=CHAR[S.result];var text='วันนี้ '+c.name+' ('+c.title+') มาเยือนฉัน ลองดูว่าเพื่อนเมฆตัวไหนมาเยือนคุณ ใช้เวลาแค่ 2 นาที';
     /* if the share sheet is refused (e.g. inside an embedded frame), fall back to copying the text */
     if(navigator.share){
-      navigator.share({title:'ท้องฟ้าในใจวันนี้',text:text}).catch(function(e){if(!e||e.name!=='AbortError')copyShare(text);});
+      navigator.share({title:'ท้องฟ้าของคุณวันนี้',text:text}).catch(function(e){if(!e||e.name!=='AbortError')copyShare(text);});
     } else if(navigator.clipboard&&navigator.clipboard.writeText){
       navigator.clipboard.writeText(text).then(function(){toast('คัดลอกข้อความแล้ว วางในแชตหรือสตอรี่ได้เลย');},function(){toast('ในเวอร์ชันจริง ปุ่มนี้จะเปิดหน้าแชร์ของมือถือ');});
     } else {
@@ -453,8 +453,8 @@
      Raw answers and the text typed in the activities are never part of it. Nothing is sent from this prototype. */
   function consentTopics(){
     var k=S.result, c=CHAR[k], n=NEXT[k][S.duration], pick=S.carePick;
-    var t=[{t:'เมฆที่มาเยือนวันนี้',d:'ให้แอปรู้ว่าวันนี้ใจคุณเป็นแบบไหน',v:c.name+' · '+c.title+' ('+RESULTS[k].name+')'}];
-    if(pick!=null)t.push({t:'วิธีดูแลใจที่คุณเลือก',d:'ให้แอปต่อยอดสิ่งที่คุณตั้งใจจะลอง',v:WHEN[pick]+': '+CARE[k][pick]});
+    var t=[{t:'เมฆที่มาเยือนวันนี้',d:'ให้แอปรู้ว่าวันนี้ท้องฟ้าของคุณเป็นแบบไหน',v:c.name+' · '+c.title+' ('+RESULTS[k].name+')'}];
+    if(pick!=null)t.push({t:'วิธีดูแลตัวเองที่คุณเลือก',d:'ให้แอปต่อยอดสิ่งที่คุณตั้งใจจะลอง',v:WHEN[pick]+': '+CARE[k][pick]});
     t.push({t:'ระยะเวลาที่รู้สึกหนักใจ',d:'ให้แอปแนะนำก้าวต่อไปที่พอดีกับคุณ',v:DURATION_Q.opts[S.durIdx].t});
     t.push({t:'ใช้เพื่อก้าวต่อไปในแอป',d:n.share?'ให้แอปใช้ข้อมูลข้างต้นเพื่อแนะนำก้าวต่อไปให้คุณเท่านั้น':'ให้แอปใช้ข้อมูลข้างต้นเพื่อ "'+n.primary+'" ให้คุณเท่านั้น',v:null});
     return t;

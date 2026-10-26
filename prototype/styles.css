@@ -298,7 +298,7 @@ body.on-landing{background:linear-gradient(180deg,var(--turquoise-50,#E0F8F6) 0,
 .res-type{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:var(--space-8);margin:0}
 .res-chip{background:var(--chip);color:var(--turquoise-gray-1,#355956);border-radius:var(--radius-24,24px);padding:var(--space-4) var(--space-12);font-size:14px;line-height:20px;font-weight:500}
 .res-sci{font-size:14px;line-height:20px;font-weight:300;color:var(--ink-soft)}
-.res-kicker{margin:0;max-width:34ch;font-size:14px;line-height:24px;font-weight:300;color:var(--ink-soft)}
+.res-kicker{margin:0;max-width:34ch;font-size:16px;line-height:26px;font-weight:300;color:var(--ink-soft)}
 .res-card{display:flex;flex-direction:column;gap:var(--space-8);border-radius:var(--radius-24,24px);padding:var(--space-20)}
 .res-label{margin:0;font-size:14px;line-height:20px;font-weight:500;color:var(--ink-soft)}
 .res-body{margin:0;max-width:none;font-size:16px;line-height:26px;font-weight:300;color:var(--turquoise-gray-1,#355956)}
