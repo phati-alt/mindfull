@@ -208,14 +208,14 @@ button,a,input{touch-action:manipulation}
 .q-foot{margin-top:auto;padding-top:var(--space-8);display:flex;flex-direction:column;align-items:center;gap:var(--space-8)}
 .q-logo{height:24px;margin:var(--space-4) auto 0}
 /* v3.4: result card laid out as in Figma (copy and order unchanged) */
-/* v3.4: How to ดูแล screen laid out as in Figma (copy unchanged) */
+/* v3.4: วิธีดูแล screen laid out as in Figma (copy unchanged) */
 /* v3.4: สรุปใจคุณวันนี้ laid out as in Figma: one tinted card, centered (copy unchanged) */
 /* v3.4 system: every screen ends with the same footer; hotline line centered; back buttons medium */
 .safety{text-align:center;border-top:0;margin-top:var(--space-8);padding-top:0}
 .head .back{font-weight:500}
 /* v3.4 system: micro-action header centered like the other screens; inputs and steps stay left-aligned */
-/* v3.4 result hierarchy: รู้จัก is the green card, the folded details go quiet, How to ดูแล is the one that stands out */
-/* "รู้จัก [ชื่อ] ให้มากขึ้น" as a quiet card: easy to spot, not competing with How to ดูแล */
+/* v3.4 result hierarchy: รู้จัก is the green card, the folded details go quiet, วิธีดูแล is the one that stands out */
+/* "รู้จัก [ชื่อ] ให้มากขึ้น" as a quiet card: easy to spot, not competing with วิธีดูแล */
 /* keep the care button inside the first screen at 390x844 with the folded card in place */
 
 /* v3.6 สัญญาณที่พบบ่อย: student set only, inside the folded "รู้จัก … ให้มากขึ้น" */
@@ -329,10 +329,10 @@ body.on-landing{background:linear-gradient(180deg,var(--turquoise-50,#E0F8F6) 0,
 .res-quote{margin:0;background:var(--surface);border:1px solid var(--gray-300,#E6E6E6);border-left:4px solid var(--brand);border-radius:var(--radius-16,16px);padding:var(--space-16) var(--space-20);font-size:16px;line-height:26px;font-weight:500;color:var(--ink)}
 .res-more>summary:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
 
-/* v3.10 How to ดูแล */
+/* v3.10 วิธีดูแล */
 .app.is-care .content,.app.is-plan .content,.app.is-micro .content,.app.is-next .content,.app.is-consent .content{gap:var(--space-16)}
 .care-head{display:flex;flex-direction:column;gap:var(--space-8)}
-.care-eyebrow{margin:0;font-size:12px;line-height:16px;font-weight:500;letter-spacing:.04em;color:var(--turquoise-gray-1,#355956)}
+.care-eyebrow{margin:0;font-size:12px;line-height:16px;font-weight:500;color:var(--turquoise-gray-1,#355956)}
 .app.is-care h2,.app.is-plan h2,.app.is-micro h2,.app.is-next h2,.app.is-consent h2{margin:0;font-size:20px;line-height:28px;font-weight:600;color:var(--ink);text-align:left}
 .care-lead{margin:0;max-width:none;font-size:14px;line-height:24px;font-weight:300;color:var(--ink-soft)}
 .care-opts{display:flex;flex-direction:column;gap:var(--space-12)}

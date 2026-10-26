@@ -191,15 +191,15 @@
       '<div class="q-foot"><hr class="hero-rule"><img class="logo q-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82"><p class="q-note">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p></div>';
   }
 
-  /* How to ดูแล: its own screen, reached from the result card's main CTA */
-  /* v3.10 How to ดูแล: back + group tag, label, heading, lead, three time cards (check circle, time tag, text); tapping a card goes straight to the plan screen, follow-up area that only appears after a pick, footer.
+  /* วิธีดูแล: its own screen, reached from the result card's main CTA */
+  /* v3.10 วิธีดูแล: back + group tag, label, heading, lead, three time cards (check circle, time tag, text); tapping a card goes straight to the plan screen, follow-up area that only appears after a pick, footer.
      Texts come from CARE[...] and WHEN unchanged; the card size does not change when one is picked. */
   function care(){
     var c=CHAR[S.result];
     var who=WHO.filter(function(w){return w.k===(S.who||'work');})[0];
     return ''+
       '<div class="q-top"><button class="back" data-act="to-reveal">กลับไปดูผลลัพธ์</button><span class="q-who">'+who.t+'</span></div>'+
-      '<div class="care-head"><p class="care-eyebrow" id="careH">HOW TO ดูแล · '+c.name+'</p>'+
+      '<div class="care-head"><p class="care-eyebrow" id="careH">วิธีดูแล · '+c.name+'</p>'+
         '<h2 tabindex="-1" data-focus>เลือกหนึ่งอย่างที่คุณจะลอง</h2>'+
         '<p class="care-lead">เลือกตามเวลาและแรงที่มี ไม่จำเป็นต้องทำทุกข้อ</p></div>'+
       '<div class="care-opts" role="radiogroup" aria-labelledby="careH">'+CARE[S.result].map(function(t,i){
@@ -232,7 +232,7 @@
       :'<button class="btn" data-act="to-next">ดูสรุปใจวันนี้</button><button class="btn ghost" data-act="care-remind">ตั้งเตือนในแอป</button>';
     return ''+
       '<div class="q-top"><button class="back" data-act="change-care">เปลี่ยนวิธีที่เลือก</button><span class="q-who">'+who.t+'</span></div>'+
-      '<div class="care-head"><p class="care-eyebrow">HOW TO ดูแล · '+c.name+'</p>'+
+      '<div class="care-head"><p class="care-eyebrow">วิธีดูแล · '+c.name+'</p>'+
         '<h2 tabindex="-1" data-focus>วิธีดูแลใจที่คุณเลือก</h2>'+
         '<p class="care-lead">เก็บไว้เป็นก้าวเล็กๆ ที่ทำได้ในจังหวะของคุณ</p></div>'+
       '<section class="plan-card plan-chosen" aria-labelledby="planChosenH">'+
@@ -276,7 +276,7 @@
     }
     return ''+
       '<div class="q-top"><button class="back" data-act="to-reveal">กลับไปที่ผลลัพธ์</button><span class="q-who">'+who.t+'</span></div>'+
-      '<div class="care-head"><div class="act-meta"><p class="care-eyebrow">HOW TO ดูแล · '+CHAR[k].name+'</p><span class="care-when">ใช้เวลา 20 วินาที</span></div>'+
+      '<div class="care-head"><div class="act-meta"><p class="care-eyebrow">วิธีดูแล · '+CHAR[k].name+'</p><span class="care-when">ใช้เวลา 20 วินาที</span></div>'+
         '<h2 tabindex="-1" data-focus>'+r.microTitle+'</h2>'+
         '<p class="care-lead">'+r.microIntro+'</p></div>'+
       '<section class="act-card" aria-label="กิจกรรม">'+inner+'</section>'+
