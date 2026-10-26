@@ -310,7 +310,7 @@
         /* the main button is the same in every case: it opens the consent page. Sharing is the secondary button; when the next step is to pass it on to a friend, it uses that wording */
         '<button class="btn" data-act="primary">บันทึกท้องฟ้าวันนี้ไปที่แอป</button>'+
         '<button class="btn ghost" data-act="share">'+(n.share?n.primary:'ส่งการ์ด '+c.name+' ให้เพื่อน')+'</button>'+
-        '<button class="link" data-act="again">เล่นอีกครั้ง</button>'+
+        '<button class="link" data-act="again">เริ่มใหม่</button>'+
       '</div>'+
       '<div class="q-foot"><hr class="hero-rule"><img class="logo q-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82"><p class="q-note">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p></div>';
   }
@@ -452,11 +452,10 @@
   /* v3.15 consent page opened by the summary's main button: 3-4 topics, each Accept / Decline, then a submit button.
      Raw answers and the text typed in the activities are never part of it. Nothing is sent from this prototype. */
   function consentTopics(){
-    var k=S.result, c=CHAR[k], n=NEXT[k][S.duration], pick=S.carePick;
+    var k=S.result, c=CHAR[k], pick=S.carePick;
     var t=[{t:'เมฆที่มาเยือนวันนี้',d:'ให้แอปรู้ว่าวันนี้ท้องฟ้าของคุณเป็นแบบไหน',v:c.name+' · '+c.title+' ('+RESULTS[k].name+')'}];
-    if(pick!=null)t.push({t:'วิธีดูแลตัวเองที่คุณเลือก',d:'ให้แอปต่อยอดสิ่งที่คุณตั้งใจจะลอง',v:WHEN[pick]+': '+CARE[k][pick]});
+    if(pick!=null)t.push({t:'วิธีดูแลตัวเองที่คุณเลือก',d:'ให้แอปช่วยเตือนและต่อยอดสิ่งที่คุณตั้งใจจะลอง',v:WHEN[pick]+': '+CARE[k][pick]});
     t.push({t:'ระยะเวลาที่รู้สึกหนักใจ',d:'ให้แอปแนะนำก้าวต่อไปที่พอดีกับคุณ',v:DURATION_Q.opts[S.durIdx].t});
-    t.push({t:'ใช้เพื่อก้าวต่อไปในแอป',d:n.share?'ให้แอปใช้ข้อมูลข้างต้นเพื่อแนะนำก้าวต่อไปให้คุณเท่านั้น':'ให้แอปใช้ข้อมูลข้างต้นเพื่อ "'+n.primary+'" ให้คุณเท่านั้น',v:null});
     return t;
   }
   function consent(){
@@ -471,13 +470,13 @@
         '<div class="sum-head"><p class="res-badge">ความยินยอม</p><h2 tabindex="-1" data-focus>บันทึกการเลือกแล้ว</h2>'+
         '<p class="care-lead">'+(sent?'แอปจะได้รับเฉพาะหัวข้อที่คุณยอมรับ':'คุณไม่ได้ส่งข้อมูลใดๆ ให้แอป')+'</p></div>'+
         '<section class="cs-card" aria-label="สรุปการเลือก">'+topics.map(function(x,i){var y=S.consent[i]==='yes';return '<div class="cs-row"><span class="cs-row-t">'+x.t+'</span><span class="cs-state '+(y?'yes':'no')+'">'+(y?'ยอมรับ':'ไม่ยอมรับ')+'</span></div>';}).join('')+'</section>'+
-        '<p class="cs-proto">prototype นี้ไม่ได้ส่งข้อมูลออกจากเครื่องจริง ในแอปจริงจะส่งเฉพาะหัวข้อที่ยอมรับ</p>'+
-        '<div class="actions"><button class="btn" data-act="to-next">กลับไปที่สรุป</button><button class="link" data-act="again">เล่นอีกครั้ง</button></div>'+foot;
+        '<p class="cs-proto">ต้นแบบนี้ยังไม่ได้ส่งข้อมูลจริง ในแอปจะส่งเฉพาะหัวข้อที่คุณยอมรับ</p>'+
+        '<div class="actions"><button class="btn" data-act="to-next">กลับไปที่สรุป</button><button class="link" data-act="again">เริ่มใหม่</button></div>'+foot;
     }
     return top+
-      '<div class="sum-head"><p class="res-badge">ความยินยอม</p><h2 tabindex="-1" data-focus>ส่งข้อมูลไปที่แอปไหม</h2>'+
-      '<p class="care-lead">เลือก ยอมรับ หรือ ไม่ยอมรับ ทีละหัวข้อ หัวข้อที่ไม่ยอมรับ เราจะไม่ส่ง</p></div>'+
-      '<section class="cs-notsent" aria-label="ไม่ส่ง"><span class="cs-no-ic" aria-hidden="true"></span><div><p class="cs-no-t">ไม่ส่ง</p><ul class="cs-no-list"><li>คำตอบรายข้อ</li><li>ข้อความที่คุณพิมพ์ในกิจกรรม</li></ul></div></section>'+
+      '<div class="sum-head"><p class="res-badge">ความยินยอม</p><h2 tabindex="-1" data-focus>บันทึกท้องฟ้าวันนี้ไปที่แอปไหม?</h2>'+
+      '<p class="care-lead">เลือก "ยอมรับ" หรือ "ไม่ยอมรับ" ทีละหัวข้อ แอปจะได้รับเฉพาะหัวข้อที่คุณยอมรับ และใช้เพื่อแนะนำก้าวต่อไปให้คุณเท่านั้น</p></div>'+
+      '<section class="cs-notsent" aria-label="สิ่งที่จะไม่ส่งเลย"><span class="cs-no-ic" aria-hidden="true"></span><div><p class="cs-no-t">สิ่งที่จะไม่ส่งเลย</p><ul class="cs-no-list"><li>คำตอบรายข้อ</li><li>ข้อความที่คุณพิมพ์ในกิจกรรม</li></ul></div></section>'+
       '<div class="cs-list">'+topics.map(function(x,i){
         var cur=S.consent[i];
         return '<section class="cs-topic" aria-labelledby="csT'+i+'"><p class="cs-title" id="csT'+i+'">'+x.t+'</p><p class="cs-desc">'+x.d+'</p>'+(x.v?'<p class="cs-value">'+x.v+'</p>':'')+
@@ -486,7 +485,7 @@
             '<button class="cs-opt cs-no" role="radio" aria-checked="'+(cur==='no')+'" data-act="consent-pick" data-i="'+i+'" data-v="no">ไม่ยอมรับ</button></div></section>';
       }).join('')+'</div>'+
       '<p class="field-error" id="csErr" role="alert" hidden>เลือก ยอมรับ หรือ ไม่ยอมรับ ให้ครบทุกหัวข้อก่อนส่ง</p>'+
-      '<div class="actions"><button class="btn" data-act="consent-submit">ส่งข้อมูล</button><button class="link" data-act="to-next">ยกเลิก กลับไปที่สรุป</button></div>'+foot;
+      '<div class="actions"><button class="btn" data-act="consent-submit">บันทึกไปที่แอป</button><button class="link" data-act="to-next">ยกเลิก กลับไปที่สรุป</button></div>'+foot;
   }
   function consentPick(btn){
     var i=+btn.getAttribute('data-i');
