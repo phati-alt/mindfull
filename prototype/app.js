@@ -471,7 +471,7 @@
         '<p class="care-lead">'+(sent?'แอปจะได้รับเฉพาะหัวข้อที่คุณยอมรับ':'คุณไม่ได้ส่งข้อมูลใดๆ ให้แอป')+'</p></div>'+
         '<section class="cs-card" aria-label="สรุปการเลือก">'+topics.map(function(x,i){var y=S.consent[i]==='yes';return '<div class="cs-row"><span class="cs-row-t">'+x.t+'</span><span class="cs-state '+(y?'yes':'no')+'">'+(y?'ยอมรับ':'ไม่ยอมรับ')+'</span></div>';}).join('')+'</section>'+
         '<p class="cs-proto">ต้นแบบนี้ยังไม่ได้ส่งข้อมูลจริง ในแอปจะส่งเฉพาะหัวข้อที่คุณยอมรับ</p>'+
-        '<div class="actions"><a class="btn" href="https://ooca.co/service/" target="_blank" rel="noopener">ไปที่แอป</a><button class="link" data-act="again">เริ่มใหม่</button></div>'+foot;
+        '<div class="actions"><button class="btn" data-act="open-app">ไปที่แอป</button><button class="link" data-act="again">เริ่มใหม่</button></div>'+foot;
     }
     return top+
       '<div class="sum-head"><p class="res-badge">ความยินยอม</p><h2 tabindex="-1" data-focus>บันทึกท้องฟ้าวันนี้ไปที่แอปไหม?</h2>'+
@@ -517,6 +517,7 @@
     else if(act==='change-care'){S.carePick=null;setScreen('care');}
     else if(act==='to-reveal')setScreen('reveal');
     else if(act==='care')pickCare(t);
+    else if(act==='open-app')toast('นี่คือการจำลอง ในแอปจริงปุ่มนี้จะพาคุณไปเปิดแอป');
     else if(act==='care-remind')toast('Prototype: ในแอปจริง จะตั้งเตือนให้ลองทำตามที่เลือกไว้');
     else if(act==='micro')setScreen('micro');
     else if(act==='to-next')setScreen('next');
