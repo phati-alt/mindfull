@@ -78,6 +78,7 @@ p{margin:0;font-size:16px;line-height:20px;font-weight:300;max-width:60ch} /* th
   padding:0 var(--space-16);min-height:40px;width:100%;cursor:pointer;
   background:var(--accent);color:var(--accent-ink);
 }
+a.btn{display:flex;align-items:center;justify-content:center;box-sizing:border-box;text-decoration:none}
 .btn::after{content:"";position:absolute;left:0;right:0;top:-4px;bottom:-4px}
 .btn.ghost::after{top:-6px;bottom:-6px}
 .btn:active{background:var(--accent-active)}
@@ -107,6 +108,7 @@ p{margin:0;font-size:16px;line-height:20px;font-weight:300;max-width:60ch} /* th
 
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--surface);padding:var(--space-12) var(--space-16);border-radius:var(--radius-8,8px);font-size:14px;line-height:24px;font-weight:300;width:max-content;max-width:min(90vw,420px);opacity:0;pointer-events:none;transition:opacity .25s;z-index:20}
 .toast.show{opacity:1}
+.overlay:not([hidden]) ~ .toast{bottom:auto;top:calc(20px + env(safe-area-inset-top,0px))} /* above the share card so it does not cover its buttons */
 
 .overlay{position:fixed;inset:0;background:var(--scrim);display:grid;place-items:center;padding:var(--space-24);z-index:10}
 .overlay[hidden]{display:none}

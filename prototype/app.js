@@ -63,7 +63,7 @@
     /* the last screen shows the app-reminder picture instead of the character */
     var key=S.screen==='consent'?(S.consentDone?'consent-done':'consent'):(S.screen==='next'?'next':k);
     if(charWrap.getAttribute('data-k')!==key){
-      if(key==='consent'||key==='consent-done')charWrap.innerHTML='<img src="assets/consent/'+(key==='consent'?'consent':'sent')+'.jpg" width="900" height="672" alt="'+(key==='consent'?'โทรศัพท์แสดงรายการข้อมูลที่เลือกยอมรับหรือไม่ยอมรับ มีกุญแจและโล่ป้องกัน':'โทรศัพท์แสดงเครื่องหมายถูกและรายการที่ทำแล้ว มีเครื่องบินกระดาษส่งไปที่หน้าต่างแอปที่ล็อกไว้')+'" decoding="async">';
+      if(key==='consent'||key==='consent-done')charWrap.innerHTML='<img src="assets/consent/'+(key==='consent'?'consent':'sent')+'.jpg" width="1200" height="896" alt="'+(key==='consent'?'คนหัวเมฆถือโทรศัพท์ มีเอกสารที่ติ๊กถูก กุญแจ โล่ และสวิตช์เปิดปิดอยู่ข้างๆ':'คนหัวเมฆยิ้มกว้างพนมมือ มีพระอาทิตย์อยู่ด้านหลัง ข้างๆ มีเอกสารที่ติ๊กถูก กุญแจ และโล่')+'" decoding="async">';
       else if(key==='next')charWrap.innerHTML='<img src="'+nextImg().src+'" width="900" height="672" alt="'+nextImg().alt+'" decoding="async">';
       else{var nm=c.name.toLowerCase();charWrap.innerHTML='<img src="'+charSrc(nm)+'" width="900" height="900" alt="'+charAlt(nm)+'" decoding="async">';}
       charWrap.setAttribute('data-k',key);
@@ -309,7 +309,7 @@
       '<div class="actions">'+
         /* the main button is the same in every case: it opens the consent page. Sharing is the secondary button; when the next step is to pass it on to a friend, it uses that wording */
         '<button class="btn" data-act="primary">บันทึกท้องฟ้าวันนี้ไปที่แอป</button>'+
-        '<button class="btn ghost" data-act="share">'+(n.share?n.primary:'ส่งการ์ด '+c.name+' ให้เพื่อน')+'</button>'+
+        '<button class="btn ghost" data-act="share">แชร์ผลลัพธ์นี้</button>'+
         '<button class="link" data-act="again">เริ่มใหม่</button>'+
       '</div>'+
       '<div class="q-foot"><hr class="hero-rule"><img class="logo q-logo" src="'+LOGO_SRC+'" alt="mindfull" width="419" height="82"><p class="q-note">เป็นแค่การเช็กความรู้สึก ไม่ใช่การวินิจฉัยนะ</p></div>';
@@ -342,7 +342,7 @@
   }
 
   /* ---------- Share ---------- */
-  /* v3.11 share card (dialog on top of the result page): picture, tag, brand, badge, title, role, power, 'รู้ไหม', privacy line, share + back.
+  /* v3.11 share card (dialog on top of the result page): picture, tag, brand, badge, title, role, power, 'รู้ไหม', privacy line, share + save (simulated).
      Everything is read from CHAR for the current result and group (pictures from assets/<work|student>/characters/). */
   function openShare(){
     var k=S.result, c=CHAR[k], nm=c.name.toLowerCase();
@@ -358,7 +358,7 @@
         '<section class="sh-power" aria-label="พลังพิเศษ"><p class="sh-label">พลังพิเศษ</p><p class="sh-pname">"'+c.power+'" <span>('+c.en+')</span></p></section>'+
         '<section class="sh-fact" aria-label="รู้ไหม"><p class="sh-label">รู้ไหม</p><p class="sh-fact-t">'+c.fact+'</p></section>'+
         '<p class="sh-privacy">การ์ดนี้แสดงแค่เพื่อนเมฆ ไม่มีคำตอบหรือรายละเอียดส่วนตัวของคุณ</p>'+
-        '<div class="sh-actions"><button class="btn" data-act="share-now">แชร์การ์ดนี้</button><button class="btn ghost" data-act="share-close">กลับไปดูผลลัพธ์</button></div>'+
+        '<div class="sh-actions"><button class="btn" data-act="share-now">แชร์ผลลัพธ์นี้</button><button class="btn ghost" data-act="share-save">บันทึกการ์ดนี้</button></div>'+
       '</div>';
     shareCard.scrollTop=0;
     overlay.hidden=false;
@@ -471,7 +471,7 @@
         '<p class="care-lead">'+(sent?'แอปจะได้รับเฉพาะหัวข้อที่คุณยอมรับ':'คุณไม่ได้ส่งข้อมูลใดๆ ให้แอป')+'</p></div>'+
         '<section class="cs-card" aria-label="สรุปการเลือก">'+topics.map(function(x,i){var y=S.consent[i]==='yes';return '<div class="cs-row"><span class="cs-row-t">'+x.t+'</span><span class="cs-state '+(y?'yes':'no')+'">'+(y?'ยอมรับ':'ไม่ยอมรับ')+'</span></div>';}).join('')+'</section>'+
         '<p class="cs-proto">ต้นแบบนี้ยังไม่ได้ส่งข้อมูลจริง ในแอปจะส่งเฉพาะหัวข้อที่คุณยอมรับ</p>'+
-        '<div class="actions"><button class="btn" data-act="to-next">กลับไปที่สรุป</button><button class="link" data-act="again">เริ่มใหม่</button></div>'+foot;
+        '<div class="actions"><a class="btn" href="https://ooca.co/service/" target="_blank" rel="noopener">ไปที่แอป</a><button class="link" data-act="again">เริ่มใหม่</button></div>'+foot;
     }
     return top+
       '<div class="sum-head"><p class="res-badge">ความยินยอม</p><h2 tabindex="-1" data-focus>บันทึกท้องฟ้าวันนี้ไปที่แอปไหม?</h2>'+
@@ -542,6 +542,7 @@
     if(e.target===overlay){closeShare();return;}
     if(!t)return;
     if(t.getAttribute('data-act')==='share-now')shareNow();
+    if(t.getAttribute('data-act')==='share-save')toast('นี่คือการจำลอง ในแอปจริงการ์ดนี้จะถูกบันทึกเป็นรูปลงในเครื่องของคุณ');
     if(t.getAttribute('data-act')==='share-close')closeShare();
   });
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!overlay.hidden)closeShare();});
