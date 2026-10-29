@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>หนึ่งสัปดาห์ของคุณ · mindfull</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="ใช้ 2 นาที ไล่ดูหนึ่งสัปดาห์ของคุณ แล้วพบเพื่อนเมฆที่มาเยือนวันนี้">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/logo/mindfull-tokens.css">
+<style>
+:root{
+  --ink:var(--black,#1C1C1C); --soft:#5B6B78; --accent:var(--blue-1,#1F77DF); --warm:var(--marigo-1,#F9A000);
+  --mint:var(--turquoise-1,#20B2AA); --warm-soft:var(--marigo-100,#F8E4B3);
+  --sky-top:#E4EFFB; --sky-bot:#FBFBFB; color-scheme:light;
+}
+*{box-sizing:border-box;margin:0}
+html{background:#FCE4D6;transition:background 1.4s ease}
+body{font-family:Prompt,"Noto Sans Thai",sans-serif;font-weight:300;color:var(--ink);min-height:100dvh;overflow-x:hidden;
+  transition:color .8s;-webkit-tap-highlight-color:transparent;user-select:none}
+/* the sky layer reaches past both screen edges, so what shows behind the status bar and the browser toolbar is plain sky, never a seam */
+/* one solid sky colour per scene; the page runs edge to edge, under the status bar and under the browser toolbar */
+body::before{content:"";position:fixed;left:0;right:0;top:-25vh;bottom:-25vh;z-index:-1;background:var(--sky-top);transition:background 1.4s ease}
+body[data-sky="dawn"]{--sky-top:#FCE4D6;--sky-bot:#FCE4D6}
+body[data-sky="morning"]{--sky-top:#DDEBF9;--sky-bot:#DDEBF9}
+body[data-sky="evening"]{--sky-top:#4B4F7A;--sky-bot:#4B4F7A}
+body[data-sky="noon"]{--sky-top:#D2E7FC;--sky-bot:#D2E7FC}
+body[data-sky="dusk"]{--sky-top:#FAC79F;--sky-bot:#FAC79F}
+body[data-sky="night"]{--sky-top:#1E2944;--sky-bot:#1E2944}
+body.dark{color:#F4F6FA}
+
+/* ambient sky: drifting clouds, stars at night, a sun glow by day. Decoration only, never tied to the answers */
+#fx{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+#fx i{position:absolute;border-radius:50%;background:#fff;opacity:0;transition:opacity 1.2s}
+body.dark #fx i{opacity:.8;animation:twinkle 3s ease-in-out infinite}
+#fx .sun{position:absolute;width:220px;height:220px;right:-60px;top:-60px;background:radial-gradient(circle,rgba(255,236,170,.9),rgba(255,236,170,0) 70%);opacity:0;transition:opacity 1.2s}
+body[data-sky="morning"] #fx .sun,body[data-sky="noon"] #fx .sun,body[data-sky="dawn"] #fx .sun{opacity:1}
+body[data-sky="dusk"] #fx .sun{opacity:1;background:radial-gradient(circle,rgba(255,170,110,.9),rgba(255,170,110,0) 70%);top:auto;bottom:30%;right:-40px}
+#fx .drift{position:absolute;left:-180px;width:160px;opacity:.5;animation:drift linear infinite;transition:opacity 1.2s}
+body.dark #fx .drift{opacity:.12}
+@keyframes drift{to{transform:translateX(calc(100vw + 360px))}}
+@keyframes twinkle{50%{opacity:.2}}
+
+.app{max-width:460px;min-height:100dvh;margin:0 auto;display:flex;flex-direction:column;position:relative;transition:opacity .4s}
+.app.hide{opacity:0;transition:opacity .3s}
+
+.top{position:fixed;z-index:3;top:calc(env(safe-area-inset-top) + 8px);left:max(16px,calc(50% - 214px))}
+.back{all:unset;cursor:pointer;width:40px;height:40px;display:grid;place-items:center;border-radius:50%;font-size:22px;
+  background:rgba(255,255,255,.55);color:#1C1C1C;visibility:hidden;box-shadow:0 4px 12px -6px rgba(0,0,0,.3);position:relative}
+.back::after{content:"";position:absolute;inset:-4px}
+.back.show{visibility:visible}
+.back:focus-visible{outline:2px solid var(--accent)}
+
+/* full-bleed scene, no frame. The picture itself stays still: only a soft cross-fade between scenes */
+.stage{flex:0 0 auto;width:100%;aspect-ratio:900/672;max-height:52svh;position:relative;margin-top:-8px;transition:max-height .5s ease}
+/* answering: the picture steps back and only the last line of the scene stays, so picture, question and all four answers fit one phone screen */
+.app.asking .stage{max-height:30svh}
+.app.asking .line.narr:not(.keep){display:none}
+.wrap{position:absolute;inset:0;overflow:hidden;transition:opacity .6s;
+  -webkit-mask-image:linear-gradient(180deg,#000 0,#000 72%,transparent 100%);
+          mask-image:linear-gradient(180deg,#000 0,#000 72%,transparent 100%)}
+.wrap.out{opacity:0}
+.scene{width:100%;height:100%;object-fit:cover;object-position:center 40%}
+
+/* time card between scenes: a small sky of its own. The sun (or moon) glides along a wide arc,
+   a bank of clouds rises at the bottom, the day settles in letter by letter and the time rolls into place */
+.chapter{position:fixed;inset:0;z-index:5;pointer-events:none;opacity:0;transition:opacity .5s;overflow:hidden}
+.chapter.on{opacity:1}
+.orb{position:absolute;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%;
+  transition:left 1.3s cubic-bezier(.45,.05,.3,1),top 1.3s cubic-bezier(.45,.05,.3,1)}
+.orb::before,.orb::after{content:"";position:absolute;border-radius:50%;pointer-events:none}
+.orb.sun{background:radial-gradient(circle at 36% 34%,#FFF8E1 0,#FFE08A 38%,#FFC247 72%,#FFAE2E 100%);
+  box-shadow:0 0 40px 10px rgba(255,196,84,.55),0 0 120px 40px rgba(255,214,140,.35)}
+.orb.sun::before{inset:-18px;background:radial-gradient(circle,rgba(255,226,150,.35) 55%,rgba(255,226,150,0) 72%);animation:breathe 3.2s ease-in-out infinite}
+.orb.sun::after{inset:-40px;background:radial-gradient(circle,rgba(255,236,190,.22) 50%,rgba(255,236,190,0) 72%);animation:breathe 3.2s .6s ease-in-out infinite}
+.orb.moon{width:62px;height:62px;margin:-31px 0 0 -31px;
+  background:radial-gradient(circle at 64% 36%,#E3E9F5 0 9%,transparent 10%),radial-gradient(circle at 38% 62%,#E1E8F4 0 7%,transparent 8%),
+    radial-gradient(circle at 70% 70%,#E6ECF6 0 5%,transparent 6%),radial-gradient(circle at 40% 38%,#FFFFFF,#F1F4FA 55%,#D3DBEA 100%);
+  box-shadow:0 0 36px 10px rgba(205,220,255,.45),0 0 110px 36px rgba(170,190,240,.22)}
+.orb.moon::before{inset:-16px;background:radial-gradient(circle,rgba(210,225,255,.22) 55%,rgba(210,225,255,0) 72%);animation:breathe 4s ease-in-out infinite}
+body.carding #fx .sun{opacity:0!important}
+@keyframes breathe{50%{transform:scale(1.08);opacity:.75}}
+.ch-text{position:absolute;left:0;right:0;top:58%;text-align:center;text-shadow:0 2px 18px rgba(0,0,0,.08)}
+body.dark .ch-text{text-shadow:0 2px 18px rgba(0,0,0,.35)}
+.day{font-size:56px;line-height:64px;font-weight:600;letter-spacing:.5px}
+.day span{display:inline-block;opacity:0;animation:letter .6s cubic-bezier(.2,1.3,.4,1) forwards}
+@keyframes letter{from{opacity:0;transform:translateY(22px);filter:blur(4px)}to{opacity:1;transform:none;filter:none}}
+.clock{display:inline-flex;align-items:center;gap:2px;margin-top:6px;font-size:20px;line-height:28px;font-weight:300;letter-spacing:3px;
+  font-variant-numeric:tabular-nums;opacity:0;animation:letter .5s .3s forwards}
+.clock::before,.clock::after{content:"";width:28px;height:1px;background:currentColor;opacity:.35;margin:0 12px}
+.clock .roll{display:inline-block;height:28px;overflow:hidden}
+.clock .roll i{display:block;font-style:normal;transition:transform 1s cubic-bezier(.3,1.15,.4,1)}
+/* clouds along the bottom of the card, three layers that drift apart a little */
+.bank{position:absolute;left:-10%;width:120%;bottom:-2px;pointer-events:none;opacity:0;animation:bank 1.4s cubic-bezier(.2,.8,.3,1) forwards}
+.bank path{fill:#fff}
+body.dark .bank path{fill:#4A5A82}
+.bank.b1{height:24vh;animation-delay:.05s;--dx:-3%}.bank.b1 path{opacity:.45}
+.bank.b2{height:19vh;animation-delay:.15s;--dx:3%}.bank.b2 path{opacity:.7}
+.bank.b3{height:13vh;animation-delay:.25s;--dx:-2%}.bank.b3 path{opacity:.95}
+body.dark .bank.b3 path{fill:#2C3A5E}
+@keyframes bank{from{opacity:0;transform:translate(0,40px)}to{opacity:1;transform:translate(var(--dx),0)}}
+
+.story{flex:1 0 auto;display:flex;flex-direction:column;gap:10px;padding:8px 20px 24px;position:relative;z-index:2}
+/* never let flex squeeze a line: the story scrolls instead */
+.story>*{flex-shrink:0}
+.line{font-size:19px;line-height:30px;min-height:30px;max-width:100%;overflow-wrap:anywhere}
+.line.title{font-size:30px;line-height:40px;font-weight:600;animation:pop .5s}
+.line.title mark{background:linear-gradient(transparent 58%,var(--warm-soft) 58%);color:inherit;padding:0 2px}
+.line.say{font-weight:500;font-size:20px;line-height:28px;align-self:flex-start;background:rgba(255,255,255,.92);color:#1C1C1C;
+  padding:8px 16px;border-radius:20px 20px 20px 6px;box-shadow:0 6px 16px -8px rgba(0,0,0,.35);animation:pop .4s}
+.line.ask{font-weight:500;opacity:.75;font-size:16px;margin-top:4px}
+.line.echo{font-size:18px;padding:10px 14px;border-radius:16px;background:rgba(255,255,255,.35);border-left:4px solid var(--warm);animation:pop .4s}
+body.dark .line.echo{background:rgba(255,255,255,.1)}
+@keyframes pop{0%{transform:scale(.85);opacity:0}70%{transform:scale(1.03)}100%{transform:none;opacity:1}}
+
+.choices{display:flex;flex-direction:column;gap:10px}
+.choices.wait .bubble{pointer-events:none}
+.bubble{all:unset;cursor:pointer;position:relative;overflow:hidden;color:#1C1C1C;border-radius:22px;
+  background:#fff linear-gradient(90deg,var(--warm-soft),var(--warm-soft)) no-repeat 0 0/0% 100%;
+  padding:11px 18px;min-height:48px;display:flex;align-items:center;font-size:16px;line-height:22px;
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 8px 20px -12px rgba(20,40,80,.55);
+  animation:bin .55s cubic-bezier(.3,1.5,.5,1) both,bob 3.2s ease-in-out infinite;
+  transition:translate .2s,rotate .2s,scale .15s,box-shadow .2s,background-size .45s ease}
+.bubble:hover{translate:0 -3px;rotate:-.6deg;box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 14px 24px -12px rgba(20,40,80,.55)}
+.bubble:active{scale:.96 1.02}
+.bubble:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.bubble.picked{background-size:100% 100%;font-weight:500;box-shadow:0 0 0 2px var(--warm),0 10px 24px -8px rgba(249,160,0,.6);animation:jelly .6s both}
+.bubble.leave{animation:away .4s ease-in both;pointer-events:none}
+.bubble.gone{display:none}
+.ripple{position:absolute;width:10px;height:10px;border-radius:50%;background:rgba(249,160,0,.35);transform:translate(-50%,-50%) scale(0);animation:ripple .6s ease-out forwards;pointer-events:none}
+@keyframes ripple{to{transform:translate(-50%,-50%) scale(40);opacity:0}}
+@keyframes bin{from{opacity:0;transform:translateY(22px) scale(.7) rotate(var(--r,0deg))}to{opacity:1;transform:none}}
+@keyframes bob{50%{transform:translateY(-2px)}}
+@keyframes jelly{0%{transform:none}30%{transform:scale(1.06,.94)}50%{transform:scale(.97,1.04)}70%{transform:scale(1.02,.98)}100%{transform:none}}
+@keyframes away{to{opacity:0;transform:translateX(60px) rotate(8deg) scale(.9)}}
+
+.tap{align-self:center;font-size:13px;opacity:.7;padding-top:8px;display:flex;gap:6px;align-items:center}
+.tap span{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--warm);animation:finger 1.2s ease-in-out infinite}
+@keyframes finger{50%{transform:translateY(-4px)}}
+.cta{all:unset;cursor:pointer;position:relative;overflow:hidden;align-self:center;margin-top:12px;background:var(--accent);color:#fff;font-weight:500;
+  padding:12px 28px;border-radius:999px;animation:pop .5s;box-shadow:0 10px 24px -10px rgba(31,119,223,.7);transition:transform .15s}
+.cta:active{transform:scale(.96)}
+.cta::after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);animation:shine 2.8s 1s ease-in-out infinite}
+@keyframes shine{0%,60%{left:-60%}100%{left:130%}}
+.cta:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.actions{display:flex;flex-direction:column;align-items:center;gap:4px;margin-top:4px;animation:pop .5s}
+.actions .cta{margin-top:0;min-width:200px;text-align:center}
+.ghost{all:unset;cursor:pointer;min-height:44px;padding:0 20px;display:grid;place-items:center;font-weight:500;color:var(--accent)}
+.ghost:focus-visible{outline:2px solid var(--accent);border-radius:999px}
+.toast{position:fixed;left:50%;bottom:calc(56px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:9;
+  background:#1C1C1C;color:#fff;font-size:14px;padding:10px 18px;border-radius:999px;animation:pop .3s;white-space:nowrap}
+.help{align-self:center;font-size:12px;opacity:.7;color:inherit;padding:4px 0 calc(120px + env(safe-area-inset-bottom));min-height:24px;position:relative;z-index:2}
+
+/* suspense: four white silhouettes in the sky, a spotlight hops between them, slows down, and lands */
+.suspense{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;gap:2%;padding:56px 3% 8%}
+.sil{width:23%;max-height:86%;object-fit:contain;filter:brightness(0) invert(1);opacity:.28;transform:scale(.9);
+  transition:transform .14s ease-out,opacity .14s,filter .14s;animation:silin .6s cubic-bezier(.3,1.4,.5,1) both}
+.sil:nth-child(2){animation-delay:.08s}.sil:nth-child(3){animation-delay:.16s}.sil:nth-child(4){animation-delay:.24s}
+.sil.on{opacity:1;transform:scale(1.2) translateY(-8%);filter:brightness(0) invert(1) drop-shadow(0 0 10px rgba(255,255,255,.9)) drop-shadow(0 0 26px rgba(255,200,120,.75))}
+.sil.win{animation:win .7s cubic-bezier(.3,1.5,.5,1) forwards}
+@keyframes silin{from{opacity:0;transform:translateY(30px) scale(.7)}}
+@keyframes win{40%{transform:scale(1.45) translateY(-12%)}100%{transform:scale(1.3) translateY(-10%);opacity:1}}
+.flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:6;animation:flash .9s ease-out forwards}
+@keyframes flash{25%{opacity:.95}100%{opacity:0}}
+.wonder{font-size:26px;line-height:34px;font-weight:600;text-align:center;margin-top:8px}
+.wonder i{display:inline-block;font-style:normal;animation:dot 1.2s ease-in-out infinite}
+.wonder i:nth-child(2){animation-delay:.15s}.wonder i:nth-child(3){animation-delay:.3s}
+@keyframes dot{40%{transform:translateY(-6px);opacity:.4}}
+.hint2{text-align:center;opacity:.75;font-size:15px}
+
+/* result: the friend (background removed) stands on a soft halo, the story below explains why */
+.hero{position:absolute;inset:0;display:flex;justify-content:center;align-items:flex-end;padding:56px 0 5%}
+.halo{position:absolute;left:50%;top:50%;width:min(82vw,340px);aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%) scale(.6);opacity:0;
+  background:radial-gradient(circle,var(--tint) 0,var(--tint) 52%,rgba(255,255,255,0) 71%);animation:halo .9s .1s cubic-bezier(.3,1.3,.5,1) forwards}
+@keyframes halo{to{transform:translate(-50%,-50%) scale(1);opacity:1}}
+.ground{position:absolute;left:50%;bottom:4%;width:46%;height:16px;border-radius:50%;transform:translateX(-50%);background:radial-gradient(ellipse,rgba(40,60,100,.22),rgba(40,60,100,0) 70%)}
+.hero .friend{position:relative;z-index:1;height:100%;width:auto;max-width:80%;object-fit:contain;cursor:pointer;
+  filter:drop-shadow(0 10px 14px rgba(20,40,80,.16));opacity:0;transform:translateY(24px) scale(.85);animation:up .8s .2s cubic-bezier(.3,1.5,.5,1) forwards}
+.hero .friend.hop{animation:hop .6s cubic-bezier(.3,1.6,.5,1);opacity:1;transform:none}
+@keyframes up{to{opacity:1;transform:none}}
+@keyframes hop{0%{transform:scale(1)}30%{transform:scale(1.06,.94)}55%{transform:translateY(-20px) scale(.97,1.04)}100%{transform:none}}
+.confetti{position:absolute;top:45%;left:50%;width:8px;height:12px;border-radius:2px;opacity:0;pointer-events:none;animation:conf 1.6s .35s cubic-bezier(.2,.8,.4,1) forwards}
+@keyframes conf{0%{opacity:1;transform:translate(-50%,-50%) rotate(0)}100%{opacity:0;transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y))) rotate(var(--r))}}
+.speech{position:absolute;top:2%;left:50%;transform:translateX(-50%);background:#fff;color:#1C1C1C;font-weight:500;font-size:15px;
+  padding:8px 14px;border-radius:16px;white-space:nowrap;box-shadow:0 8px 18px -8px rgba(0,0,0,.35);animation:say 3.6s ease forwards;z-index:2}
+.speech::after{content:"";position:absolute;left:50%;bottom:-6px;width:12px;height:12px;background:#fff;transform:translateX(-50%) rotate(45deg)}
+@keyframes say{0%{opacity:0;transform:translate(-50%,8px) scale(.8)}12%,80%{opacity:1;transform:translate(-50%,0) scale(1)}100%{opacity:0}}
+
+.result{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:4px 8px 8px}
+.result>*{opacity:0;animation:rise2 .6s cubic-bezier(.2,1,.3,1) forwards}
+@keyframes rise2{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.eyebrow{font-size:15px;font-weight:500;color:var(--soft);margin-bottom:-10px}
+.rname{font-size:48px;line-height:56px;font-weight:600}
+.rname mark{background:linear-gradient(transparent 62%,var(--warm-soft) 62%);color:inherit;padding:0 6px}
+.rtype{font-size:16px;color:var(--soft);margin-top:-10px}
+.why{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.pill{font-size:14px;font-weight:500;padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.75);box-shadow:0 4px 12px -8px rgba(20,40,80,.4)}
+.pill b{font-weight:600;color:#B87400}
+.reframe{font-size:20px;line-height:32px;font-weight:500;max-width:320px}
+.more{width:100%;max-width:360px;font-size:16px;line-height:26px;text-align:left}
+.more summary{list-style:none;cursor:pointer;text-align:center;color:var(--accent);font-weight:500;min-height:44px;display:flex;align-items:center;justify-content:center}
+.more summary::-webkit-details-marker{display:none}
+.more summary::after{content:"";display:inline-block;width:8px;height:8px;border:solid currentColor;border-width:0 2px 2px 0;transform:translateY(-3px) rotate(45deg);margin-left:8px;transition:transform .2s}
+.more[open] summary::after{transform:translateY(1px) rotate(-135deg)}
+.more .in{display:grid;gap:12px;padding:8px 4px 4px;animation:rise2 .4s ease}
+.more h4{font-size:14px;font-weight:600;color:var(--soft)}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;background:var(--warm-soft);color:#8A5A00;margin-right:6px}
+.fine{font-size:13px;line-height:20px;color:var(--soft)}
+@media (max-width:380px){
+  .line{font-size:17px;line-height:27px;min-height:27px}
+  .line.title{font-size:26px;line-height:34px}
+  .bubble{font-size:15px}
+}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-delay:0s!important;animation-iteration-count:1!important;transition:none!important}}
+</style>
+</head>
+<body data-sky="dawn">
+<div id="fx"><div class="sun"></div></div>
+<div class="chapter" id="chapter" aria-hidden="true"></div>
+<div class="app" id="app">
+  <div class="top">
+    <button class="back" id="back" aria-label="ย้อนกลับ">‹</button>
+  </div>
+  <div class="stage" id="stage"></div>
+  <div class="story" id="story" aria-live="polite"></div>
+  <a class="help" href="tel:1323">อยากคุยกับใครสักคน · สายด่วน 1323</a>
+</div>
+<script>
+var IMG='../assets/work/';
+var DAYNAME=['จันทร์','อังคาร','พุธ','พฤหัสฯ','ศุกร์','เสาร์','อาทิตย์'];
+var CLOUD_SVG='<svg viewBox="0 0 64 36" aria-hidden="true"><path d="M15 34a12 12 0 0 1-1-24A16 16 0 0 1 45 9a11 11 0 0 1 4 25z" fill="#fff"/></svg>';
+
+/* Script: narration → (someone says) → inner choice → what happens next because of that choice.
+   Echoes describe a moment, never praise or blame, never hint at the cloud.
+   fx = the scene's own ambient effect, the same whatever is picked. */
+var SCENES=[
+ {day:0,clock:'09:02',hour:9,sky:'morning',img:'scenes/q1.jpg',fx:'pings',
+  lines:['ออฟฟิศยังเงียบ แอร์เย็นเฉียบ','คุณเปิดคอม… ติ๊ง ติ๊ง ติ๊ง'],say:'47 ข้อความใหม่',ask:'ในใจคุณตอนนั้น…',
+  opts:[['storm','ต้องตอบให้หมดก่อนใครทวง ใจเต้นตึกตักเลย','คุณตอบรวดไปสิบกว่าข้อความ กว่าจะเงยหน้า กาแฟก็เย็นแล้ว'],
+        ['rain','เฮ้อ… ยังไม่ทันเริ่ม ก็เหนื่อยแล้ว','คุณนั่งนิ่งไปพักหนึ่ง… ก่อนค่อยๆ เปิดฉบับแรก'],
+        ['fog','เลื่อนดูผ่านๆ แบบไม่ค่อยรู้สึกอะไร','ตัวเลขแจ้งเตือนลดลงทีละนิด เหมือนทุกวันจันทร์'],
+        ['fluffy','ขอกาแฟสักแก้วก่อน เดี๋ยวค่อยๆ ไล่ไป','กาแฟแก้วแรกของสัปดาห์ หอมกว่าที่คิดนะ']]},
+ {day:0,clock:'20:00',hour:20,sky:'evening',img:'scenes/q2.jpg',fx:'lamp',
+  lines:['บ้านเงียบ ไฟโคมสีส้มอุ่นๆ','คุณเพิ่งได้ทิ้งตัวลงบนโซฟา','แล้วมือถือก็สั่น…'],say:'หัวหน้า: “พรุ่งนี้คุยกันหน่อยนะ”',ask:'ในใจคุณตอนนั้น…',
+  opts:[['storm','เราพลาดอะไรไปหรือเปล่า… คืนนี้คงหลับยาก','คุณอ่านข้อความนั้นซ้ำอีกสามรอบ หาความหมายระหว่างบรรทัด'],
+        ['rain','ขอเวลาเป็นของตัวเองบ้างได้ไหม…','คุณวางมือถือคว่ำไว้ ตัวได้พัก แต่ใจยังไม่ได้พัก'],
+        ['fog','อืม… ช่วงนี้เรื่องงานไม่ค่อยรู้สึกอะไรแล้ว','ข้อความถูกอ่าน… แล้วก็เงียบไป'],
+        ['fluffy','ตอบรับสั้นๆ วางมือถือ แล้วพักต่อ','ซีรีส์ตอนต่อไปเริ่มพอดี']]},
+ {day:2,clock:'12:00',hour:12,sky:'noon',img:'scenes/q3.jpg',fx:'sun',
+  lines:['กลางสัปดาห์ แดดเที่ยงส่องเต็มโต๊ะ','เสียงเก้าอี้เลื่อน คนรอบตัวทยอยลุกไปกินข้าว'],ask:'ส่วนคุณช่วงนี้…',
+  opts:[['storm','กินหน้าจอ มือยังพิมพ์งานอยู่เลย','ข้าวหมดจานตอนไหน คุณก็จำไม่ได้'],
+        ['rain','ไม่ค่อยหิว ขอหลับสักงีบดีกว่า','สิบห้านาทีที่ฟุบหลับ… สั้นเหลือเกิน'],
+        ['fog','ไถมือถือไปเรื่อย รู้ตัวอีกทีก็หมดเวลา','หนึ่งชั่วโมงหายไปกับหน้าจอ แบบไม่ทันรู้ตัว'],
+        ['fluffy','ได้ลุกไปกินข้าว คุยเล่นกับเพื่อนจริงๆ','มุกของเพื่อนยังทำให้คุณยิ้มได้ถึงบ่าย']]},
+ {day:4,clock:'18:30',hour:18.5,sky:'dusk',img:'scenes/q4.jpg',fx:'chat',
+  lines:['ศุกร์เย็น ฟ้าเป็นสีส้มทั้งผืน','มือถือเด้ง… เพื่อนสนิททักมา'],say:'“เสาร์นี้ขึ้นดอยกันป่ะ”',ask:'ในใจคุณตอนนั้น…',
+  opts:[['storm','อยากไปนะ แต่งานค้างยังวนอยู่ในหัว','คุณตอบว่า “ขอดูก่อนนะ” แล้วเปิดไฟล์งานต่อ'],
+        ['rain','ขอผ่านก่อน… อยากนอนทั้งวัน','คุณส่งสติกเกอร์ขอโทษไป แล้วดึงผ้าห่มขึ้น'],
+        ['fog','ไม่รู้สิ… ไม่ค่อยอยากไปไหนเลย','แชตนั้นยังค้างอยู่ ยังไม่ได้ตอบ'],
+        ['fluffy','ไปสิ! รอวันหยุดนี้อยู่เลย','คุณเปิดดูพยากรณ์อากาศบนดอยทันที']]},
+ {day:6,clock:'22:00',hour:22,sky:'night',img:'scenes/q5.jpg',fx:'night',
+  lines:['คืนวันอาทิตย์ ห้องมืด มีแค่เสียงพัดลม','คุณนอนลง มองเพดาน…'],ask:'ในใจคุณตอนนั้น…',
+  opts:[['storm','งานพรุ่งนี้เรียงคิวในหัวเป็นลิสต์ยาว','เพดานห้องดูคุ้นตากว่าที่ควร'],
+        ['rain','หน่วงๆ… ไม่อยากให้ถึงเช้าวันจันทร์เลย','คุณหลับตา หวังให้คืนนี้ยาวกว่านี้อีกนิด'],
+        ['fog','ก็เฉยๆ วันไหนก็เหมือนกันหมด','แล้วคืนนั้นก็ผ่านไป เงียบๆ'],
+        ['fluffy','โอเคนะ พร้อมเริ่มสัปดาห์ใหม่ประมาณนึง','คุณหลับไปพร้อมลิสต์สั้นๆ ของพรุ่งนี้']]},
+ {day:6,clock:'23:40',hour:23.7,sky:'night',img:'scenes/q6.jpg',fx:'sand',duration:true,
+  lines:['ก่อนจะหลับ คุณนึกย้อนไปหลายสัปดาห์ที่ผ่านมา…'],ask:'ความเหนื่อยหรือหนักใจเรื่องงาน อยู่กับคุณมานานแค่ไหนแล้วนะ?',
+  opts:[[0,'ช่วงนี้ไม่ค่อยรู้สึกแบบนั้นนะ'],[0,'เพิ่งไม่กี่วันนี้เอง'],[1,'ราว 1–2 สัปดาห์'],[2,'นานกว่า 2 สัปดาห์แล้ว']]}
+];
+var CHAR={storm:['Cumulo','cumulo'],rain:['Nimbo','nimbo'],fog:['Strato','strato'],fluffy:['Humi','humi']};
+var AX={storm:[1,1],rain:[-1,1],fog:[-1,-1],fluffy:[1,-1]};
+
+var $=function(id){return document.getElementById(id)};
+var story=$('story'),stage=$('stage'),app=$('app'),i=-1,picks=[],waitTap=null,gen=0,hinted=false;
+var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+var seg=window.Intl&&Intl.Segmenter?new Intl.Segmenter('th',{granularity:'grapheme'}):null;
+function later(fn,ms){var g=gen;setTimeout(function(){if(g===gen)fn()},ms)}
+function every(fn,ms){if(reduce)return;var g=gen,t=setInterval(function(){if(g!==gen)return clearInterval(t);fn()},ms)}
+function rnd(a,b){return a+Math.random()*(b-a)}
+function pickOne(a){return a[Math.floor(Math.random()*a.length)]}
+
+/* sky decor, generated once: stars + three slow clouds */
+(function(){
+  var h='';for(var n=0;n<40;n++)h+='<i style="left:'+rnd(0,100)+'%;top:'+rnd(0,55)+'%;width:'+rnd(1,3)+'px;height:'+rnd(1,3)+'px;animation-delay:'+rnd(0,3)+'s"></i>';
+  [[2,55,-10],[9,80,-45],[16,70,-25]].forEach(function(c){h+='<div class="drift" style="top:'+c[0]+'%;animation-duration:'+c[1]+'s;animation-delay:'+c[2]+'s;width:'+rnd(110,170)+'px">'+CLOUD_SVG+'</div>'});
+  $('fx').insertAdjacentHTML('beforeend',h);
+})();
+
+/* status bar, page background and the area behind the toolbar all take the same sky colour */
+var SKY={dawn:'#FCE4D6',morning:'#DDEBF9',evening:'#4B4F7A',noon:'#D2E7FC',dusk:'#FAC79F',night:'#1E2944'};
+function sky(s){document.body.dataset.sky=s;document.body.classList.toggle('dark',s==='evening'||s==='night');
+  document.documentElement.style.background=SKY[s]}
+/* scroll only as far as the newest line needs, so the top of the page (and its sky) stays in view whenever it can */
+function follow(){var last=story.lastElementChild;if(!last)return;var over=last.getBoundingClientRect().bottom+96-innerHeight;
+  if(over>4)scrollTo({top:scrollY+over,behavior:reduce?'auto':'smooth'})}
+function add(html){story.insertAdjacentHTML('beforeend',html);var el=story.lastElementChild;follow();return el}
+/* scene picture: a still image that cross-fades in */
+function showScene(src){
+  stage.innerHTML='<div class="wrap out"><img class="scene" src="'+src+'" alt=""></div>';
+  requestAnimationFrame(function(){requestAnimationFrame(function(){stage.querySelector('.wrap').classList.remove('out')})});
+}
+
+/* typewriter: a tap finishes the line at once */
+function type(text,cls,done){
+  var p=add('<p class="line '+(cls||'')+'"></p>');
+  var parts=seg?Array.from(seg.segment(text),function(s){return s.segment}):text.split('');
+  if(reduce||cls==='say'||cls==='title'){p.innerHTML=text;return later(done,cls==='say'?500:cls==='title'?600:0)}
+  var n=0,g=gen,t=setInterval(function(){
+    if(g!==gen)return clearInterval(t);
+    p.textContent=parts.slice(0,++n).join('');
+    if(n>=parts.length){clearInterval(t);waitTap=null;done()}
+  },32);
+  waitTap=function(){clearInterval(t);p.textContent=text;done()};
+}
+/* remember when the tap before this one happened: a quick burst of taps is someone skipping, not choosing */
+var lastTap=0,prevTap=0;
+document.addEventListener('click',function(){prevTap=lastTap;lastTap=Date.now()},true);
+/* "tap to go on" listens only after a short beat, so a burst of taps can't skip a line nobody has read yet */
+function tap(fn){var t=add('<p class="tap"><span></span>แตะเพื่อไปต่อ</p>');t.style.visibility='hidden';
+  later(function(){t.style.visibility='';waitTap=fn},450)}
+document.addEventListener('click',function(e){
+  if(e.target.closest('.bubble,.cta,a,.back,.friend'))return;
+  if(waitTap){var f=waitTap;waitTap=null;var t=story.querySelector('.tap');t&&t.remove();f()}
+});
+/* narration flows on its own; a tap speeds it up */
+function play(lines,done){
+  var n=0;(function next(){
+    if(n>=lines.length)return done();
+    var l=lines[n++],last=n>=lines.length;
+    type(l.t||l,l.c||'narr',function(){
+      if(last)return done();
+      var g=gen,t=setTimeout(function(){if(g===gen){waitTap=null;next()}},700);
+      waitTap=function(){clearTimeout(t);next()};
+    });
+  })();
+}
+/* time card: hour → place on a wide arc across the card (6:00 low left, about 12:30 high in the middle, 19:00 low right;
+   the moon takes the night shift). When sun and moon swap, the new one rises from behind the clouds. */
+var lastOrb=null;
+var BANK='<path d="M0 60 C 40 20, 90 20, 120 45 C 150 10, 220 5, 250 40 C 280 15, 340 18, 370 42 C 400 12, 470 10, 500 44 C 530 20, 580 22, 600 50 L600 100 L0 100Z"/>';
+function chapter(day,clock,hour,cb){
+  var night=hour<6||hour>=19,t=night?(hour+(hour<6?24:0)-19)/11:(hour-6)/13,type=night?'moon':'sun';
+  var pos={x:12+t*76,y:40-Math.sin(t*Math.PI)*26,type:type};
+  var from=lastOrb&&lastOrb.type===type?lastOrb:{x:pos.x-10,y:78};
+  var letters=(seg?Array.from(seg.segment(day),function(x){return x.segment}):day.split('')).map(function(ch,n){
+    return '<span style="animation-delay:'+(120+n*55)+'ms">'+ch+'</span>'}).join('');
+  var digits=clock.split('').map(function(ch){
+    if(!/[0-9]/.test(ch))return '<span>'+ch+'</span>';
+    var col='';for(var d=0;d<=9;d++)col+=d+'<br>';
+    return '<span class="roll"><i data-d="'+ch+'">'+col+'</i></span>'}).join('');
+  var banks=[1,2,3].map(function(n){return '<svg class="bank b'+n+'" viewBox="0 0 600 100" preserveAspectRatio="none" aria-hidden="true">'+BANK+'</svg>'}).join('');
+  var c=$('chapter');
+  c.innerHTML='<div class="orb '+type+'" style="left:'+from.x+'%;top:'+from.y+'%"></div>'+banks+
+    '<div class="ch-text"><div class="day">'+letters+'</div><div class="clock">'+digits+'</div></div>';
+  lastOrb=pos;
+  if(reduce){c.querySelector('.orb').style.cssText='left:'+pos.x+'%;top:'+pos.y+'%';return cb()}
+  app.classList.add('hide');c.classList.add('on');document.body.classList.add('carding');
+  requestAnimationFrame(function(){requestAnimationFrame(function(){
+    var o=c.querySelector('.orb');o.style.left=pos.x+'%';o.style.top=pos.y+'%';
+    [].forEach.call(c.querySelectorAll('.roll i'),function(el,n){el.style.transitionDelay=(300+n*90)+'ms';el.style.transform='translateY(-'+(+el.dataset.d*28)+'px)'});
+  })});
+  later(function(){c.classList.remove('on');app.classList.remove('hide');document.body.classList.remove('carding');cb()},1800);
+}
+
+function prologue(){
+  sky('dawn');
+  showScene(IMG+'characters/all.jpg');
+  story.innerHTML='';
+  play([{t:'นี่คือ<mark>หนึ่งสัปดาห์</mark>ของคุณ',c:'title'},'ไม่มีถูก ไม่มีผิด','แค่เลือกสิ่งที่ใกล้กับใจคุณที่สุด'],function(){
+    add('<button class="cta">เริ่มวันจันทร์</button>').onclick=nextScene;
+  });
+}
+function nextScene(){
+  gen++;waitTap=null;i++;var s=SCENES[i];if(!s)return outro();
+  $('back').classList.toggle('show',i>0||picks.length>0);
+  var w=stage.querySelector('.wrap');w&&w.classList.add('out');
+  story.innerHTML='';app.classList.remove('asking');
+  later(function(){
+    scrollTo(0,0);sky(s.sky);
+    chapter(DAYNAME[s.day],s.clock,s.hour,function(){
+      showScene(IMG+s.img);
+      var seq=s.lines.slice();if(s.say)seq.push({t:s.say,c:'say'});seq.push({t:s.ask,c:'ask'});
+      play(seq,function(){later(function(){choices(s)},350)});
+    });
+  },400);
+}
+function choices(s){
+  var narr=story.querySelectorAll('.narr');narr.length&&narr[narr.length-1].classList.add('keep');
+  app.classList.add('asking');
+  /* answers can't be picked until they have all landed, so a tap meant for the story never chooses one by accident */
+  var box=add('<div class="choices wait" role="group"></div>');
+  later(function(){box.classList.remove('wait')},s.opts.length*90+650);
+  s.opts.forEach(function(o,n){
+    var b=document.createElement('button');b.className='bubble';b.appendChild(document.createTextNode(o[1]));
+    b.style.animationDelay=(n*90)+'ms,'+(600+n*400)+'ms';b.style.setProperty('--r',(n%2?3:-3)+'deg');
+    b.onclick=function(e){
+      var r=b.getBoundingClientRect(),rp=document.createElement('span');rp.className='ripple';
+      rp.style.left=(e.clientX-r.left)+'px';rp.style.top=(e.clientY-r.top)+'px';b.appendChild(rp);
+      pick(s,o,b,box);
+    };
+    box.appendChild(b);
+  });
+  later(follow,450);
+}
+function pick(s,o,b,box){
+  if(box.dataset.done||box.classList.contains('wait')||Date.now()-prevTap<600)return;box.dataset.done=1;
+  navigator.vibrate&&navigator.vibrate(8);
+  var n=0;[].forEach.call(box.children,function(x){if(x===b)return;
+    var d=n++*70;x.style.animationDelay=d+'ms';x.classList.add('leave');
+    later(function(){x.classList.add('gone')},420+d)});
+  b.classList.add('picked');picks.push(o[0]);
+  later(function(){
+    if(o[2])type(o[2],'echo',function(){tap(nextScene)});else later(nextScene,600);
+  },550);
+}
+/* back: redo this scene's choice, or step back one scene */
+$('back').onclick=function(){
+  if(i>=SCENES.length)return;
+  var box=story.querySelector('.choices');
+  if(box&&box.dataset.done){picks.pop();i--;return nextScene()}
+  if(i>0){picks.pop();i-=2;return nextScene()}
+  gen++;i=-1;$('back').classList.remove('show');prologue();
+};
+
+/* the four friends: short copy from docs/characters.md */
+var INFO={
+  storm:{type:'เพื่อนเมฆสายเตรียมพร้อม · เมฆคิวมูโลนิมบัส',tint:'#D5DDE8',
+    about:'มาเยือนในวันที่คุณอยู่ในโหมดเตรียมรับมือตลอดเวลา พลังงานยังมีเต็ม แต่ถูกใช้ไปกับการคิดวนและกังวลล่วงหน้า',
+    power:'เรดาร์จับพายุ',pdesc:'เห็นปัญหาก่อนใครเสมอ และเตรียมรับมือไว้แล้ว ทีมจึงไว้ใจ',
+    good:'รับผิดชอบสูง ทีมไว้ใจได้',over:'เรดาร์ไม่ยอมปิด แม้ไม่มีพายุจริง',
+    reframe:'พายุไม่ได้แปลว่าคุณอ่อนแอ มันแปลว่าคุณกำลังแบกหลายเรื่องที่สำคัญกับคุณ'},
+  rain:{type:'เพื่อนเมฆสายดูแล · เมฆนิมโบสเตรตัส',tint:'#D6E6F6',
+    about:'มาเยือนในวันที่คุณแบกมานานจนแบตใกล้หมด ยังดูแลคนอื่นได้ แต่ข้างในเหนื่อยแบบที่นอนพักอย่างเดียวไม่หาย',
+    power:'ร่มใบใหญ่',pdesc:'ไม่เคยปล่อยให้ใครเปียกฝน งานของเพื่อน ปัญหาของทีม ช่วยไว้หมด',
+    good:'อดทน ใส่ใจ ไม่ทิ้งใคร',over:'กางร่มให้ทุกคน จนลืมกางให้ตัวเอง',
+    reframe:'ฝนตกไม่ได้แปลว่าฟ้าพัง มันคือสัญญาณว่าถึงเวลาพัก'},
+  fog:{type:'เพื่อนเมฆสายพัก · เมฆสเตรตัส',tint:'#E7E9EE',
+    about:'มาเยือนในวันที่คุณไม่ได้เศร้าหรือเครียดชัดเจน แต่ไม่ค่อยรู้สึกอะไร ทุกอย่างดูเฉยๆ ไปหมด',
+    power:'รดน้ำช้าๆ',pdesc:'เมื่อทุกอย่างมากเกินไป ไม่รีบทำอะไร ค่อยๆ ดูแลสิ่งเล็กๆ ข้างตัว',
+    good:'สงบ ไม่ตื่นตูม ปกป้องตัวเองเก่ง',over:'ช้าและนิ่งนานจนเริ่มไม่รู้สึกอะไร',
+    reframe:'ช้าลงไม่ได้แปลว่าคุณหายไป มันแค่พักจังหวะไว้ชั่วคราว'},
+  fluffy:{type:'เพื่อนเมฆสายสมดุล · เมฆคิวมูลัส ฮิวมิลิส',tint:'#DDEBFB',
+    about:'มาเยือนในวันที่ฟ้าของคุณค่อนข้างเปิด มีแรงพอทำงาน และยังมีที่ว่างให้ตัวเอง',
+    power:'แบตสำรอง',pdesc:'รู้วิธีเติมพลังให้ตัวเอง และมีเหลือพอแบ่งให้คนรอบข้าง',
+    good:'ยืดหยุ่น ฟื้นตัวเร็ว อยู่ด้วยแล้วสบายใจ',over:'แบ่งพลังจนลืมสังเกตว่าอะไรทำให้ตัวเองดี',
+    reframe:'วันฟ้าใสก็เป็นวันที่ดีที่จะสังเกตว่าอะไรช่วยให้ฟ้าใส'}
+};
+var ORDER=['storm','rain','fog','fluffy'];
+function cutout(k){return IMG+'cutouts/'+CHAR[k][1]+'.png'}
+
+function outro(){
+  $('back').classList.remove('show');
+  var dur=picks.pop(),e=0,p=0;
+  picks.forEach(function(k){e+=AX[k][0];p+=AX[k][1]});
+  picks.push(dur);
+  var k=e>0?(p>0?'storm':'fluffy'):(p>0?'rain':'fog');
+  story.innerHTML='';app.classList.remove('asking');
+  scrollTo(0,0);
+  chapter('เช้าวันใหม่','06:30',6.5,function(){suspense(k,e,p)});
+}
+
+/* suspense: the sky turns dusky, four silhouettes wait; one tap sets the spotlight running */
+function suspense(k,e,p){
+  sky('evening');
+  stage.innerHTML='<div class="suspense">'+ORDER.map(function(x){return '<img class="sil" src="'+cutout(x)+'" alt="">'}).join('')+'</div>';
+  play(['หนึ่งสัปดาห์ที่ผ่านมา ทิ้งร่องรอยไว้บนฟ้า','เมฆสี่ก้อนกำลังลอยมาใกล้ๆ','แต่จะมีแค่ก้อนเดียวที่มาเยือนคุณวันนี้'],function(){
+    add('<button class="cta">เงยหน้ามองฟ้า</button>').onclick=function(){
+      this.remove();
+      story.innerHTML='<p class="wonder">ใครกันนะ<i>.</i><i>.</i><i>.</i></p><p class="hint2">กำลังอ่านท้องฟ้าของสัปดาห์นี้</p>';
+      spin(k,function(){result(k,e,p)});
+    };
+  });
+}
+/* the spotlight hops fast, slows down, and stops on the friend who came */
+function spin(k,done){
+  var sils=stage.querySelectorAll('.sil'),win=ORDER.indexOf(k),delays=[],d=60;
+  while(d<420){delays.push(d);d*=1.13}
+  var n=delays.length,at=((win-(n-1))%4+4)%4,step=0;
+  if(reduce){sils[win].classList.add('on');return later(done,400)}
+  (function tick(){
+    [].forEach.call(sils,function(s,j){s.classList.toggle('on',j===at)});
+    navigator.vibrate&&navigator.vibrate(4);
+    if(step>=n-1){
+      sils[win].classList.add('win');navigator.vibrate&&navigator.vibrate([20,40,30]);
+      return later(function(){document.body.insertAdjacentHTML('beforeend','<div class="flash"></div>');
+        setTimeout(function(){var f=document.querySelector('.flash');f&&f.remove()},1000);later(done,260)},650);
+    }
+    later(function(){step++;at=(at+1)%4;tick()},delays[step]);
+  })();
+}
+
+/* result: who came, why (from the answers), their power, and a kind reframe */
+function result(k,e,p){
+  var c=CHAR[k],d=INFO[k];
+  sky('dawn');scrollTo(0,0);
+  var cf='',cols=['#F9A000','#20B2AA','#1F77DF','#FF8FA3','#fff'];
+  for(var n=0;n<22;n++){var a=rnd(0,Math.PI*2),r=rnd(90,170);
+    cf+='<i class="confetti" style="background:'+pickOne(cols)+';--x:'+Math.cos(a)*r+'px;--y:'+Math.sin(a)*r+'px;--r:'+rnd(-300,300)+'deg"></i>'}
+  stage.innerHTML='<div class="hero" style="--tint:'+d.tint+'"><div class="halo"></div><div class="ground"></div>'+cf+
+    '<img class="friend" src="'+cutout(k)+'" alt="'+c[0]+'"></div>';
+  /* tap the friend: it hops and says hi */
+  stage.querySelector('.friend').onclick=function(ev){
+    ev.stopPropagation();var f=this;
+    f.classList.remove('hop');void f.offsetWidth;f.classList.add('hop');
+    var old=stage.querySelector('.speech');old&&old.remove();
+    stage.firstChild.insertAdjacentHTML('beforeend','<span class="speech">'+pickOne(['สวัสดี! วันนี้ขอลอยมาอยู่ด้วยนะ','แตะอีกทีก็ได้ ไม่ว่ากัน','เดี๋ยวก็ลอยผ่านไป ไม่ต้องห่วง'])+'</span>');
+  };
+  var eTxt=e>0?'มี':'น้อย',pTxt=p>0?'สูง':'เบา';
+  story.innerHTML='<div class="result">'+
+    '<p class="eyebrow">วันนี้มาเยือนคุณ</p>'+
+    '<h2 class="rname"><mark>'+c[0]+'</mark></h2>'+
+    '<p class="rtype">'+d.type.split(' · ')[0]+'</p>'+
+    '<div class="why" aria-label="จากคำตอบของคุณ"><span class="pill">พลังงาน <b>'+eTxt+'</b></span><span class="pill">ความกดดัน <b>'+pTxt+'</b></span></div>'+
+    '<p class="reframe">'+d.reframe+'</p>'+
+    '<div class="actions"><button class="cta share">แชร์ให้เพื่อน</button><button class="ghost">เริ่มใหม่</button></div>'+
+    '<details class="more"><summary>รู้จัก '+c[0]+' ให้มากขึ้น</summary><div class="in">'+
+      '<p>'+c[0]+' '+d.about+'</p>'+
+      '<p><span class="chip">พลังพิเศษ</span><b>'+d.power+'</b> '+d.pdesc+'</p>'+
+      '<div><h4>จุดเด่น</h4><p>'+d.good+'</p></div><div><h4>เมื่อพลังล้น</h4><p>'+d.over+'</p></div>'+
+    '</div></details>'+
+    '<p class="fine">เมฆลอยผ่านไปได้ พรุ่งนี้อาจเป็นเมฆตัวอื่น · ไม่ใช่การวินิจฉัย</p></div>';
+  [].forEach.call(story.querySelectorAll('.result>*'),function(el,n){el.style.animationDelay=(450+n*110)+'ms'});
+  story.querySelector('.share').onclick=function(){share(c[0])};
+  story.querySelector('.ghost').onclick=function(){location.reload()};
+}
+/* share only the cloud's name and a link, never the answers */
+function share(name){
+  var url='https://mindfull-prototype.vercel.app/story/',
+      text='วันนี้ '+name+' มาเยือนฉัน แล้วท้องฟ้าของคุณวันนี้เป็นแบบไหน?';
+  if(navigator.share)return navigator.share({title:'ท้องฟ้าของคุณวันนี้',text:text,url:url}).catch(function(){});
+  var done=function(){toast('คัดลอกข้อความแล้ว ส่งให้เพื่อนได้เลย')};
+  navigator.clipboard?navigator.clipboard.writeText(text+' '+url).then(done,done):done();
+}
+function toast(t){
+  var el=document.createElement('div');el.className='toast';el.setAttribute('role','status');el.textContent=t;
+  document.body.appendChild(el);setTimeout(function(){el.remove()},2400);
+}
+prologue();
+</script>
+</body>
+</html>
